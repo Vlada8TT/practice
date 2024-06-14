@@ -1,0 +1,25 @@
+package com.example.demo.persistence.entity;
+
+import jakarta.persistence.*;
+import lombok.Data;
+
+import java.time.LocalDateTime;
+
+@Entity
+@Table(name = "orders")
+@Data
+public class Order {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
+    @ManyToOne
+    private User user;
+
+    private LocalDateTime order_date;
+
+    @Column(length = 20)
+    private String status;
+
+}
