@@ -47,3 +47,4 @@ out/
 *.iws
 
 *.log
+.idea
