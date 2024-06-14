@@ -1,6 +1,6 @@
 package com.example.practice.services.impl;
 
-import com.example.practice.models.Role;
+import com.example.practice.persistence.entities.Role;
 import com.example.practice.services.RoleService;
 
 import java.util.List;

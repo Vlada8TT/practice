@@ -1,11 +1,11 @@
 package com.example.practice.services;
 
-import com.example.practice.models.Category;
-import org.mapstruct.Mapper;
+
+
+import com.example.practice.persistence.entities.Category;
 
 import java.util.List;
 
-@Mapper
 public interface CategoryService {
     Category createCategory(Category category);
     Category getCategoryById(int id);

@@ -1,6 +1,6 @@
 package com.example.practice.services.impl;
 
-import com.example.practice.models.Product;
+import com.example.practice.persistence.entities.Product;
 import com.example.practice.services.ProductsService;
 
 import java.util.List;

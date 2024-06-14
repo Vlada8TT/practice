@@ -1,6 +1,6 @@
 package com.example.practice.services.impl;
 
-import com.example.practice.models.Ingredient;
+import com.example.practice.persistence.entities.Ingredient;
 import com.example.practice.services.IngredientsService;
 
 import java.util.List;

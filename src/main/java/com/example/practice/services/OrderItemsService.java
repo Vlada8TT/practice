@@ -1,12 +1,11 @@
 package com.example.practice.services;
 
-import com.example.practice.models.OrderItem;
-import com.example.practice.models.Order;
-import org.mapstruct.Mapper;
+
+import com.example.practice.persistence.entities.Order;
+import com.example.practice.persistence.entities.OrderItem;
 
 import java.util.List;
 
-@Mapper
 public interface OrderItemsService {
     OrderItem createOrderItems(OrderItem orderItems);
     List<OrderItem> getAllOrderItems();

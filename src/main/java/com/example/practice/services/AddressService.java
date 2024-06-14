@@ -1,6 +1,7 @@
 package com.example.practice.services;
-import com.example.practice.models.Address;
 
+
+import com.example.practice.persistence.entities.Address;
 
 import java.util.List;
 

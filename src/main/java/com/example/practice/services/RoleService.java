@@ -1,11 +1,9 @@
 package com.example.practice.services;
 
-import com.example.practice.models.Role;
-import org.mapstruct.Mapper;
+import com.example.practice.persistence.entities.Role;
 
 import java.util.List;
 
-@Mapper
 public interface RoleService {
     Role createRole(Role role);
     Role getRoleById(int id);

@@ -1,6 +1,6 @@
 package com.example.demo;
 
-import com.example.practice.models.Address;
+import com.example.practice.persistence.entities.Address;
 import com.example.practice.services.AddressService;
 import com.example.practice.services.impl.AddressServiceStub;
 

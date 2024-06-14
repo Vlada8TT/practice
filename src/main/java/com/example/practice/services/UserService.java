@@ -1,11 +1,9 @@
 package com.example.practice.services;
 
-import com.example.practice.models.User;
-import org.mapstruct.Mapper;
+import com.example.practice.persistence.entities.User;
 
 import java.util.List;
 
-@Mapper
 public interface UserService {
     User createUser(User user);
     User getUserById(int id);

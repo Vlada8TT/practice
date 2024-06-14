@@ -1,7 +1,8 @@
 package com.example.practice.services.impl;
 
-import com.example.practice.models.Order;
-import com.example.practice.models.OrderItem;
+
+import com.example.practice.persistence.entities.Order;
+import com.example.practice.persistence.entities.OrderItem;
 import com.example.practice.services.OrderItemsService;
 
 import java.util.List;

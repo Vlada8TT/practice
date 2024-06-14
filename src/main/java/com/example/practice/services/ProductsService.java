@@ -1,12 +1,10 @@
 package com.example.practice.services;
 
 
-import com.example.practice.models.Product;
-import org.mapstruct.Mapper;
+import com.example.practice.persistence.entities.Product;
 
 import java.util.List;
 
-@Mapper
 public interface ProductsService {
     Product createProducts(Product products);
     Product getProductsById(int id);

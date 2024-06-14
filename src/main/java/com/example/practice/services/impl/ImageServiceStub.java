@@ -1,6 +1,6 @@
 package com.example.practice.services.impl;
 
-import com.example.practice.models.Image;
+import com.example.practice.persistence.entities.Image;
 import com.example.practice.services.ImageService;
 
 import java.util.List;
