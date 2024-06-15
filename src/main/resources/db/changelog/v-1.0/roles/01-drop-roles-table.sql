@@ -1,1 +1,3 @@
-drop table if exists roles
+DROP TABLE IF EXISTS roles
+
+GO

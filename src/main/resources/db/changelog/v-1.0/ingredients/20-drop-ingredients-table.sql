@@ -1,1 +1,3 @@
-drop table if exists ingredients
+DROP TABLE IF EXISTS ingredients
+
+GO

@@ -1,1 +1,3 @@
-drop table if exists categories
+DROP TABLE IF EXISTS categories
+
+GO

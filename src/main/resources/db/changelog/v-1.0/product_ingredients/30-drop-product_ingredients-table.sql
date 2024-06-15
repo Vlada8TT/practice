@@ -1,8 +1,8 @@
-ALTER TABLE IF EXISTS product_ingredients DROP CONSTRAINT IF EXISTS fka69i4fo6fys3gt2cbrxsrbn4
+ALTER TABLE IF EXISTS product_ingredients DROP CONSTRAINT IF EXISTS ingredient
 
 GO
 
-ALTER TABLE IF EXISTS product_ingredients DROP CONSTRAINT IF EXISTS fkgwkoppq4tgrpjn63yi9gpeg9p
+ALTER TABLE IF EXISTS product_ingredients DROP CONSTRAINT IF EXISTS ingredient_id
 
 GO
 

@@ -1,11 +1,11 @@
-ALTER TABLE IF EXISTS products DROP CONSTRAINT IF EXISTS fkn18ti2byyc5pbjr9cpjj7qkl9
+ALTER TABLE IF EXISTS products DROP CONSTRAINT IF EXISTS category_id
 
 GO
 
-ALTER TABLE IF EXISTS products DROP CONSTRAINT IF EXISTS fkog2rp4qthbtt2lfyhfo32lsw9
+ALTER TABLE IF EXISTS products DROP CONSTRAINT IF EXISTS image_id
 
 GO
 
-drop table if exists products
+DROP TABLE IF EXISTS products
 
 GO

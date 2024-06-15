@@ -1,1 +1,3 @@
-drop table if exists images
+DROP TABLE IF EXISTS images
+
+GO

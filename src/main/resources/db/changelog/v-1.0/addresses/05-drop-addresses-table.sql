@@ -1,1 +1,3 @@
-drop table if exists addresses
+DROP TABLE IF EXISTS addresses
+
+GO
