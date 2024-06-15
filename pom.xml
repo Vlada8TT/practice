@@ -15,6 +15,7 @@
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>19</java.version>
+		<liquibase.version>3.6.3</liquibase.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -54,7 +55,7 @@
 			<plugin>
 				<groupId>org.liquibase</groupId>
 				<artifactId>liquibase-maven-plugin</artifactId>
-				<version>3.6.3</version>
+				<version>${liquibase.version}</version>
 				<configuration>
 					<propertyFile>${project.basedir}/src/main/resources/liquibase.properties</propertyFile>
 				</configuration>
