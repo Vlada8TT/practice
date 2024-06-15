@@ -1,16 +1,22 @@
 package com.example.demo.persistence.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
 
 @Entity
 @Table(name = "addresses")
 @Data
-public class Address {
+@NoArgsConstructor
+@AllArgsConstructor
+public class Address implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     private String city;
 
@@ -18,10 +24,10 @@ public class Address {
     private String street;
 
     @Column(length = 10, nullable = false)
-    private String house_number;
+    private String houseNumber;
 
     @Column(length = 10)
-    private String apartment_number;
+    private String apartmentNumber;
 
 
 }

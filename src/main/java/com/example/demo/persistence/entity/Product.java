@@ -1,19 +1,24 @@
 package com.example.demo.persistence.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
 @Table(name = "products")
 @Data
-public class Product {
+@NoArgsConstructor
+@AllArgsConstructor
+public class Product implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     @Column(nullable = false)
     private String name;
@@ -26,7 +31,7 @@ public class Product {
 
     @ManyToMany
     @JoinTable(
-            name = "product_ingredients",
+            name = "products_ingredients",
             joinColumns = @JoinColumn(name = "product_id"),
             inverseJoinColumns = @JoinColumn(name = "ingredient_id")
     )
