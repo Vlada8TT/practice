@@ -19,7 +19,7 @@ public class Ingredient implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(length = 20, nullable = false)
+    @Column(nullable = false)
     private String name;
 
     @ManyToMany(mappedBy = "ingredients")

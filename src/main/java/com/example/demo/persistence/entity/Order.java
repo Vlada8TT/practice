@@ -22,9 +22,9 @@ public class Order implements Serializable {
     @ManyToOne
     private User user;
 
+    @Column(name = "order_date")
     private LocalDateTime orderDate;
 
-    @Column(length = 20)
     private String status;
 
 }

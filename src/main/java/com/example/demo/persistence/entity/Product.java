@@ -31,7 +31,7 @@ public class Product implements Serializable {
 
     @ManyToMany
     @JoinTable(
-            name = "products_ingredients",
+            name = "product_ingredients",
             joinColumns = @JoinColumn(name = "product_id"),
             inverseJoinColumns = @JoinColumn(name = "ingredient_id")
     )
