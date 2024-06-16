@@ -23,10 +23,10 @@ public class Address implements Serializable {
     @Column(nullable = false)
     private String street;
 
-    @Column(name = "house_number", nullable = false)
+    @Column(nullable = false)
     private String houseNumber;
 
-    @Column(name = "apartment_number")
+    @Column
     private String apartmentNumber;
 
 
