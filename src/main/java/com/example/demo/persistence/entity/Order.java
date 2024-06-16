@@ -1,5 +1,6 @@
 package com.example.demo.persistence.entity;
 
+import com.example.demo.persistence.enums.OrderStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,9 +23,10 @@ public class Order implements Serializable {
     @ManyToOne
     private User user;
 
-    @Column(name = "order_date")
+    @Column
     private LocalDateTime orderDate;
 
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private OrderStatus status;
 
 }
