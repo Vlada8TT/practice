@@ -1,8 +1,8 @@
 package com.example.demo;
 
-import com.example.practice.persistence.entities.Address;
-import com.example.practice.services.AddressService;
-import com.example.practice.services.impl.AddressServiceStub;
+import com.example.demo.persistence.entity.Address;
+import com.example.demo.services.AddressService;
+import com.example.demo.services.impl.AddressServiceStub;
 
 
 public class AddressServiceTest {
