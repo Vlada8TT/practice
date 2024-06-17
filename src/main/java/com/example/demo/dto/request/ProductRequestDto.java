@@ -23,13 +23,7 @@ public record ProductRequestDto(
         @Length(max = 20, message = "{category.length}", groups = {OnCreate.class, OnUpdate.class})
         CategoryRequestDto category,
 
-        @ManyToMany
-        @JoinTable(
-                name = "product_ingredients",
-                joinColumns = @JoinColumn(name = "product_id"),
-                inverseJoinColumns = @JoinColumn(name = "ingredient_id")
-        )
-
         ImageRequestDto image
+
 ) {
 }

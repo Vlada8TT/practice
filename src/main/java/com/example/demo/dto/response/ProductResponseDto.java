@@ -18,14 +18,7 @@ public record ProductResponseDto(
 
         CategoryResponseDto category,
 
-        @ManyToMany
-        @JoinTable(
-                name = "product_ingredients",
-                joinColumns = @JoinColumn(name = "product_id"),
-                inverseJoinColumns = @JoinColumn(name = "ingredient_id")
-        )
-
-        @OneToOne
         ImageResponseDto image
 ) {
 }
+
