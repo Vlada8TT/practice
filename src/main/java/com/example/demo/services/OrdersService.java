@@ -1,13 +1,15 @@
 package com.example.demo.services;
 
+import com.example.demo.dto.requests.OrderRequestDto;
+import com.example.demo.dto.responses.OrderResponseDto;
 import com.example.demo.persistence.entity.Order;
 
 import java.util.List;
 
 public interface OrdersService {
-    Order createOrder(Order orders );
-    Order getOrdersById(int id);
-    List<Order> getAllOrders();
-    Order updateOrders(int id, Order orders );
+    OrderResponseDto createOrder(OrderRequestDto orders );
+    OrderResponseDto getOrdersById(int id);
+    List<OrderResponseDto> getAllOrders();
+    OrderResponseDto updateOrders(int id, OrderRequestDto orders );
     void deleteOrders(int id);
 }

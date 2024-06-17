@@ -1,5 +1,7 @@
 package com.example.demo.services.impl;
 
+import com.example.demo.dto.requests.AddressRequestDto;
+import com.example.demo.dto.responses.AddressResponseDto;
 import com.example.demo.persistence.entity.Address;
 import com.example.demo.services.AddressService;
 
@@ -8,22 +10,22 @@ import java.util.List;
 
 public class AddressServiceStub implements AddressService {
     @Override
-    public Address createAddress(Address address) {
+    public AddressResponseDto createAddress(AddressRequestDto address) {
         return null;
     }
 
     @Override
-    public Address getAddressById(int id) {
+    public AddressResponseDto getAddressById(int id) {
         return null;
     }
 
     @Override
-    public List<Address> getAllAddresses() {
+    public List<AddressResponseDto> getAllAddresses() {
         return null;
     }
 
     @Override
-    public Address updateAddress(int id, Address address) {
+    public AddressResponseDto updateAddress(int id, AddressRequestDto address) {
         return null;
     }
 

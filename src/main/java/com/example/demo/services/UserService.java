@@ -1,14 +1,15 @@
 package com.example.demo.services;
 
-import com.example.demo.persistence.entity.User;
+import com.example.demo.dto.requests.UserRequestDto;
+import com.example.demo.dto.responses.UserResponseDto;
 
 import java.util.List;
 
 public interface UserService {
-    User createUser(User user);
-    User getUserById(int id);
-    List<User> getAllUsers();
-    User updateUser(int id, User user);
+    UserResponseDto createUser(UserRequestDto user);
+    UserResponseDto getUserById(int id);
+    List<UserResponseDto> getAllUsers();
+    UserResponseDto updateUser(int id, UserRequestDto user);
     void deleteUser(int id);
 }
 

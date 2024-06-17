@@ -1,17 +1,12 @@
-package com.example.demo.dto;
+package com.example.demo.dto.requests;
 
 import com.example.demo.dto.validation.OnCreate;
 import com.example.demo.dto.validation.OnUpdate;
-import com.example.demo.persistence.entity.Address;
-import com.example.demo.persistence.entity.Role;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotNull;
 
-public class UserDto {
-    @NotNull(message = "Id must not be null.", groups = OnUpdate.class)
-    private Integer id;
-
+public class UserRequestDto {
     @NotNull(message = "Name must not be null.", groups = {OnCreate.class, OnUpdate.class})
     @Length(max = 20, message = "Name length must be shorter than 21", groups = {OnCreate.class, OnUpdate.class})
     private String name;
@@ -29,9 +24,8 @@ public class UserDto {
     private String password;
 
     @NotNull(message = "Address must not be null.", groups = {OnCreate.class, OnUpdate.class})
-    private Address address;
+    private AddressRequestDto address;
 
     @NotNull(message = "Role must not be null.", groups = {OnCreate.class, OnUpdate.class})
-    private Role role;
-
+    private RoleRequestDto role;
 }

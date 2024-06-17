@@ -1,5 +1,7 @@
 package com.example.demo.services.impl;
 
+import com.example.demo.dto.requests.RoleRequestDto;
+import com.example.demo.dto.responses.RoleResponseDto;
 import com.example.demo.services.RoleService;
 import com.example.demo.persistence.entity.Role;
 
@@ -7,22 +9,22 @@ import java.util.List;
 
 public class RoleServiceStub implements RoleService {
     @Override
-    public Role createRole(Role role) {
+    public RoleResponseDto createRole(RoleRequestDto role) {
         return null;
     }
 
     @Override
-    public Role getRoleById(int id) {
+    public RoleResponseDto getRoleById(int id) {
         return null;
     }
 
     @Override
-    public List<Role> getAllRoles() {
+    public List<RoleResponseDto> getAllRoles() {
         return null;
     }
 
     @Override
-    public Role updateRole(int id, Role role) {
+    public RoleResponseDto updateRole(int id, RoleRequestDto role) {
         return null;
     }
 

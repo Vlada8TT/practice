@@ -1,4 +1,4 @@
-package com.example.demo.dto;
+package com.example.demo.dto.requests;
 
 import com.example.demo.dto.validation.OnCreate;
 import com.example.demo.dto.validation.OnUpdate;
@@ -7,10 +7,7 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
 
 @Data
-public class AddressDto {
-    @NotNull(message = "Id must not be null.", groups = OnUpdate.class)
-    private Integer id;
-
+public class AddressRequestDto {
     @NotNull(message = "Apartment number must not be null.", groups = {OnCreate.class, OnUpdate.class})
     @Length(max = 20, message = "Apartment number length must be shorter than 21", groups = {OnCreate.class, OnUpdate.class})
     private String apartment_number;

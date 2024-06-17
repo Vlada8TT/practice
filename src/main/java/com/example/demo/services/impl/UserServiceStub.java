@@ -1,5 +1,7 @@
 package com.example.demo.services.impl;
 
+import com.example.demo.dto.requests.UserRequestDto;
+import com.example.demo.dto.responses.UserResponseDto;
 import com.example.demo.persistence.entity.User;
 import com.example.demo.services.UserService;
 
@@ -7,22 +9,22 @@ import java.util.List;
 
 public class UserServiceStub implements UserService {
     @Override
-    public User createUser(User user) {
+    public UserResponseDto createUser(UserRequestDto user) {
         return null;
     }
 
     @Override
-    public User getUserById(int id) {
+    public UserResponseDto getUserById(int id) {
         return null;
     }
 
     @Override
-    public List<User> getAllUsers() {
+    public List<UserResponseDto> getAllUsers() {
         return null;
     }
 
     @Override
-    public User updateUser(int id, User user) {
+    public UserResponseDto updateUser(int id, UserRequestDto user) {
         return null;
     }
 

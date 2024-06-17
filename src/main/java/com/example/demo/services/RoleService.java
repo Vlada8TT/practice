@@ -1,13 +1,15 @@
 package com.example.demo.services;
 
+import com.example.demo.dto.requests.RoleRequestDto;
+import com.example.demo.dto.responses.RoleResponseDto;
 import com.example.demo.persistence.entity.Role;
 
 import java.util.List;
 
 public interface RoleService {
-    Role createRole(Role role);
-    Role getRoleById(int id);
-    List<Role> getAllRoles();
-    Role updateRole(int id, Role role);
+    RoleResponseDto createRole(RoleRequestDto role);
+    RoleResponseDto getRoleById(int id);
+    List<RoleResponseDto> getAllRoles();
+    RoleResponseDto updateRole(int id, RoleRequestDto role);
     void deleteRole(int id);
 }

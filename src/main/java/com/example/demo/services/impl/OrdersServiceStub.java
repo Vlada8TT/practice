@@ -1,6 +1,8 @@
 package com.example.demo.services.impl;
 
 
+import com.example.demo.dto.requests.OrderRequestDto;
+import com.example.demo.dto.responses.OrderResponseDto;
 import com.example.demo.services.OrdersService;
 import com.example.demo.persistence.entity.Order;
 
@@ -8,22 +10,22 @@ import java.util.List;
 
 public class OrdersServiceStub implements OrdersService {
     @Override
-    public Order createOrder(Order orders) {
+    public OrderResponseDto createOrder(OrderRequestDto orders) {
         return null;
     }
 
     @Override
-    public Order getOrdersById(int id) {
+    public OrderResponseDto getOrdersById(int id) {
         return null;
     }
 
     @Override
-    public List<Order> getAllOrders() {
+    public List<OrderResponseDto> getAllOrders() {
         return null;
     }
 
     @Override
-    public Order updateOrders(int id, Order orders) {
+    public OrderResponseDto updateOrders(int id, OrderRequestDto orders) {
         return null;
     }
 

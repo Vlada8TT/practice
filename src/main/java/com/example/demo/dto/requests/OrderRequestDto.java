@@ -1,25 +1,24 @@
-package com.example.demo.dto;
+package com.example.demo.dto.requests;
 
 import com.example.demo.dto.validation.OnCreate;
 import com.example.demo.dto.validation.OnUpdate;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
-
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotNull;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
+
 @Data
-public class OrderDto {
-    @NotNull(message = "Id must not be null.", groups = OnUpdate.class)
-    private Integer id;
+public class OrderRequestDto {
 
     @NotNull(message = "User id must not be null.", groups = {OnCreate.class, OnUpdate.class})
     @Length(max = 20, message = "User id length must be shorter than 21", groups = {OnCreate.class, OnUpdate.class})
     private Integer user_id;
 
     @NotNull(message = "Time must not be null.", groups = {OnCreate.class, OnUpdate.class})
-    @Length(max = 20, message = "Timestamp length must be shorter than 21", groups = {OnCreate.class, OnUpdate.class})
-    private Timestamp time;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
+    private LocalDateTime time;
 
     @NotNull(message = "Status must not be null.", groups = {OnCreate.class, OnUpdate.class})
     @Length(max = 20, message = "Status length must be shorter than 21", groups = {OnCreate.class, OnUpdate.class})

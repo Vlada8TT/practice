@@ -1,5 +1,7 @@
 package com.example.demo.services.impl;
 
+import com.example.demo.dto.requests.CategoryRequestDto;
+import com.example.demo.dto.responses.CategoryResponseDto;
 import com.example.demo.persistence.entity.Category;
 import com.example.demo.services.CategoryService;
 
@@ -8,22 +10,22 @@ import java.util.List;
 
 public class CategoryServiceStub implements CategoryService {
     @Override
-    public Category createCategory(Category category) {
+    public CategoryResponseDto createCategory(CategoryRequestDto category) {
         return null;
     }
 
     @Override
-    public Category getCategoryById(int id) {
+    public CategoryResponseDto getCategoryById(int id) {
         return null;
     }
 
     @Override
-    public List<Category> getAllCategories() {
+    public List<CategoryResponseDto> getAllCategories() {
         return null;
     }
 
     @Override
-    public Category updateCategory(int id, Category category) {
+    public CategoryResponseDto updateCategory(int id, CategoryRequestDto category) {
         return null;
     }
 
