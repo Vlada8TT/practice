@@ -26,7 +26,6 @@ public class Address implements Serializable {
     @Column(nullable = false)
     private String houseNumber;
 
-    @Column
     private String apartmentNumber;
 
 

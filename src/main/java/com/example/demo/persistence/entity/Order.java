@@ -23,7 +23,6 @@ public class Order implements Serializable {
     @ManyToOne
     private User user;
 
-    @Column
     private LocalDateTime orderDate;
 
     @Enumerated(EnumType.STRING)

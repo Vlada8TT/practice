@@ -20,13 +20,9 @@ public class User implements Serializable {
 
     private String name;
 
-    @Column
     private String mobilePhone;
 
-    @Column(
-            nullable = false,
-            unique = true
-    )
+    @Column(nullable = false, unique = true)
     private String email;
 
     @Column(nullable = false)
