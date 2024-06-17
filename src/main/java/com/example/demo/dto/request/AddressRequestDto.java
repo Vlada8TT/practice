@@ -22,4 +22,5 @@ public record AddressRequestDto(
         @NotNull(message = "{street.notnull}", groups = {OnCreate.class, OnUpdate.class})
         @Length(max = 20, message = "{street.length}", groups = {OnCreate.class, OnUpdate.class})
         String street
-) {}
+) {
+}

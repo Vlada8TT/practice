@@ -9,18 +9,19 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
-@Data
-public class OrderRequestDto {
+public record OrderRequestDto(
+        @NotNull(message = "{user_id.notnull}", groups = {OnCreate.class, OnUpdate.class})
+        @Length(max = 20, message = "{user_id.length}", groups = {OnCreate.class, OnUpdate.class})
+        Integer user_id,
 
-    @NotNull(message = "User id must not be null.", groups = {OnCreate.class, OnUpdate.class})
-    @Length(max = 20, message = "User id length must be shorter than 21", groups = {OnCreate.class, OnUpdate.class})
-    private Integer user_id;
+        @NotNull(message = "{time.notnull}", groups = {OnCreate.class, OnUpdate.class})
+        @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
+        LocalDateTime time,
 
-    @NotNull(message = "Time must not be null.", groups = {OnCreate.class, OnUpdate.class})
-    @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
-    private LocalDateTime time;
-
-    @NotNull(message = "Status must not be null.", groups = {OnCreate.class, OnUpdate.class})
-    @Length(max = 20, message = "Status length must be shorter than 21", groups = {OnCreate.class, OnUpdate.class})
-    private String status;
+        @NotNull(message = "{status.notnull}", groups = {OnCreate.class, OnUpdate.class})
+        @Length(max = 20, message = "{status.length}", groups = {OnCreate.class, OnUpdate.class})
+        String status
+) {
 }
+
+

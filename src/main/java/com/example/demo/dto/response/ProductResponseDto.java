@@ -8,23 +8,24 @@ import lombok.Data;
 
 import java.math.BigDecimal;
 
-@Data
-public class ProductResponseDto {
-    private Integer id;
 
-    private String name;
+public record ProductResponseDto(
+        Integer id,
 
-    private BigDecimal price;
+        String name,
 
-    private CategoryResponseDto category;
+        BigDecimal price,
 
-    @ManyToMany
-    @JoinTable(
-            name = "product_ingredients",
-            joinColumns = @JoinColumn(name = "product_id"),
-            inverseJoinColumns = @JoinColumn(name = "ingredient_id")
-    )
+        CategoryResponseDto category,
 
-    @OneToOne
-    private ImageResponseDto image;
+        @ManyToMany
+        @JoinTable(
+                name = "product_ingredients",
+                joinColumns = @JoinColumn(name = "product_id"),
+                inverseJoinColumns = @JoinColumn(name = "ingredient_id")
+        )
+
+        @OneToOne
+        ImageResponseDto image
+) {
 }

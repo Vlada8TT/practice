@@ -2,16 +2,16 @@ package com.example.demo.dto.response;
 
 import lombok.Data;
 
-@Data
-public class AddressResponseDto {
-    private Integer id;
 
-    private String apartment_number;
+public record AddressResponseDto(
+        Integer id,
 
-    private String house_number;
+        String apartment_number,
 
-    private String city;
+        String house_number,
 
-    private String street;
+        String city,
 
+        String street
+) {
 }

@@ -1,16 +1,16 @@
 package com.example.demo.dto.response;
 
-public class UserResponseDto {
-    private Integer id;
+public record UserResponseDto(
+        Integer id,
 
-    private String name;
+        String name,
 
-    private String mobilePhone;
+        String mobilePhone,
 
-    private String email;
+        String email,
 
-    private AddressResponseDto address;
+        AddressResponseDto address,
 
-    private RoleResponseDto role;
-
+        RoleResponseDto role
+) {
 }

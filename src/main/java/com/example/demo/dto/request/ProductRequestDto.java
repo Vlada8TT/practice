@@ -9,27 +9,27 @@ import org.hibernate.validator.constraints.Length;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
-@Data
-public class ProductRequestDto {
 
-    @NotNull(message = "Name must not be null.", groups = {OnCreate.class, OnUpdate.class})
-    @Length(max = 20, message = "Name length must be shorter than 21", groups = {OnCreate.class, OnUpdate.class})
-    private String name;
+public record ProductRequestDto(
 
-    @NotNull(message = "Price must not be null.", groups = {OnCreate.class, OnUpdate.class})
-    private BigDecimal price;
+        @NotNull(message = "{name.notnull}", groups = {OnCreate.class, OnUpdate.class})
+        @Length(max = 20, message = "{name.length}", groups = {OnCreate.class, OnUpdate.class})
+        String name,
 
-    @NotNull(message = "Category must not be null.", groups = {OnCreate.class, OnUpdate.class})
-    @Length(max = 20, message = "Category length must be shorter than 21", groups = {OnCreate.class, OnUpdate.class})
-    private CategoryRequestDto category;
+        @NotNull(message = "{price.notnull}", groups = {OnCreate.class, OnUpdate.class})
+        BigDecimal price,
 
-    @ManyToMany
-    @JoinTable(
-            name = "product_ingredients",
-            joinColumns = @JoinColumn(name = "product_id"),
-            inverseJoinColumns = @JoinColumn(name = "ingredient_id")
-    )
+        @NotNull(message = "{category.notnull}", groups = {OnCreate.class, OnUpdate.class})
+        @Length(max = 20, message = "{category.length}", groups = {OnCreate.class, OnUpdate.class})
+        CategoryRequestDto category,
 
-    @OneToOne
-    private ImageRequestDto image;
+        @ManyToMany
+        @JoinTable(
+                name = "product_ingredients",
+                joinColumns = @JoinColumn(name = "product_id"),
+                inverseJoinColumns = @JoinColumn(name = "ingredient_id")
+        )
+
+        ImageRequestDto image
+) {
 }
