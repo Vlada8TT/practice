@@ -2,12 +2,10 @@ package com.example.demo.services.impl;
 
 import com.example.demo.dto.requests.ImageRequestDto;
 import com.example.demo.dto.responses.ImageResponseDto;
-import com.example.demo.persistence.entity.Image;
 import com.example.demo.services.ImageService;
-
 import java.util.List;
 
-public class ImageServiceStub implements ImageService {
+public class ImageServiceImpl implements ImageService {
 
     @Override
     public ImageResponseDto createImage(ImageRequestDto image) {

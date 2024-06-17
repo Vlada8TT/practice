@@ -4,11 +4,9 @@ package com.example.demo.services.impl;
 import com.example.demo.dto.requests.OrderRequestDto;
 import com.example.demo.dto.responses.OrderResponseDto;
 import com.example.demo.services.OrdersService;
-import com.example.demo.persistence.entity.Order;
-
 import java.util.List;
 
-public class OrdersServiceStub implements OrdersService {
+public class OrdersServiceImpl implements OrdersService {
     @Override
     public OrderResponseDto createOrder(OrderRequestDto orders) {
         return null;

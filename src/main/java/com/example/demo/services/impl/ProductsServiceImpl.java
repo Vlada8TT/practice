@@ -2,12 +2,10 @@ package com.example.demo.services.impl;
 
 import com.example.demo.dto.requests.ProductRequestDto;
 import com.example.demo.dto.responses.ProductResponseDto;
-import com.example.demo.persistence.entity.Product;
 import com.example.demo.services.ProductsService;
-
 import java.util.List;
 
-public class ProductsServiceStub implements ProductsService {
+public class ProductsServiceImpl implements ProductsService {
     @Override
     public ProductResponseDto createProducts(ProductRequestDto products) {
         return null;

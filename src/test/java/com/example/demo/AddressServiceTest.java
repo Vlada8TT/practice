@@ -2,12 +2,12 @@ package com.example.demo;
 
 import com.example.demo.persistence.entity.Address;
 import com.example.demo.services.AddressService;
-import com.example.demo.services.impl.AddressServiceStub;
+import com.example.demo.services.impl.AddressServiceImpl;
 
 
 public class AddressServiceTest {
     public static void main(String[] args) {
-        AddressService addressService = new AddressServiceStub();
+        AddressService addressService = new AddressServiceImpl();
 
         // Создание и сохранение нового адреса
         Address address1 = new Address();

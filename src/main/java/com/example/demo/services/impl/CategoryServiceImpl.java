@@ -2,13 +2,11 @@ package com.example.demo.services.impl;
 
 import com.example.demo.dto.requests.CategoryRequestDto;
 import com.example.demo.dto.responses.CategoryResponseDto;
-import com.example.demo.persistence.entity.Category;
 import com.example.demo.services.CategoryService;
-
 import java.util.List;
 
 
-public class CategoryServiceStub implements CategoryService {
+public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryResponseDto createCategory(CategoryRequestDto category) {
         return null;

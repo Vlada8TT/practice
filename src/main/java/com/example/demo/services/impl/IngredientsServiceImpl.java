@@ -3,11 +3,9 @@ package com.example.demo.services.impl;
 import com.example.demo.dto.requests.IngredientRequestDto;
 import com.example.demo.dto.responses.IngredientResponseDto;
 import com.example.demo.services.IngredientsService;
-import com.example.demo.persistence.entity.Ingredient;
-
 import java.util.List;
 
-public class IngredientsServiceStub implements IngredientsService {
+public class IngredientsServiceImpl implements IngredientsService {
     @Override
     public IngredientResponseDto createIngredient(IngredientRequestDto Ingredients) {
         return null;

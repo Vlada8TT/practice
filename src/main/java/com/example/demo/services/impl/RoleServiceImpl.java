@@ -3,11 +3,9 @@ package com.example.demo.services.impl;
 import com.example.demo.dto.requests.RoleRequestDto;
 import com.example.demo.dto.responses.RoleResponseDto;
 import com.example.demo.services.RoleService;
-import com.example.demo.persistence.entity.Role;
-
 import java.util.List;
 
-public class RoleServiceStub implements RoleService {
+public class RoleServiceImpl implements RoleService {
     @Override
     public RoleResponseDto createRole(RoleRequestDto role) {
         return null;
