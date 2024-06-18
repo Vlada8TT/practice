@@ -18,10 +18,8 @@
 		<java.version>22</java.version>
 		<spring-boot.version>3.3.0</spring-boot.version>
 		<annotations.version>24.1.0</annotations.version>
-		<validation-api.version>2.0.0.Final</validation-api.version>
 		<lombok.version>1.18.24</lombok.version>
 		<mapstruct.version>1.5.5.Final</mapstruct.version>
-		<hibernate-validator.version>8.0.1.Final</hibernate-validator.version>
 	</properties>
 	<dependencies>
 		<dependency>
