@@ -1,8 +1,5 @@
 package com.example.demo.dto.response;
 
-import lombok.Data;
-
-
 public record AddressResponseDto(
         Integer id,
 

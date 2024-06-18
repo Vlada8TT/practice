@@ -2,11 +2,8 @@ package com.example.demo.dto.request;
 
 import com.example.demo.dto.validation.OnCreate;
 import com.example.demo.dto.validation.OnUpdate;
-import lombok.Data;
+import jakarta.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
-
-import javax.validation.constraints.NotNull;
-
 
 public record CategoryRequestDto(
         @NotNull(message = "{name.notnull}", groups = {OnCreate.class, OnUpdate.class})

@@ -2,11 +2,9 @@ package com.example.demo.dto.request;
 
 import com.example.demo.dto.validation.OnCreate;
 import com.example.demo.dto.validation.OnUpdate;
-import lombok.Data;
+import jakarta.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
-
-import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 public record OrderRequestDto(
@@ -23,5 +21,3 @@ public record OrderRequestDto(
         String status
 ) {
 }
-
-
