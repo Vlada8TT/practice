@@ -2,10 +2,10 @@ package com.example.demo.service.impl;
 
 import com.example.demo.dto.request.IngredientRequestDto;
 import com.example.demo.dto.response.IngredientResponseDto;
-import com.example.demo.service.IngredientsService;
+import com.example.demo.service.IngredientService;
 import java.util.List;
 
-public class IngredientsServiceImpl implements IngredientsService {
+public class IngredientsServiceImpl implements IngredientService {
     @Override
     public IngredientResponseDto createIngredient(IngredientRequestDto Ingredients) {
         return null;
@@ -22,7 +22,7 @@ public class IngredientsServiceImpl implements IngredientsService {
     }
 
     @Override
-    public IngredientResponseDto updateIngredient(int id, IngredientRequestDto Ingredients) {
+    public IngredientResponseDto updateIngredient(int id, IngredientRequestDto Ingredient) {
         return null;
     }
 

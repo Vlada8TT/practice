@@ -3,12 +3,12 @@ package com.example.demo.service.impl;
 
 import com.example.demo.dto.request.OrderItemRequestDto;
 import com.example.demo.dto.response.OrderItemResponseDto;
-import com.example.demo.service.OrderItemsService;
+import com.example.demo.service.OrderItemService;
 import java.util.List;
 
-public class OrderItemsServiceImpl implements OrderItemsService {
+public class OrderItemsServiceImpl implements OrderItemService {
     @Override
-    public OrderItemResponseDto createOrderItems(OrderItemRequestDto orderItems) {
+    public OrderItemResponseDto createOrderItem(OrderItemRequestDto orderItem) {
         return null;
     }
 
@@ -18,12 +18,12 @@ public class OrderItemsServiceImpl implements OrderItemsService {
     }
 
     @Override
-    public OrderItemResponseDto updateOrderItems(int id, OrderItemRequestDto orderItems) {
+    public OrderItemResponseDto updateOrderItem(int id, OrderItemRequestDto orderItem) {
         return null;
     }
 
     @Override
-    public void deleteOrderItems(int id) {
+    public void deleteOrderItem(int id) {
 
     }
 }

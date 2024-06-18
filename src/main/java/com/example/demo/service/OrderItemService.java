@@ -5,12 +5,12 @@ import com.example.demo.dto.response.OrderItemResponseDto;
 
 import java.util.List;
 
-public interface OrderItemsService {
-    OrderItemResponseDto createOrderItems(OrderItemRequestDto orderItems);
+public interface OrderItemService {
+    OrderItemResponseDto createOrderItem(OrderItemRequestDto orderItem);
 
     List<OrderItemResponseDto> getAllOrderItems();
 
-    OrderItemResponseDto updateOrderItems(int id, OrderItemRequestDto orderItems);
+    OrderItemResponseDto updateOrderItem(int id, OrderItemRequestDto orderItem);
 
-    void deleteOrderItems(int id);
+    void deleteOrderItem(int id);
 }
