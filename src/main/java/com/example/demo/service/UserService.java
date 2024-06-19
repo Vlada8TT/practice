@@ -11,7 +11,7 @@ public interface UserService {
 
     UserResponseDto getUserById(int id);
 
-    UserResponseDto getUserByEmail(String email);
+    User getUserByEmail(String email);
 
     List<UserResponseDto> getAllUsers();
 
