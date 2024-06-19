@@ -26,7 +26,7 @@ public class CategoryServiceImpl implements CategoryService {
 
         Category category = categoryMapper.toEntity(categoryRequestDto);
         if(categoryRepository.findByName(categoryRequestDto.name()).isPresent()){
-            throw new IllegalStateException("category");
+            throw new ResourceAlreadyExistsException("category",categoryRequestDto.name());
         }
         categoryRepository.save(category);
         return categoryMapper.toDto(category);
@@ -54,7 +54,7 @@ public class CategoryServiceImpl implements CategoryService {
         Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("category", id));
         if(categoryRepository.findByName(categoryRequestDto.name()).isPresent()){
-            throw new IllegalStateException("category");
+            throw new ResourceAlreadyExistsException("category",categoryRequestDto.name());
         }
         updateCategoryFields(category, categoryRequestDto);
         categoryRepository.save(category);
