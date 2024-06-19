@@ -8,11 +8,11 @@ import org.hibernate.validator.constraints.Length;
 public record AddressRequestDto(
         @NotNull(message = "{apartment_number.notnull}", groups = {OnCreate.class, OnUpdate.class})
         @Length(max = 20, message = "{apartment_number.length}", groups = {OnCreate.class, OnUpdate.class})
-        String apartment_number,
+        String apartmentNumber,
 
         @NotNull(message = "{house_number.notnull}", groups = {OnCreate.class, OnUpdate.class})
         @Length(max = 20, message = "{house_number.length}", groups = {OnCreate.class, OnUpdate.class})
-        String house_number,
+        String houseNumber,
 
         @NotNull(message = "{city.notnull}", groups = {OnCreate.class, OnUpdate.class})
         @Length(max = 20, message = "{city.length}", groups = {OnCreate.class, OnUpdate.class})
