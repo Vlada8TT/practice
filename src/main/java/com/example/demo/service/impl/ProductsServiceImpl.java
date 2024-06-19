@@ -35,7 +35,7 @@ public class ProductsServiceImpl implements ProductService {
         product.setCategory(category);
         product.setImage(image);
         if(productRepository.findByName(productRequestDto.name()).isPresent()){
-            throw new IllegalStateException("product");
+            throw new ResourceAlreadyExistsException("product",productRequestDto.name());
         }
         productRepository.save(product);
         return productMapper.toDto(product);
@@ -63,7 +63,7 @@ public class ProductsServiceImpl implements ProductService {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("product",id));
         if(productRepository.findByName(productRequestDto.name()).isPresent()){
-            throw new IllegalStateException("product");
+            throw new ResourceAlreadyExistsException("product",productRequestDto.name());
         }
         updateProductFields(product,productRequestDto);
         productRepository.save(product);
