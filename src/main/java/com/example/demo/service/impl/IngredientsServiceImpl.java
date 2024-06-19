@@ -24,6 +24,9 @@ public class IngredientsServiceImpl implements IngredientService {
     public IngredientResponseDto createIngredient(IngredientRequestDto ingredientRequestDto) {
 
         Ingredient ingredient = ingredientMapper.toEntity(ingredientRequestDto);
+        if(ingredientRepository.findByName(ingredientRequestDto.name()).isPresent()){
+            throw new IllegalStateException("ingredient");
+        }
         ingredientRepository.save(ingredient);
         return ingredientMapper.toDto(ingredient);
     }
@@ -49,6 +52,9 @@ public class IngredientsServiceImpl implements IngredientService {
 
         Ingredient ingredient = ingredientRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("ingredient", id));
+        if(ingredientRepository.findByName(ingredientRequestDto.name()).isPresent()){
+            throw new IllegalStateException("ingredient");
+        }
         updateIngredientFields(ingredient,ingredientRequestDto);
         ingredientRepository.save(ingredient);
         return ingredientMapper.toDto(ingredient);
