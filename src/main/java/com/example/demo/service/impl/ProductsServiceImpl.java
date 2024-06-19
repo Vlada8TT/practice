@@ -34,6 +34,9 @@ public class ProductsServiceImpl implements ProductService {
                 .orElseThrow(() -> new EntityNotFoundException("category",productRequestDto.categoryId()));
         product.setCategory(category);
         product.setImage(image);
+        if(productRepository.findByName(productRequestDto.name()).isPresent()){
+            throw new IllegalStateException("product");
+        }
         productRepository.save(product);
         return productMapper.toDto(product);
     }
@@ -59,6 +62,9 @@ public class ProductsServiceImpl implements ProductService {
 
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("product",id));
+        if(productRepository.findByName(productRequestDto.name()).isPresent()){
+            throw new IllegalStateException("product");
+        }
         updateProductFields(product,productRequestDto);
         productRepository.save(product);
         return productMapper.toDto(product);
