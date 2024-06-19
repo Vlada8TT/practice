@@ -38,7 +38,13 @@ public class UserServiceImpl implements UserService {
         user.setRole(role);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         if(userRepository.findByName(userRequestDto.name()).isPresent()){
-            throw new IllegalStateException("User");
+            throw new ResourceAlreadyExistsException("User",userRequestDto.name());
+        }
+        if(userRepository.findByEmail(userRequestDto.email()).isPresent()){
+            throw new ResourceAlreadyExistsException("User",userRequestDto.email());
+        }
+        if(userRepository.findByMobilePhone(userRequestDto.mobilePhone()).isPresent()){
+            throw new ResourceAlreadyExistsException("User",userRequestDto.mobilePhone());
         }
         userRepository.save(user);
         return userMapper.toDto(user);
@@ -74,7 +80,13 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("user",id));
         if(userRepository.findByName(userRequestDto.name()).isPresent()){
-            throw new IllegalStateException("User");
+            throw new ResourceAlreadyExistsException("User",userRequestDto.name());
+        }
+        if(userRepository.findByEmail(userRequestDto.email()).isPresent()){
+            throw new ResourceAlreadyExistsException("User",userRequestDto.email());
+        }
+        if(userRepository.findByMobilePhone(userRequestDto.mobilePhone()).isPresent()){
+            throw new ResourceAlreadyExistsException("User",userRequestDto.mobilePhone());
         }
         updateUserFields(user,userRequestDto);
         userRepository.save(user);
