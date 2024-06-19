@@ -37,8 +37,8 @@ public class UserServiceImpl implements UserService {
         user.setAddress(address);
         user.setRole(role);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        if(userRepository.findByName(user.getName()).isPresent()){
-            throw new IllegalStateException("User already exist");
+        if(userRepository.findByName(userRequestDto.name()).isPresent()){
+            throw new IllegalStateException("User");
         }
         userRepository.save(user);
         return userMapper.toDto(user);
@@ -46,10 +46,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(readOnly = true)
-    public UserResponseDto getUserByEmail(String email) {
+    public User getUserByEmail(String email) {
 
-        return userMapper.toDto(userRepository.findByEmail(email)
-                .orElseThrow(() -> new EntityNotFoundException("user", email)));
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new EntityNotFoundException("user", email));
     }
 
     @Override
@@ -73,6 +73,9 @@ public class UserServiceImpl implements UserService {
 
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("user",id));
+        if(userRepository.findByName(userRequestDto.name()).isPresent()){
+            throw new IllegalStateException("User");
+        }
         updateUserFields(user,userRequestDto);
         userRepository.save(user);
         return userMapper.toDto(user);
