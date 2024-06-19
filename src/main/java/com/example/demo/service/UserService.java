@@ -10,6 +10,8 @@ public interface UserService {
 
     UserResponseDto getUserById(int id);
 
+    UserResponseDto getUserByEmail(String email);
+
     List<UserResponseDto> getAllUsers();
 
     UserResponseDto updateUser(int id, UserRequestDto user);
