@@ -25,6 +25,9 @@ public class ImageServiceImpl implements ImageService {
     public ImageResponseDto createImage(ImageRequestDto imageRequestDto) {
 
         Image image = imageMapper.toEntity(imageRequestDto);
+        if(imageRepository.findByPath(imageRequestDto.path()).isPresent()){
+            throw new IllegalStateException("image");
+        }
         imageRepository.save(image);
         return imageMapper.toDto(image);
     }
@@ -50,6 +53,9 @@ public class ImageServiceImpl implements ImageService {
 
         Image image = imageRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("image", id));
+        if(imageRepository.findByPath(imageRequestDto.path()).isPresent()){
+            throw new IllegalStateException("image");
+        }
         updateImageFields(image, imageRequestDto);
         imageRepository.save(image);
         return imageMapper.toDto(image);
