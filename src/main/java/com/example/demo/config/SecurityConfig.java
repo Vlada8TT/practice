@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -20,11 +21,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-
+@Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
 @RequiredArgsConstructor
-
 public class SecurityConfig {
 
     private final JwtTokenProvider tokenProvider;
@@ -66,7 +66,7 @@ public class SecurityConfig {
                                                             .value()
                                             );
                                             response.getWriter()
-                                                    .write("Unauthorized."); //todo Уведовмление для пользователя????
+                                                    .write("Unauthorized");
                                         })
                                 .accessDeniedHandler(
                                         (request, response, accessDeniedException) -> {
@@ -75,10 +75,10 @@ public class SecurityConfig {
                                                             .value()
                                             );
                                             response.getWriter()
-                                                    .write("Unauthorized."); //todo Уведовмление для пользователя????
+                                                    .write("Access denied");
                                         }))
                 .authorizeHttpRequests(configurer ->
-                        configurer.requestMatchers("auth/url/stub")
+                        configurer.requestMatchers("/api/v1/auth/**")
                                 .permitAll()
                                 .requestMatchers("/swagger-ui/**")
                                 .permitAll()
