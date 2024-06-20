@@ -23,7 +23,6 @@ public class AddressServiceImpl implements AddressService {
     @Override
     @Transactional
     public AddressResponseDto createAddress(AddressRequestDto addressRequestDto) {
-
         Address address = addressMapper.toEntity(addressRequestDto);
         addressRepository.save(address);
         return addressMapper.toDto(address);
@@ -32,24 +31,19 @@ public class AddressServiceImpl implements AddressService {
     @Override
     @Transactional(readOnly = true)
     public AddressResponseDto getAddressById(int id) {
-
-        return addressMapper.toDto(addressRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("address", id)));
+        return addressMapper.toDto(findAddressById(id));
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<AddressResponseDto> getAllAddresses() {
-
         return addressMapper.toDto(addressRepository.findAll());
     }
 
     @Override
     @Transactional
     public AddressResponseDto updateAddress(int id, AddressRequestDto addressRequestDto) {
-
-        Address address = addressRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("address", id));
+        Address address = addressMapper.toEntity(addressRequestDto);
         updateAddressFields(address, addressRequestDto);
         addressRepository.save(address);
         return addressMapper.toDto(address);
@@ -58,17 +52,16 @@ public class AddressServiceImpl implements AddressService {
     @Override
     @Transactional
     public void deleteAddress(int id) {
-
-        Address address = addressRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("address", id));
+        Address address = findAddressById(id);
         addressRepository.delete(address);
     }
 
     private void updateAddressFields(Address address, AddressRequestDto addressRequestDto){
+        address = addressMapper.toEntity(addressRequestDto);
+    }
 
-        address.setCity(addressRequestDto.city());
-        address.setStreet(addressRequestDto.street());
-        address.setHouseNumber(addressRequestDto.houseNumber());
-        address.setApartmentNumber(addressRequestDto.apartmentNumber());
+    private Address findAddressById(int id) {
+        return addressRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("address", id));
     }
 }
