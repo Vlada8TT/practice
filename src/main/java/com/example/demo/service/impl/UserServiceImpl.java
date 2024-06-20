@@ -3,13 +3,19 @@ package com.example.demo.service.impl;
 import com.example.demo.dto.request.UserRequestDto;
 import com.example.demo.dto.response.UserResponseDto;
 import com.example.demo.persistence.entity.User;
+import com.example.demo.repositories.UserRepository;
 import com.example.demo.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
+
+    private final UserRepository userRepository;
+
     @Override
     public UserResponseDto createUser(UserRequestDto user) {
         return null;
@@ -37,11 +43,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getByEmail(String email) {
-        return null;
+        return userRepository.findByEmail(email).get();
     }
 
     @Override
     public User getById(Integer id) {
-        return null;
+        return userRepository.findById(id).get();
     }
 }
