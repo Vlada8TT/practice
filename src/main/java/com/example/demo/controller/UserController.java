@@ -29,7 +29,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-        public UserResponseDto getById(@PathVariable int id){
+    public UserResponseDto getById(@PathVariable int id){
         UserResponseDto user = userService.getUserById(id);
         return user;
     }
@@ -46,7 +46,7 @@ public class UserController {
     }
 
     @PostMapping("/{id}/Order")
-    public OrderResponseDto createOrder(@Validated(OnCreate.class) @RequestBody OrderRequestDto orderDto){
+    public OrderResponseDto createOrder(@Validated(OnCreate.class) @PathVariable int id, @RequestBody OrderRequestDto orderDto){
         OrderResponseDto createdOrder = orderService.createOrder(orderDto);
         return createdOrder;
     }
