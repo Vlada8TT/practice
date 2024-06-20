@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestControllerAdvice
@@ -49,26 +51,32 @@ public class ControllerAdvice {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public MultiExceptionBody handleMethodArgumentNotValid(MethodArgumentNotValidException e){
-        List<FieldError> errors = e.getBindingResult().getFieldErrors();
-        return MultiExceptionBody.builder()
+        Map<String, String> errors = new HashMap<>();
+        e.getBindingResult().getAllErrors().forEach(error -> {
+            String fieldName = ((FieldError) error).getField();
+            String errorMessage = error.getDefaultMessage();
+            errors.put(fieldName, errorMessage);
+        });
+                return MultiExceptionBody.builder()
                 .status(HttpStatus.BAD_REQUEST.value())
                 .message(ErrorMessages.VALIDATION_FAILED_MESSAGE)
-                .errors(errors.stream()
-                        .collect(Collectors.toMap(FieldError::getField, FieldError::getDefaultMessage)))
+                .errors(errors)
                 .build();
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public MultiExceptionBody handleConstraintViolation(ConstraintViolationException e){
+        Map<String, String> errors = new HashMap<>();
+        e.getConstraintViolations().forEach(error -> {
+            String fieldName = error.getPropertyPath().toString();
+            String errorMessage = error.getMessage();
+            errors.put(fieldName, errorMessage);
+        });
         return MultiExceptionBody.builder()
                 .status(HttpStatus.BAD_REQUEST.value())
                 .message(ErrorMessages.VALIDATION_FAILED_MESSAGE)
-                .errors(e.getConstraintViolations().stream()
-                        .collect(Collectors.toMap(
-                                violation -> violation.getPropertyPath().toString(),
-                                violation -> violation.getMessage()
-                        )))
+                .errors(errors)
                 .build();
     }
 
