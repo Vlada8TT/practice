@@ -15,7 +15,7 @@ public class JwtRequest {
             example = "johndoe@gmail.com"
     )
     @NotNull(message = "Email must be not null.")
-    private String email;
+    private String username;
 
     @Schema(
             description = "password",
