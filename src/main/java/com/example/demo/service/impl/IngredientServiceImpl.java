@@ -14,7 +14,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class IngredientsServiceImpl implements IngredientService {
+public class IngredientServiceImpl implements IngredientService {
 
     private final IngredientRepository ingredientRepository;
     private final IngredientMapper ingredientMapper;
@@ -24,9 +24,7 @@ public class IngredientsServiceImpl implements IngredientService {
     public IngredientResponseDto createIngredient(IngredientRequestDto ingredientRequestDto) {
 
         Ingredient ingredient = ingredientMapper.toEntity(ingredientRequestDto);
-        if(ingredientRepository.findByName(ingredientRequestDto.name()).isPresent()){
-            throw new ResourceAlreadyExistsException("ingredient",ingredientRequestDto.name());
-        }
+        checkIfNameUnique(ingredientRequestDto);
         ingredientRepository.save(ingredient);
         return ingredientMapper.toDto(ingredient);
     }
@@ -35,8 +33,7 @@ public class IngredientsServiceImpl implements IngredientService {
     @Transactional(readOnly = true)
     public IngredientResponseDto getIngredientById(int id) {
 
-        return ingredientMapper.toDto(ingredientRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("ingredient", id)));
+        return ingredientMapper.toDto(findIngredientById(id));
     }
 
     @Override
@@ -49,12 +46,8 @@ public class IngredientsServiceImpl implements IngredientService {
     @Override
     @Transactional
     public IngredientResponseDto updateIngredient(int id, IngredientRequestDto ingredientRequestDto) {
-
-        Ingredient ingredient = ingredientRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("ingredient", id));
-        if(ingredientRepository.findByName(ingredientRequestDto.name()).isPresent()){
-            throw new ResourceAlreadyExistsException("ingredient",ingredientRequestDto.name());
-        }
+        Ingredient ingredient = ingredientMapper.toEntity(ingredientRequestDto);
+        checkIfNameUnique(ingredientRequestDto);
         updateIngredientFields(ingredient,ingredientRequestDto);
         ingredientRepository.save(ingredient);
         return ingredientMapper.toDto(ingredient);
@@ -63,14 +56,22 @@ public class IngredientsServiceImpl implements IngredientService {
     @Override
     @Transactional
     public void deleteIngredient(int id) {
-
-        Ingredient ingredient = ingredientRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("ingredient", id));
+        Ingredient ingredient = findIngredientById(id);
         ingredientRepository.delete(ingredient);
     }
 
     private void updateIngredientFields(Ingredient ingredient, IngredientRequestDto ingredientRequestDto){
+        ingredient = ingredientMapper.toEntity(ingredientRequestDto);
+    }
 
-        ingredient.setName(ingredientRequestDto.name());
+    private Ingredient findIngredientById(int id){
+        return  ingredientRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("ingredient", id));
+    }
+
+    private void checkIfNameUnique(IngredientRequestDto ingredientRequestDto){
+        if(ingredientRepository.existByName(ingredientRequestDto.name())){
+            throw new ResourceAlreadyExistsException("ingredient",ingredientRequestDto.name());
+        }
     }
 }
