@@ -23,9 +23,7 @@ public record UserRequestDto(
         String password,
 
         @NotNull(message = "{address.notnull}", groups = {OnCreate.class, OnUpdate.class})
-        Integer addressId,
+        AddressRequestDto addressRequestDto
 
-        @NotNull(message = "{role.notnull}", groups = {OnCreate.class, OnUpdate.class})
-        Integer roleId
 ) {
 }
