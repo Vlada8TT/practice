@@ -3,6 +3,7 @@ package com.example.demo.service.impl;
 import com.example.demo.dto.request.ImageRequestDto;
 import com.example.demo.dto.response.ImageResponseDto;
 import com.example.demo.exception.EntityNotFoundException;
+import com.example.demo.exception.ResourceAlreadyExistsException;
 import com.example.demo.mapper.ImageMapper;
 import com.example.demo.persistence.entity.Image;
 import com.example.demo.repositories.ImageRepository;
