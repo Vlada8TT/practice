@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.exception.EntityNotFoundException;
+import com.example.demo.exception.ErrorMessages;
 import com.example.demo.exception.ExceptionBody;
 import com.example.demo.exception.ResourceAlreadyExistsException;
 import jakarta.validation.ConstraintViolationException;
@@ -38,7 +39,7 @@ public class ControllerAdvice {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ExceptionBody handleMethodArgumentNotValid(MethodArgumentNotValidException e){
-        ExceptionBody exceptionBody = new ExceptionBody("Validation failed");
+        ExceptionBody exceptionBody = new ExceptionBody(ErrorMessages.VALIDATION_FAILED);
         List<FieldError> errors = e.getBindingResult().getFieldErrors();
         exceptionBody.setErrors(errors.stream()
                 .collect(Collectors.toMap(FieldError::getField, FieldError::getDefaultMessage)));
@@ -48,7 +49,7 @@ public class ControllerAdvice {
     @ExceptionHandler(ConstraintViolationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ExceptionBody handleConstraintViolation(ConstraintViolationException e){
-        ExceptionBody exceptionBody = new ExceptionBody("Validation failed");
+        ExceptionBody exceptionBody = new ExceptionBody(ErrorMessages.VALIDATION_FAILED);
         exceptionBody.setErrors(e.getConstraintViolations().stream()
                 .collect(Collectors.toMap(
                         violation -> violation.getPropertyPath().toString(),
@@ -60,6 +61,6 @@ public class ControllerAdvice {
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ExceptionBody handleException(Exception e){
-        return new ExceptionBody("Internal error");
+        return new ExceptionBody(ErrorMessages.INTERNAL_ERROR);
     }
 }
