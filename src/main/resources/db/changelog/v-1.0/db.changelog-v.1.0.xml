@@ -8,7 +8,6 @@
     <include file="roles/01-changeset-roles-table.xml" relativeToChangelogFile="true"/>
     <include file="addresses/05-changeset-addresses-table.xml" relativeToChangelogFile="true"/>
     <include file="categories/10-changeset-categories-table.xml" relativeToChangelogFile="true"/>
-    <include file="images/15-changeset-images-table.xml" relativeToChangelogFile="true"/>
     <include file="ingredients/20-changeset-ingredients-table.xml" relativeToChangelogFile="true"/>
     <include file="products/25-changeset-products-table.xml" relativeToChangelogFile="true"/>
     <include file="product_ingredients/30-changeset-product_ingredients-table.xml" relativeToChangelogFile="true"/>
