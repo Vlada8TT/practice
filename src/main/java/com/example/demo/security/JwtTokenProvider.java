@@ -83,10 +83,11 @@ public class JwtTokenProvider {
         if (!isValid(refreshToken)) {
             throw new AccessDeniedException();
         }
-        Integer userId = Integer.valueOf(getId(refreshToken));
+
+        Integer userId = getId(refreshToken);
         User user = userService.getById(userId);
 
-        jwtResponse.setId(userId);
+        jwtResponse.setId(user.getId());
         jwtResponse.setEmail(user.getEmail());
         jwtResponse.setAccessToken(
                 createAccessToken(userId, user.getEmail(), user.getRole())
@@ -111,7 +112,7 @@ public class JwtTokenProvider {
                 .after(new Date());
     }
 
-    private String getId(
+    private Integer getId(
             final String token
     ) {
         return Jwts
@@ -120,7 +121,7 @@ public class JwtTokenProvider {
                 .build()
                 .parseSignedClaims(token)
                 .getPayload()
-                .get("id", String.class);
+                .get("id", Integer.class);
     }
 
     private String getEmail(
