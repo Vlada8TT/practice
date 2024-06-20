@@ -11,4 +11,5 @@ public interface AddressRepository extends JpaRepository<Address, Integer> {
     List<Address> findAllByCity(String city);
 
     List<Address> findAllByStreet(String street);
+
 }
