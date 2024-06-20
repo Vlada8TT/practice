@@ -3,6 +3,7 @@ package com.example.demo.service.impl;
 import com.example.demo.dto.request.IngredientRequestDto;
 import com.example.demo.dto.response.IngredientResponseDto;
 import com.example.demo.exception.EntityNotFoundException;
+import com.example.demo.exception.ResourceAlreadyExistsException;
 import com.example.demo.mapper.IngredientMapper;
 import com.example.demo.persistence.entity.Ingredient;
 import com.example.demo.repositories.IngredientRepository;
@@ -70,7 +71,7 @@ public class IngredientServiceImpl implements IngredientService {
     }
 
     private void checkIfNameUnique(IngredientRequestDto ingredientRequestDto){
-        if(ingredientRepository.existByName(ingredientRequestDto.name())){
+        if(ingredientRepository.existsByName(ingredientRequestDto.name())){
             throw new ResourceAlreadyExistsException("ingredient",ingredientRequestDto.name());
         }
     }
