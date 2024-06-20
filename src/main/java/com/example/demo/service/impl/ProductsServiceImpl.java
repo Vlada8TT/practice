@@ -3,6 +3,7 @@ package com.example.demo.service.impl;
 import com.example.demo.dto.request.ProductRequestDto;
 import com.example.demo.dto.response.ProductResponseDto;
 import com.example.demo.exception.EntityNotFoundException;
+import com.example.demo.exception.ResourceAlreadyExistsException;
 import com.example.demo.mapper.ProductMapper;
 import com.example.demo.persistence.entity.*;
 import com.example.demo.repositories.CategoryRepository;
@@ -85,7 +86,7 @@ public class ProductsServiceImpl implements ProductService {
     }
 
     private void checkIfNameUnique(ProductRequestDto productRequestDto){
-        if(productRepository.existByName(productRequestDto.name())){
+        if(productRepository.existsByName(productRequestDto.name())){
             throw new ResourceAlreadyExistsException("product",productRequestDto.name());
         }
     }

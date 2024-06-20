@@ -21,17 +21,25 @@ public class OrderItemsServiceImpl implements OrderItemService {
 
     private final OrderItemRepository orderItemRepository;
     private final OrderItemMapper orderItemMapper;
-    private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
+    private final OrderRepository orderRepository;
 
     @Override
     @Transactional
     public OrderItemResponseDto createOrderItem(OrderItemRequestDto orderItemRequestDto) {
         OrderItem orderItem = orderItemMapper.toEntity(orderItemRequestDto);
-        orderItem.setOrder(findOrderById(orderItemRequestDto));
         orderItem.setProduct(findProductById(orderItemRequestDto));
         orderItemRepository.save(orderItem);
         return orderItemMapper.toDto(orderItem);
+    }
+
+    @Override
+    @Transactional
+    public void addOrderItem(int orderId, OrderItemRequestDto orderItemRequestDto) {
+        OrderItem orderItem = orderItemMapper.toEntity(orderItemRequestDto);
+        orderItem.setOrder(findOrderById(orderId));
+        orderItem.setProduct(findProductById(orderItemRequestDto));
+        orderItemRepository.save(orderItem);
     }
 
     @Override
@@ -58,7 +66,6 @@ public class OrderItemsServiceImpl implements OrderItemService {
 
     private void updateOrderItemFields(OrderItem orderItem, OrderItemRequestDto orderItemRequestDto){
         orderItem = orderItemMapper.toEntity(orderItemRequestDto);
-        orderItem.setOrder(findOrderById(orderItemRequestDto));
         orderItem.setProduct(findProductById(orderItemRequestDto));
     }
 
@@ -67,13 +74,13 @@ public class OrderItemsServiceImpl implements OrderItemService {
                 .orElseThrow(() -> new EntityNotFoundException("order item",id));
     }
 
-    private Order findOrderById(OrderItemRequestDto orderItemRequestDto){
-        return orderRepository.findById(orderItemRequestDto.orderId())
-                .orElseThrow(() -> new EntityNotFoundException("order",orderItemRequestDto.orderId()));
-    }
-
     private Product findProductById(OrderItemRequestDto orderItemRequestDto){
         return productRepository.findById(orderItemRequestDto.productId())
                 .orElseThrow(() -> new EntityNotFoundException("product",orderItemRequestDto.productId()));
+    }
+
+    private Order findOrderById(int id){
+        return orderRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("order",id));
     }
 }
