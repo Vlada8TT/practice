@@ -1,18 +1,13 @@
 package com.example.demo.dto.exception;
-import lombok.AllArgsConstructor;
-import lombok.Data;
+
+import lombok.Builder;
 
 import java.util.Map;
 
-@Data
-@AllArgsConstructor
-public class MultiExceptionBody {
-
-    private String message;
-    private Map<String, String> errors;
-
-    public MultiExceptionBody(String message) {
-        this.message = message;
-    }
+@Builder
+public record MultiExceptionBody(
+        Integer status,
+        String message,
+        Map<String, String> errors) {
 
 }

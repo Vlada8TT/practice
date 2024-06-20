@@ -22,46 +22,62 @@ public class ControllerAdvice {
     @ExceptionHandler(EntityNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ExceptionBody handleEntityNotFound(EntityNotFoundException e){
-        return new ExceptionBody(e.getMessage());
+        return ExceptionBody.builder()
+                .status(HttpStatus.NOT_FOUND.value())
+                .message(e.getMessage())
+                .build();
     }
 
     @ExceptionHandler(ResourceAlreadyExistsException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ExceptionBody handleResourceAlreadyExists(ResourceAlreadyExistsException e){
-        return new ExceptionBody(e.getMessage());
+        return ExceptionBody.builder()
+                .status(HttpStatus.NOT_FOUND.value())
+                .message(e.getMessage())
+                .build();
     }
 
     @ExceptionHandler(IllegalStateException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ExceptionBody handleIllegalState(IllegalStateException e){
-        return new ExceptionBody(e.getMessage());
+        return ExceptionBody.builder()
+                .status(HttpStatus.NOT_FOUND.value())
+                .message(e.getMessage())
+                .build();
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public MultiExceptionBody handleMethodArgumentNotValid(MethodArgumentNotValidException e){
-        MultiExceptionBody multiExceptionBody = new MultiExceptionBody(ErrorMessages.VALIDATION_FAILED_MESSAGE);
         List<FieldError> errors = e.getBindingResult().getFieldErrors();
-        multiExceptionBody.setErrors(errors.stream()
-                .collect(Collectors.toMap(FieldError::getField, FieldError::getDefaultMessage)));
-        return multiExceptionBody;
+        return MultiExceptionBody.builder()
+                .status(HttpStatus.BAD_REQUEST.value())
+                .message(ErrorMessages.VALIDATION_FAILED_MESSAGE)
+                .errors(errors.stream()
+                        .collect(Collectors.toMap(FieldError::getField, FieldError::getDefaultMessage)))
+                .build();
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public MultiExceptionBody handleConstraintViolation(ConstraintViolationException e){
-        MultiExceptionBody multiExceptionBody = new MultiExceptionBody(ErrorMessages.VALIDATION_FAILED_MESSAGE);
-        multiExceptionBody.setErrors(e.getConstraintViolations().stream()
-                .collect(Collectors.toMap(
-                        violation -> violation.getPropertyPath().toString(),
-                        violation -> violation.getMessage()
-                )));
-        return multiExceptionBody;
+        return MultiExceptionBody.builder()
+                .status(HttpStatus.BAD_REQUEST.value())
+                .message(ErrorMessages.VALIDATION_FAILED_MESSAGE)
+                .errors(e.getConstraintViolations().stream()
+                        .collect(Collectors.toMap(
+                                violation -> violation.getPropertyPath().toString(),
+                                violation -> violation.getMessage()
+                        )))
+                .build();
     }
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ExceptionBody handleException(Exception e){
-        return new ExceptionBody(ErrorMessages.INTERNAL_ERROR_MESSAGE);
+        return ExceptionBody.builder()
+                .status(HttpStatus.NOT_FOUND.value())
+                .message(ErrorMessages.INTERNAL_ERROR_MESSAGE)
+                .build();
     }
 }

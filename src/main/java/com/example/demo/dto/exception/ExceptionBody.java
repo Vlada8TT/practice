@@ -1,10 +1,8 @@
 package com.example.demo.dto.exception;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Builder;
 
-@Data
-@AllArgsConstructor
-public class ExceptionBody {
-    private String message;
+@Builder
+public record ExceptionBody(Integer status, String message) {
+
 }
