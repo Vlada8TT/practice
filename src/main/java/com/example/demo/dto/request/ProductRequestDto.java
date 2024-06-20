@@ -18,7 +18,7 @@ public record ProductRequestDto(
         @Length(max = 20, message = "{category.length}", groups = {OnCreate.class, OnUpdate.class})
         CategoryRequestDto category,
 
-        ImageRequestDto image
+        String imagePath
 
 ) {
 }

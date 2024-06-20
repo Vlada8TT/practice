@@ -1,7 +1,0 @@
-CREATE TABLE IF NOT EXISTS images
-(
-    id   SERIAL PRIMARY KEY,
-    path VARCHAR(255) NOT NULL
-)
-
-GO

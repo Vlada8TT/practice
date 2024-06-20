@@ -37,6 +37,5 @@ public class Product implements Serializable {
     )
     private List<Ingredient> ingredients;
 
-    @OneToOne
-    private Image image;
+    private String imagePath;
 }
