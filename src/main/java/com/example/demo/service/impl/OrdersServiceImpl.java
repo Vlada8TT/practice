@@ -26,11 +26,9 @@ public class OrdersServiceImpl implements OrderService {
     @Override
     @Transactional
     public OrderResponseDto createOrder(OrderRequestDto orderRequestDto) {
-
         Order order = orderMapper.toEntity(orderRequestDto);
-        User user = userRepository.findById(orderRequestDto.userId())
-                .orElseThrow(() -> new EntityNotFoundException("user",orderRequestDto.userId()));
-        order.setUser(user);
+        order.setUser(findUserById(orderRequestDto));
+        order.setStatus(OrderStatus.valueOf(orderRequestDto.status()));
         orderRepository.save(order);
         return orderMapper.toDto(order);
     }
@@ -38,24 +36,19 @@ public class OrdersServiceImpl implements OrderService {
     @Override
     @Transactional(readOnly = true)
     public OrderResponseDto getOrderById(int id) {
-
-        return orderMapper.toDto(orderRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("order", id)));
+        return orderMapper.toDto(findOrderById(id));
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<OrderResponseDto> getAllOrders() {
-
         return orderMapper.toDto(orderRepository.findAll());
     }
 
     @Override
     @Transactional
     public OrderResponseDto updateOrder(int id, OrderRequestDto orderRequestDto) {
-
-        Order order = orderRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("order",id));
+        Order order = orderMapper.toEntity(orderRequestDto);
         updateOrderFields(order,orderRequestDto);
         orderRepository.save(order);
         return orderMapper.toDto(order);
@@ -64,18 +57,23 @@ public class OrdersServiceImpl implements OrderService {
     @Override
     @Transactional
     public void deleteOrder(int id) {
-
-        Order order = orderRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("order", id));
+        Order order = findOrderById(id);
         orderRepository.delete(order);
     }
 
     private void updateOrderFields(Order order, OrderRequestDto orderRequestDto){
-
-        User user = userRepository.findById(orderRequestDto.userId())
-                .orElseThrow(() -> new EntityNotFoundException("user",orderRequestDto.userId()));
-        order.setUser(user);
-        order.setOrderDate(orderRequestDto.time());
+        order = orderMapper.toEntity(orderRequestDto);
+        order.setUser(findUserById(orderRequestDto));
         order.setStatus(OrderStatus.valueOf(orderRequestDto.status()));
+    }
+
+    private Order findOrderById(int id) {
+        return orderRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("order", id));
+    }
+
+    private User findUserById(OrderRequestDto orderRequestDto) {
+        return userRepository.findById(orderRequestDto.userId())
+                .orElseThrow(() -> new EntityNotFoundException("user",orderRequestDto.userId()));
     }
 }
