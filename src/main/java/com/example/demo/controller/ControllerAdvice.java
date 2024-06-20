@@ -1,8 +1,9 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.exception.MultiExceptionBody;
 import com.example.demo.exception.EntityNotFoundException;
 import com.example.demo.exception.ErrorMessages;
-import com.example.demo.exception.ExceptionBody;
+import com.example.demo.dto.exception.ExceptionBody;
 import com.example.demo.exception.ResourceAlreadyExistsException;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
@@ -38,29 +39,29 @@ public class ControllerAdvice {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ExceptionBody handleMethodArgumentNotValid(MethodArgumentNotValidException e){
-        ExceptionBody exceptionBody = new ExceptionBody(ErrorMessages.VALIDATION_FAILED);
+    public MultiExceptionBody handleMethodArgumentNotValid(MethodArgumentNotValidException e){
+        MultiExceptionBody multiExceptionBody = new MultiExceptionBody(ErrorMessages.VALIDATION_FAILED_MESSAGE);
         List<FieldError> errors = e.getBindingResult().getFieldErrors();
-        exceptionBody.setErrors(errors.stream()
+        multiExceptionBody.setErrors(errors.stream()
                 .collect(Collectors.toMap(FieldError::getField, FieldError::getDefaultMessage)));
-        return exceptionBody;
+        return multiExceptionBody;
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ExceptionBody handleConstraintViolation(ConstraintViolationException e){
-        ExceptionBody exceptionBody = new ExceptionBody(ErrorMessages.VALIDATION_FAILED);
-        exceptionBody.setErrors(e.getConstraintViolations().stream()
+    public MultiExceptionBody handleConstraintViolation(ConstraintViolationException e){
+        MultiExceptionBody multiExceptionBody = new MultiExceptionBody(ErrorMessages.VALIDATION_FAILED_MESSAGE);
+        multiExceptionBody.setErrors(e.getConstraintViolations().stream()
                 .collect(Collectors.toMap(
                         violation -> violation.getPropertyPath().toString(),
                         violation -> violation.getMessage()
                 )));
-        return exceptionBody;
+        return multiExceptionBody;
     }
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ExceptionBody handleException(Exception e){
-        return new ExceptionBody(ErrorMessages.INTERNAL_ERROR);
+        return new ExceptionBody(ErrorMessages.INTERNAL_ERROR_MESSAGE);
     }
 }
