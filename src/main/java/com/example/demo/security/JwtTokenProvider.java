@@ -2,7 +2,8 @@ package com.example.demo.security;
 
 import com.example.demo.persistence.entity.Role;
 import com.example.demo.persistence.entity.User;
-import com.example.demo.security.dto.JwtResponse;
+import com.example.demo.dto.auth.JwtResponse;
+import com.example.demo.security.exception.AccessDeniedException;
 import com.example.demo.security.props.JwtProperties;
 import com.example.demo.service.UserService;
 import io.jsonwebtoken.Claims;
@@ -11,7 +12,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.access.AccessDeniedException;
+
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -80,7 +81,7 @@ public class JwtTokenProvider {
     ) {
         JwtResponse jwtResponse = new JwtResponse();
         if (!isValid(refreshToken)) {
-            throw new AccessDeniedException("Invalid refresh token");
+            throw new AccessDeniedException();
         }
         Integer userId = Integer.valueOf(getId(refreshToken));
         User user = userService.getById(userId);

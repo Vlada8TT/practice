@@ -1,4 +1,4 @@
-package com.example.demo.security.dto;
+package com.example.demo.dto.auth;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@Schema(description = "Request after login")
+@Schema(description = "Response after login")
 public class JwtResponse {
 
     private Integer id;
