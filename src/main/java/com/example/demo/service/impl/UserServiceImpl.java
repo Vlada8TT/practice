@@ -3,6 +3,7 @@ package com.example.demo.service.impl;
 import com.example.demo.dto.request.UserRequestDto;
 import com.example.demo.dto.response.UserResponseDto;
 import com.example.demo.exception.EntityNotFoundException;
+import com.example.demo.exception.ResourceAlreadyExistsException;
 import com.example.demo.mapper.AddressMapper;
 import com.example.demo.mapper.UserMapper;
 import com.example.demo.persistence.entity.*;
@@ -22,9 +23,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
-    private final AddressRepository addressRepository;
     private final AddressMapper addressMapper;
-    private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Override
@@ -37,13 +36,6 @@ public class UserServiceImpl implements UserService {
         checkIfMobilePhoneUnique(userRequestDto);
         userRepository.save(user);
         return userMapper.toDto(user);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public User getUserByEmail(String email) {
-        return userRepository.findByEmail(email)
-                .orElseThrow(() -> new EntityNotFoundException("user", email));
     }
 
     @Override
