@@ -11,5 +11,5 @@ import java.util.Optional;
 public interface IngredientRepository extends JpaRepository<Ingredient, Integer> {
     Optional<Ingredient> findByName(String name);
 
-    Boolean existByName(String name);
+    Boolean existsByName(String name);
 }

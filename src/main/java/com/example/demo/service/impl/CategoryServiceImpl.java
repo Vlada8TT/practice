@@ -3,6 +3,7 @@ package com.example.demo.service.impl;
 import com.example.demo.dto.request.CategoryRequestDto;
 import com.example.demo.dto.response.CategoryResponseDto;
 import com.example.demo.exception.EntityNotFoundException;
+import com.example.demo.exception.ResourceAlreadyExistsException;
 import com.example.demo.mapper.CategoryMapper;
 import com.example.demo.persistence.entity.Category;
 import com.example.demo.repositories.CategoryRepository;

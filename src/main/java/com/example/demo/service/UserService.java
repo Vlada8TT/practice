@@ -11,8 +11,6 @@ public interface UserService {
 
     UserResponseDto getUserById(int id);
 
-    User getUserByEmail(String email);
-
     List<UserResponseDto> getAllUsers();
 
     UserResponseDto updateUser(int id, UserRequestDto user);
