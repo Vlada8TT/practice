@@ -6,8 +6,11 @@ import java.util.Map;
 
 @Builder
 public record MultiExceptionBody(
-        Integer status,
-        String message,
-        Map<String, String> errors) {
 
+        Integer status,
+
+        String message,
+
+        Map<String, String> errors
+) {
 }
