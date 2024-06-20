@@ -11,6 +11,6 @@ public record ProductResponseDto(
 
         CategoryResponseDto category,
 
-        ImageResponseDto image
+        String image
 ) {
 }
