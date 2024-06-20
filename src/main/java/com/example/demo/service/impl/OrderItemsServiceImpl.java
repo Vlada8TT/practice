@@ -1,6 +1,7 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.dto.request.OrderItemRequestDto;
+import com.example.demo.dto.request.ProductRequestDto;
 import com.example.demo.dto.response.OrderItemResponseDto;
 import com.example.demo.exception.EntityNotFoundException;
 import com.example.demo.mapper.OrderItemMapper;
@@ -26,14 +27,9 @@ public class OrderItemsServiceImpl implements OrderItemService {
     @Override
     @Transactional
     public OrderItemResponseDto createOrderItem(OrderItemRequestDto orderItemRequestDto) {
-
         OrderItem orderItem = orderItemMapper.toEntity(orderItemRequestDto);
-        Order order = orderRepository.findById(orderItemRequestDto.orderId())
-                .orElseThrow(() -> new EntityNotFoundException("order",orderItemRequestDto.orderId()));
-        Product product = productRepository.findById(orderItemRequestDto.productId())
-                .orElseThrow(() -> new EntityNotFoundException("product",orderItemRequestDto.productId()));
-        orderItem.setOrder(order);
-        orderItem.setProduct(product);
+        orderItem.setOrder(findOrderById(orderItemRequestDto));
+        orderItem.setProduct(findProductById(orderItemRequestDto));
         orderItemRepository.save(orderItem);
         return orderItemMapper.toDto(orderItem);
     }
@@ -41,16 +37,13 @@ public class OrderItemsServiceImpl implements OrderItemService {
     @Override
     @Transactional(readOnly = true)
     public List<OrderItemResponseDto> getAllOrderItems() {
-
         return orderItemMapper.toDto(orderItemRepository.findAll());
     }
 
     @Override
     @Transactional
     public OrderItemResponseDto updateOrderItem(int id, OrderItemRequestDto orderItemRequestDto) {
-
-        OrderItem orderItem = orderItemRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("order item",id));
+        OrderItem orderItem = orderItemMapper.toEntity(orderItemRequestDto);
         updateOrderItemFields(orderItem,orderItemRequestDto);
         orderItemRepository.save(orderItem);
         return orderItemMapper.toDto(orderItem);
@@ -59,20 +52,28 @@ public class OrderItemsServiceImpl implements OrderItemService {
     @Override
     @Transactional
     public void deleteOrderItem(int id) {
-
-        OrderItem orderItem = orderItemRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("order item",id));
+        OrderItem orderItem = findOrderItemById(id);
         orderItemRepository.delete(orderItem);
     }
 
     private void updateOrderItemFields(OrderItem orderItem, OrderItemRequestDto orderItemRequestDto){
+        orderItem = orderItemMapper.toEntity(orderItemRequestDto);
+        orderItem.setOrder(findOrderById(orderItemRequestDto));
+        orderItem.setProduct(findProductById(orderItemRequestDto));
+    }
 
-        Order order = orderRepository.findById(orderItemRequestDto.orderId())
+    private OrderItem findOrderItemById(int id){
+        return orderItemRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("order item",id));
+    }
+
+    private Order findOrderById(OrderItemRequestDto orderItemRequestDto){
+        return orderRepository.findById(orderItemRequestDto.orderId())
                 .orElseThrow(() -> new EntityNotFoundException("order",orderItemRequestDto.orderId()));
-        Product product = productRepository.findById(orderItemRequestDto.productId())
+    }
+
+    private Product findProductById(OrderItemRequestDto orderItemRequestDto){
+        return productRepository.findById(orderItemRequestDto.productId())
                 .orElseThrow(() -> new EntityNotFoundException("product",orderItemRequestDto.productId()));
-        orderItem.setOrder(order);
-        orderItem.setProduct(product);
-        orderItem.setQuantity(orderItemRequestDto.quantity());
     }
 }

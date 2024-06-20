@@ -23,11 +23,8 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     @Transactional
     public CategoryResponseDto createCategory(CategoryRequestDto categoryRequestDto) {
-
         Category category = categoryMapper.toEntity(categoryRequestDto);
-        if(categoryRepository.findByName(categoryRequestDto.name()).isPresent()){
-            throw new ResourceAlreadyExistsException("category",categoryRequestDto.name());
-        }
+        checkIfNameUnique(categoryRequestDto);
         categoryRepository.save(category);
         return categoryMapper.toDto(category);
     }
@@ -35,27 +32,20 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     @Transactional(readOnly = true)
     public CategoryResponseDto getCategoryById(int id) {
-
-        return categoryMapper.toDto(categoryRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("category", id)));
+        return categoryMapper.toDto(findCategoryById(id));
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<CategoryResponseDto> getAllCategories() {
-
         return categoryMapper.toDto(categoryRepository.findAll());
     }
 
     @Override
     @Transactional
     public CategoryResponseDto updateCategory(int id, CategoryRequestDto categoryRequestDto) {
-
-        Category category = categoryRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("category", id));
-        if(categoryRepository.findByName(categoryRequestDto.name()).isPresent()){
-            throw new ResourceAlreadyExistsException("category",categoryRequestDto.name());
-        }
+        Category category = categoryMapper.toEntity(categoryRequestDto);
+        checkIfNameUnique(categoryRequestDto);
         updateCategoryFields(category, categoryRequestDto);
         categoryRepository.save(category);
         return categoryMapper.toDto(category);
@@ -64,14 +54,22 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     @Transactional
     public void deleteCategory(int id) {
-
-        Category category = categoryRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("category", id));
+        Category category = findCategoryById(id);
         categoryRepository.delete(category);
     }
 
     private void updateCategoryFields(Category category, CategoryRequestDto categoryRequestDto){
+        category = categoryMapper.toEntity(categoryRequestDto);
+    }
 
-        category.setName(categoryRequestDto.name());
+    private Category findCategoryById(int id){
+        return categoryRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("category", id));
+    }
+
+    private void checkIfNameUnique(CategoryRequestDto categoryRequestDto){
+        if(categoryRepository.existsByName(categoryRequestDto.name())){
+            throw new ResourceAlreadyExistsException("category",categoryRequestDto.name());
+        }
     }
 }
