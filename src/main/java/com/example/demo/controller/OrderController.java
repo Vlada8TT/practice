@@ -22,15 +22,15 @@ public class OrderController {
 
     @PostMapping("/{id}/order")
     public OrderResponseDto createOrder(
-            @Validated(OnCreate.class) @PathVariable int id,
-            @RequestBody OrderRequestDto orderDto) {
+            @PathVariable int id,
+            @Validated(OnCreate.class) @RequestBody OrderRequestDto orderDto) {
         return orderService.createOrder(orderDto);
     }
 
     @PutMapping
     public OrderResponseDto update(
-            @Validated(OnUpdate.class) @PathVariable int id,
-            @RequestBody OrderRequestDto orderDto) {
+            @PathVariable int id,
+            @Validated(OnUpdate.class) @RequestBody OrderRequestDto orderDto) {
         return orderService.updateOrder(id, orderDto);
     }
 

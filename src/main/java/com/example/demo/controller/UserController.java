@@ -31,8 +31,8 @@ public class UserController {
 
     @PutMapping
     public UserResponseDto update(
-            @Validated(OnUpdate.class) @PathVariable int id,
-            @RequestBody UserRequestDto userDto) {
+            @PathVariable int id,
+            @Validated(OnUpdate.class) @RequestBody UserRequestDto userDto) {
         return userService.updateUser(id, userDto);
     }
 
@@ -47,7 +47,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}/orders")
-    public List<OrderResponseDto> getOrderByUserId(@PathVariable int id) {
+    public List<OrderResponseDto> getOrdersByUserId(@PathVariable int id) {
         return orderService.getAllOrders();
     }
 }

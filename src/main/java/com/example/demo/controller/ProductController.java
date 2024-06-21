@@ -18,8 +18,8 @@ public class ProductController {
 
     @PostMapping
     public ProductResponseDto createProduct(
-            @Validated(OnCreate.class)
-            @RequestBody ProductRequestDto productDto) {
+            @Validated(OnCreate.class) @RequestBody ProductRequestDto productDto
+    ) {
         return productService.createProduct(productDto);
     }
 
