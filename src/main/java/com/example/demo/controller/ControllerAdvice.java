@@ -5,6 +5,7 @@ import com.example.demo.exception.EntityNotFoundException;
 import com.example.demo.exception.ErrorMessages;
 import com.example.demo.dto.exception.ExceptionBody;
 import com.example.demo.exception.ResourceAlreadyExistsException;
+import com.example.demo.security.exception.AccessDeniedException;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
@@ -86,6 +87,18 @@ public class ControllerAdvice {
         return ExceptionBody.builder()
                 .status(HttpStatus.NOT_FOUND.value())
                 .message(ErrorMessages.INTERNAL_ERROR_MESSAGE)
+                .build();
+    }
+
+    @ExceptionHandler({
+            AccessDeniedException.class,
+            org.springframework.security.access.AccessDeniedException.class
+    })
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public ExceptionBody handleAccessDenied() {
+        return ExceptionBody.builder()
+                .status(HttpStatus.FORBIDDEN.value())
+                .message("Access denied.")
                 .build();
     }
 }
