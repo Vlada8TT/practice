@@ -5,9 +5,9 @@ import java.time.LocalDateTime;
 public record OrderResponseDto(
         Integer id,
 
-        Integer user_id,
+        Integer userId,
 
-        LocalDateTime time,
+        LocalDateTime orderDate,
 
         String status
 ) {

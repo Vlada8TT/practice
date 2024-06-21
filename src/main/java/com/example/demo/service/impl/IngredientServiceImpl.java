@@ -23,9 +23,8 @@ public class IngredientServiceImpl implements IngredientService {
     @Override
     @Transactional
     public IngredientResponseDto createIngredient(IngredientRequestDto ingredientRequestDto) {
-
-        Ingredient ingredient = ingredientMapper.toEntity(ingredientRequestDto);
         checkIfNameUnique(ingredientRequestDto);
+        Ingredient ingredient = ingredientMapper.toEntity(ingredientRequestDto);
         ingredientRepository.save(ingredient);
         return ingredientMapper.toDto(ingredient);
     }
@@ -33,23 +32,23 @@ public class IngredientServiceImpl implements IngredientService {
     @Override
     @Transactional(readOnly = true)
     public IngredientResponseDto getIngredientById(int id) {
-
         return ingredientMapper.toDto(findIngredientById(id));
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<IngredientResponseDto> getAllIngredients() {
-
         return ingredientMapper.toDto(ingredientRepository.findAll());
     }
 
     @Override
     @Transactional
     public IngredientResponseDto updateIngredient(int id, IngredientRequestDto ingredientRequestDto) {
-        Ingredient ingredient = ingredientMapper.toEntity(ingredientRequestDto);
-        checkIfNameUnique(ingredientRequestDto);
-        updateIngredientFields(ingredient,ingredientRequestDto);
+        Ingredient ingredient = findIngredientById(id);
+        if(!ingredientRequestDto.name().equals(ingredient.getName())) {
+            checkIfNameUnique(ingredientRequestDto);
+        }
+        ingredientMapper.updateIngredientFromDto(ingredientRequestDto,ingredient);
         ingredientRepository.save(ingredient);
         return ingredientMapper.toDto(ingredient);
     }
@@ -59,10 +58,6 @@ public class IngredientServiceImpl implements IngredientService {
     public void deleteIngredient(int id) {
         Ingredient ingredient = findIngredientById(id);
         ingredientRepository.delete(ingredient);
-    }
-
-    private void updateIngredientFields(Ingredient ingredient, IngredientRequestDto ingredientRequestDto){
-        ingredient = ingredientMapper.toEntity(ingredientRequestDto);
     }
 
     private Ingredient findIngredientById(int id){

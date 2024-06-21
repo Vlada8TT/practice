@@ -17,7 +17,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class ProductsServiceImpl implements ProductService {
+public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
     private final ProductMapper productMapper;
@@ -27,10 +27,10 @@ public class ProductsServiceImpl implements ProductService {
     @Override
     @Transactional
     public ProductResponseDto createProduct(ProductRequestDto productRequestDto) {
+        checkIfNameUnique(productRequestDto);
         Product product = productMapper.toEntity(productRequestDto);
         product.setCategory(findCategoryById(productRequestDto));
         product.setImage(findImageById(productRequestDto));
-        checkIfNameUnique(productRequestDto);
         productRepository.save(product);
         return productMapper.toDto(product);
     }
@@ -51,8 +51,12 @@ public class ProductsServiceImpl implements ProductService {
     @Transactional
     public ProductResponseDto updateProduct(int id, ProductRequestDto productRequestDto) {
         Product product = findProductById(id);
-        checkIfNameUnique(productRequestDto);
-        updateProductFields(product,productRequestDto);
+        if(!productRequestDto.name().equals(product.getName())) {
+            checkIfNameUnique(productRequestDto);
+        }
+        productMapper.updateProductFromDto(productRequestDto,product);
+        product.setImage(findImageById(productRequestDto));
+        product.setCategory(findCategoryById(productRequestDto));
         productRepository.save(product);
         return productMapper.toDto(product);
     }
@@ -62,12 +66,6 @@ public class ProductsServiceImpl implements ProductService {
     public void deleteProduct(int id) {
         Product product = findProductById(id);
         productRepository.delete(product);
-    }
-
-    private void updateProductFields(Product product, ProductRequestDto productRequestDto){
-        product = productMapper.toEntity(productRequestDto);
-        product.setImage(findImageById(productRequestDto));
-        product.setCategory(findCategoryById(productRequestDto));
     }
 
     private Product findProductById(int id) {
