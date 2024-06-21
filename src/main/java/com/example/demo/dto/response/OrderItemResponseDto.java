@@ -3,9 +3,9 @@ package com.example.demo.dto.response;
 public record OrderItemResponseDto(
         Integer id,
 
-        Integer user_id,
+        Integer orderId,
 
-        Integer product_id,
+        Integer productId,
 
         Integer quantity
 ) {

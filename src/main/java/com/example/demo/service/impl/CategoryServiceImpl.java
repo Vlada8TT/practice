@@ -24,8 +24,8 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     @Transactional
     public CategoryResponseDto createCategory(CategoryRequestDto categoryRequestDto) {
-        Category category = categoryMapper.toEntity(categoryRequestDto);
         checkIfNameUnique(categoryRequestDto);
+        Category category = categoryMapper.toEntity(categoryRequestDto);
         categoryRepository.save(category);
         return categoryMapper.toDto(category);
     }
@@ -45,9 +45,11 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     @Transactional
     public CategoryResponseDto updateCategory(int id, CategoryRequestDto categoryRequestDto) {
-        Category category = categoryMapper.toEntity(categoryRequestDto);
-        checkIfNameUnique(categoryRequestDto);
-        updateCategoryFields(category, categoryRequestDto);
+        Category category = findCategoryById(id);
+        if(!categoryRequestDto.name().equals(category.getName())) {
+            checkIfNameUnique(categoryRequestDto);
+        }
+        categoryMapper.updateCategoryFromDto(categoryRequestDto,category);
         categoryRepository.save(category);
         return categoryMapper.toDto(category);
     }
@@ -57,10 +59,6 @@ public class CategoryServiceImpl implements CategoryService {
     public void deleteCategory(int id) {
         Category category = findCategoryById(id);
         categoryRepository.delete(category);
-    }
-
-    private void updateCategoryFields(Category category, CategoryRequestDto categoryRequestDto){
-        category = categoryMapper.toEntity(categoryRequestDto);
     }
 
     private Category findCategoryById(int id){

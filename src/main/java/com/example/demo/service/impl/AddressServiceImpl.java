@@ -1,8 +1,10 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.dto.request.AddressRequestDto;
+import com.example.demo.dto.request.UserRequestDto;
 import com.example.demo.exception.EntityNotFoundException;
 import com.example.demo.dto.response.AddressResponseDto;
+import com.example.demo.exception.ResourceAlreadyExistsException;
 import com.example.demo.mapper.AddressMapper;
 import com.example.demo.persistence.entity.Address;
 import com.example.demo.repositories.AddressRepository;
@@ -43,8 +45,8 @@ public class AddressServiceImpl implements AddressService {
     @Override
     @Transactional
     public AddressResponseDto updateAddress(int id, AddressRequestDto addressRequestDto) {
-        Address address = addressMapper.toEntity(addressRequestDto);
-        updateAddressFields(address, addressRequestDto);
+        Address address = findAddressById(id);
+        addressMapper.updateAddressFromDto(addressRequestDto,address);
         addressRepository.save(address);
         return addressMapper.toDto(address);
     }
@@ -54,10 +56,6 @@ public class AddressServiceImpl implements AddressService {
     public void deleteAddress(int id) {
         Address address = findAddressById(id);
         addressRepository.delete(address);
-    }
-
-    private void updateAddressFields(Address address, AddressRequestDto addressRequestDto){
-        address = addressMapper.toEntity(addressRequestDto);
     }
 
     private Address findAddressById(int id) {
