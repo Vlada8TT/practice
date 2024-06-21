@@ -3,6 +3,7 @@ package com.example.demo.service;
 import com.example.demo.dto.request.UserRequestDto;
 import com.example.demo.dto.response.UserResponseDto;
 import com.example.demo.persistence.entity.User;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -19,4 +20,8 @@ public interface UserService {
 
     User getByEmail(String email);
     User getById(Integer id);
+    public boolean isOrderOwner(
+            final Integer userId,
+            final Integer taskId
+    );
 }
