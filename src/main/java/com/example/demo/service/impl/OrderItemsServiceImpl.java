@@ -33,6 +33,8 @@ public class OrderItemsServiceImpl implements OrderItemService {
         return orderItemMapper.toDto(orderItem);
     }
 
+       //TODO maybe method addOrderItem unnecessary
+
     @Override
     @Transactional
     public void addOrderItem(int orderId, OrderItemRequestDto orderItemRequestDto) {
@@ -51,8 +53,9 @@ public class OrderItemsServiceImpl implements OrderItemService {
     @Override
     @Transactional
     public OrderItemResponseDto updateOrderItem(int id, OrderItemRequestDto orderItemRequestDto) {
-        OrderItem orderItem = orderItemMapper.toEntity(orderItemRequestDto);
-        updateOrderItemFields(orderItem,orderItemRequestDto);
+        OrderItem orderItem = findOrderItemById(id);
+        orderItemMapper.updateOrderItemFromDto(orderItemRequestDto,orderItem);
+        orderItem.setProduct(findProductById(orderItemRequestDto));
         orderItemRepository.save(orderItem);
         return orderItemMapper.toDto(orderItem);
     }
@@ -64,10 +67,6 @@ public class OrderItemsServiceImpl implements OrderItemService {
         orderItemRepository.delete(orderItem);
     }
 
-    private void updateOrderItemFields(OrderItem orderItem, OrderItemRequestDto orderItemRequestDto){
-        orderItem = orderItemMapper.toEntity(orderItemRequestDto);
-        orderItem.setProduct(findProductById(orderItemRequestDto));
-    }
 
     private OrderItem findOrderItemById(int id){
         return orderItemRepository.findById(id)

@@ -13,10 +13,11 @@ import java.util.List;
 public interface AddressMapper {
     AddressResponseDto toDto(Address address);
 
-    void updateAddressFromDto(AddressRequestDto addressRequestDto, @MappingTarget Address
-            address);
+    void updateAddressFromDto(AddressRequestDto addressRequestDto,@MappingTarget Address address);
 
     List<AddressResponseDto> toDto(List<Address> address);
 
     Address toEntity(AddressRequestDto dto);
+
+    Address toEntity(AddressResponseDto dto);
 }
