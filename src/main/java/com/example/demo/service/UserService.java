@@ -20,7 +20,7 @@ public interface UserService {
 
     User getByEmail(String email);
     User getById(Integer id);
-    public boolean isOrderOwner(
+    boolean isOrderOwner(
             final Integer userId,
             final Integer orderId
     );
