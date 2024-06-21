@@ -4,9 +4,11 @@ package com.example.demo.service.impl;
 import com.example.demo.dto.request.OrderRequestDto;
 import com.example.demo.dto.response.OrderResponseDto;
 import com.example.demo.service.OrderService;
-import java.util.List;
+import org.springframework.stereotype.Service;
 
-public class OrdersServiceImpl implements OrderService {
+import java.util.List;
+@Service
+public class OrderServiceImpl implements OrderService {
     @Override
     public OrderResponseDto createOrder(OrderRequestDto order) {
         return null;
