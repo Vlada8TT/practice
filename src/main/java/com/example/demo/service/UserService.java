@@ -22,6 +22,6 @@ public interface UserService {
     User getById(Integer id);
     public boolean isOrderOwner(
             final Integer userId,
-            final Integer taskId
+            final Integer orderId
     );
 }

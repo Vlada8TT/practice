@@ -53,8 +53,8 @@ public class UserServiceImpl implements UserService {
 
     public boolean isOrderOwner(
             final Integer userId,
-            final Integer taskId
+            final Integer orderId
     ) {
-        return userRepository.isOrderOwner(userId, taskId);
+        return userRepository.isOrderOwner(userId, orderId);
     }
 }
