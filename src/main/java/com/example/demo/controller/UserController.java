@@ -1,6 +1,5 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.request.OrderRequestDto;
 import com.example.demo.dto.request.UserRequestDto;
 import com.example.demo.dto.response.OrderResponseDto;
 import com.example.demo.dto.response.UserResponseDto;
@@ -11,6 +10,7 @@ import com.example.demo.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
@@ -22,32 +22,32 @@ public class UserController {
     private final UserService userService;
     private final OrderService orderService;
 
+    @PostMapping("/api/v1/users")
+    public UserResponseDto createUser(
+            @Validated(OnCreate.class)
+            @RequestBody UserRequestDto userDto) {
+        return userService.createUser(userDto);
+    }
+
     @PutMapping
-    public UserResponseDto update(@Validated(OnUpdate.class) @PathVariable int id, @RequestBody UserRequestDto userDto){
-        UserResponseDto updateUser = userService.updateUser(id, userDto);
-        return updateUser;
+    public UserResponseDto update(
+            @Validated(OnUpdate.class) @PathVariable int id,
+            @RequestBody UserRequestDto userDto) {
+        return userService.updateUser(id, userDto);
     }
 
     @GetMapping("/{id}")
-    public UserResponseDto getById(@PathVariable int id){
-        UserResponseDto user = userService.getUserById(id);
-        return user;
+    public UserResponseDto getById(@PathVariable int id) {
+        return userService.getUserById(id);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteById(@PathVariable int id){
+    public void deleteById(@PathVariable int id) {
         userService.deleteUser(id);
     }
 
-    @GetMapping("/{id}/Order")
-    public List<OrderResponseDto> getOrderByUserId(@PathVariable int id){
-        List<OrderResponseDto> order = orderService.getAllOrders();
-        return order;
-    }
-
-    @PostMapping("/{id}/Order")
-    public OrderResponseDto createOrder(@Validated(OnCreate.class) @PathVariable int id, @RequestBody OrderRequestDto orderDto){
-        OrderResponseDto createdOrder = orderService.createOrder(orderDto);
-        return createdOrder;
+    @GetMapping("/{id}/orders")
+    public List<OrderResponseDto> getOrderByUserId(@PathVariable int id) {
+        return orderService.getAllOrders();
     }
 }

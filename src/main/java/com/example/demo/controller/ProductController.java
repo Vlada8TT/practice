@@ -12,30 +12,29 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/Product")
+@RequestMapping("/api/v1/products")
 public class ProductController {
     private final ProductService productService;
 
     @PostMapping
-    public ProductResponseDto createProduct(@Validated(OnCreate.class) @RequestBody ProductRequestDto productDto) {
-        ProductResponseDto createdProduct = productService.createProduct(productDto);
-        return createdProduct;
+    public ProductResponseDto createProduct(
+            @Validated(OnCreate.class)
+            @RequestBody ProductRequestDto productDto) {
+        return productService.createProduct(productDto);
     }
 
     @GetMapping
     public List<ProductResponseDto> getAllProducts() {
-        List<ProductResponseDto> products = productService.getAllProducts();
-        return products;
-    }
+        return productService.getAllProducts();
+    }   
 
     @GetMapping("/{id}")
-    public ProductResponseDto getProductById(@PathVariable int id){
-        ProductResponseDto product = productService.getProductById(id);
-        return product;
+    public ProductResponseDto getProductById(@PathVariable int id) {
+        return productService.getProductById(id);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteById(@PathVariable int id){
+    public void deleteById(@PathVariable int id) {
         productService.deleteProduct(id);
     }
 }
