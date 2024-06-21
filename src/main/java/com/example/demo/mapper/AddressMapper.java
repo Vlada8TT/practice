@@ -18,4 +18,6 @@ public interface AddressMapper {
     List<AddressResponseDto> toDto(List<Address> address);
 
     Address toEntity(AddressRequestDto dto);
+
+    Address toEntity(AddressResponseDto dto);
 }
