@@ -8,6 +8,7 @@ import com.example.demo.dto.validation.OnUpdate;
 import com.example.demo.service.OrderService;
 import com.example.demo.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,6 +31,7 @@ public class UserController {
     }
 
     @PutMapping
+    @PreAuthorize("canAccessUser(#id)")
     public UserResponseDto update(
             @PathVariable int id,
             @Validated(OnUpdate.class) @RequestBody UserRequestDto userDto) {
@@ -37,16 +39,19 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("canAccessUser(#id)")
     public UserResponseDto getById(@PathVariable int id) {
         return userService.getUserById(id);
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("canAccessUser(#id)")
     public void deleteById(@PathVariable int id) {
         userService.deleteUser(id);
     }
 
     @GetMapping("/{id}/orders")
+    @PreAuthorize("canAccessUser(#id)")
     public List<OrderResponseDto> getOrdersByUserId(@PathVariable int id) {
         return orderService.getAllOrders();
     }
