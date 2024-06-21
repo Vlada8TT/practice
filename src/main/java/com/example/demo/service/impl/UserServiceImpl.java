@@ -25,15 +25,16 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
     private final AddressMapper addressMapper;
     private final PasswordEncoder passwordEncoder;
+    private final AddressServiceImpl addressService;
 
     @Override
     @Transactional
     public UserResponseDto createUser(UserRequestDto userRequestDto) {
-        User user = userMapper.toEntity(userRequestDto);
-        user.setAddress(addressMapper.toEntity(userRequestDto.addressRequestDto()));
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
         checkIfEmailUnique(userRequestDto);
         checkIfMobilePhoneUnique(userRequestDto);
+        User user = userMapper.toEntity(userRequestDto);
+        user.setAddress(addressMapper.toEntity(addressService.createAddress(userRequestDto.addressRequestDto())));
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
         return userMapper.toDto(user);
     }
@@ -54,12 +55,20 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public UserResponseDto updateUser(int id, UserRequestDto userRequestDto) {
         User user = findUserById(id);
-        checkIfEmailUnique(userRequestDto);
-        checkIfMobilePhoneUnique(userRequestDto);
-        updateUserFields(user,userRequestDto);
+        if (!userRequestDto.email().equals(user.getEmail())) {
+            checkIfEmailUnique(userRequestDto);
+        }
+        if (!userRequestDto.mobilePhone().equals(user.getMobilePhone())) {
+            checkIfMobilePhoneUnique(userRequestDto);
+        }
+        userMapper.updateUserFromDto(userRequestDto,user);
+        addressService.updateAddress(user.getAddress().getId(),userRequestDto.addressRequestDto());
+        user.setPassword(passwordEncoder.encode(userRequestDto.password()));
         userRepository.save(user);
         return userMapper.toDto(user);
     }
+
+    //TODO method setUserRole
 
     @Override
     @Transactional
@@ -68,21 +77,15 @@ public class UserServiceImpl implements UserService {
         userRepository.delete(user);
     }
 
-    private void updateUserFields(User user, UserRequestDto userRequestDto){
-        user = userMapper.toEntity(userRequestDto);
-        user.setAddress(addressMapper.toEntity(userRequestDto.addressRequestDto()));
-        user.setPassword(passwordEncoder.encode(userRequestDto.password()));
-    }
-
     private void checkIfEmailUnique(UserRequestDto userRequestDto){
         if(userRepository.existsByEmail(userRequestDto.email())){
-            throw new ResourceAlreadyExistsException("User",userRequestDto.email());
+            throw new ResourceAlreadyExistsException("user",userRequestDto.email());
         }
     }
 
     private void checkIfMobilePhoneUnique(UserRequestDto userRequestDto){
         if(userRepository.existsByMobilePhone(userRequestDto.mobilePhone())){
-            throw new ResourceAlreadyExistsException("User",userRequestDto.mobilePhone());
+            throw new ResourceAlreadyExistsException("user",userRequestDto.mobilePhone());
         }
     }
 

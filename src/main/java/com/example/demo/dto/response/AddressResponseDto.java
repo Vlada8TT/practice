@@ -3,9 +3,9 @@ package com.example.demo.dto.response;
 public record AddressResponseDto(
         Integer id,
 
-        String apartment_number,
+        String apartmentNumber,
 
-        String house_number,
+        String houseNumber,
 
         String city,
 

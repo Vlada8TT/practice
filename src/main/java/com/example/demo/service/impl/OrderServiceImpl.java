@@ -17,7 +17,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class OrdersServiceImpl implements OrderService {
+public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
     private final OrderMapper orderMapper;
@@ -48,8 +48,10 @@ public class OrdersServiceImpl implements OrderService {
     @Override
     @Transactional
     public OrderResponseDto updateOrder(int id, OrderRequestDto orderRequestDto) {
-        Order order = orderMapper.toEntity(orderRequestDto);
-        updateOrderFields(order,orderRequestDto);
+        Order order = findOrderById(id);
+        orderMapper.updateOrderFromDto(orderRequestDto,order);
+        order.setUser(findUserById(orderRequestDto));
+        order.setStatus(OrderStatus.valueOf(orderRequestDto.status()));
         orderRepository.save(order);
         return orderMapper.toDto(order);
     }
@@ -59,12 +61,6 @@ public class OrdersServiceImpl implements OrderService {
     public void deleteOrder(int id) {
         Order order = findOrderById(id);
         orderRepository.delete(order);
-    }
-
-    private void updateOrderFields(Order order, OrderRequestDto orderRequestDto){
-        order = orderMapper.toEntity(orderRequestDto);
-        order.setUser(findUserById(orderRequestDto));
-        order.setStatus(OrderStatus.valueOf(orderRequestDto.status()));
     }
 
     private Order findOrderById(int id) {
