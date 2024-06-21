@@ -50,4 +50,11 @@ public class UserServiceImpl implements UserService {
     public User getById(Integer id) {
         return userRepository.findById(id).get();
     }
+
+    public boolean isOrderOwner(
+            final Integer userId,
+            final Integer taskId
+    ) {
+        return userRepository.isOrderOwner(userId, taskId);
+    }
 }
