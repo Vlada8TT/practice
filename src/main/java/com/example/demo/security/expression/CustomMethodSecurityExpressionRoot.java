@@ -42,14 +42,14 @@ public class CustomMethodSecurityExpressionRoot
     }
 
     public boolean canAccessOrder(
-            final Integer taskId
+            final Integer orderId
     ) {
         Authentication authentication = SecurityContextHolder.getContext()
                 .getAuthentication();
         JwtEntity user = (JwtEntity) authentication.getPrincipal();
         Integer id = user.getId();
 
-        return userService.isOrderOwner(id, taskId);
+        return userService.isOrderOwner(id, orderId);
     }
 
     @Override
