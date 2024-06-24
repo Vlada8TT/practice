@@ -12,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import static com.example.demo.util.ExceptionSourceName.CATEGORY;
+
 import java.util.List;
 
 @Service
@@ -63,12 +65,12 @@ public class CategoryServiceImpl implements CategoryService {
 
     private Category findCategoryById(int id){
         return categoryRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("category", id));
+                .orElseThrow(() -> new EntityNotFoundException(CATEGORY, id));
     }
 
     private void checkIfNameUnique(CategoryRequestDto categoryRequestDto){
         if(categoryRepository.existsByName(categoryRequestDto.name())){
-            throw new ResourceAlreadyExistsException("category",categoryRequestDto.name());
+            throw new ResourceAlreadyExistsException(CATEGORY,categoryRequestDto.name());
         }
     }
 }
