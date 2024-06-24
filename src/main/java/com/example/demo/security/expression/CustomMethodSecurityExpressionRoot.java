@@ -49,7 +49,7 @@ public class CustomMethodSecurityExpressionRoot
         JwtEntity user = (JwtEntity) authentication.getPrincipal();
         Integer id = user.getId();
 
-        return userService.isOrderOwner(id, orderId);
+        return userService.isOrderOwner(id, orderId) || hasAnyRole("ROLE_ADMIN");
     }
 
     @Override
