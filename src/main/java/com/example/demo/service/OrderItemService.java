@@ -6,7 +6,6 @@ import com.example.demo.dto.response.OrderItemResponseDto;
 import java.util.List;
 
 public interface OrderItemService {
-    OrderItemResponseDto createOrderItem(OrderItemRequestDto orderItem);
 
     List<OrderItemResponseDto> getAllOrderItems();
 

@@ -13,6 +13,10 @@ import com.example.demo.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import static com.example.demo.util.ExceptionSourceName.PRODUCT;
+import static com.example.demo.util.ExceptionSourceName.CATEGORY;
+
 import java.util.List;
 
 @Service
@@ -23,6 +27,9 @@ public class ProductServiceImpl implements ProductService {
     private final ProductMapper productMapper;
     private final CategoryRepository categoryRepository;
     private final ImageRepository imageRepository;
+
+
+    //TODO image remake
 
     @Override
     @Transactional
@@ -70,7 +77,7 @@ public class ProductServiceImpl implements ProductService {
 
     private Product findProductById(int id) {
         return productRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("product", id));
+                .orElseThrow(() -> new EntityNotFoundException(PRODUCT, id));
     }
 
     private Image findImageById(ProductRequestDto productRequestDto) {
@@ -80,12 +87,12 @@ public class ProductServiceImpl implements ProductService {
 
     private Category findCategoryById(ProductRequestDto productRequestDto) {
         return categoryRepository.findById(productRequestDto.categoryId())
-                .orElseThrow(() -> new EntityNotFoundException("category",productRequestDto.categoryId()));
+                .orElseThrow(() -> new EntityNotFoundException(CATEGORY,productRequestDto.categoryId()));
     }
 
     private void checkIfNameUnique(ProductRequestDto productRequestDto){
         if(productRepository.existsByName(productRequestDto.name())){
-            throw new ResourceAlreadyExistsException("product",productRequestDto.name());
+            throw new ResourceAlreadyExistsException(PRODUCT,productRequestDto.name());
         }
     }
 }
