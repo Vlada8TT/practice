@@ -79,7 +79,7 @@ public class JwtTokenProvider {
     public JwtResponse refreshUserTokens(
             final String refreshToken
     ) {
-        JwtResponse jwtResponse = new JwtResponse();
+
         if (!isValid(refreshToken)) {
             throw new AccessDeniedException();
         }
@@ -87,16 +87,13 @@ public class JwtTokenProvider {
         Integer userId = getId(refreshToken);
         User user = userService.getById(userId);
 
-        jwtResponse.setId(user.getId());
-        jwtResponse.setEmail(user.getEmail());
-        jwtResponse.setAccessToken(
-                createAccessToken(userId, user.getEmail(), user.getRole())
-        );
-        jwtResponse.setRefreshToken(
+        return new JwtResponse(
+                user.getId(),
+                user.getEmail(),
+                createAccessToken(userId, user.getEmail(), user.getRole()),
                 createRefreshToken(userId, user.getEmail())
         );
 
-        return jwtResponse;
     }
 
     public boolean isValid(

@@ -24,22 +24,19 @@ public class AuthServiceImpl implements AuthService {
             final JwtRequest loginRequest
     ) {
 
-        JwtResponse jwtResponse = new JwtResponse();
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        loginRequest.getUsername(), loginRequest.getPassword())
+                        loginRequest.username(), loginRequest.password())
         );
 
-        User user = userService.getByEmail(loginRequest.getUsername());
-        jwtResponse.setId(user.getId());
-        jwtResponse.setEmail(user.getEmail());
-        jwtResponse.setAccessToken(jwtTokenProvider.createAccessToken(
-                user.getId(), user.getEmail(), user.getRole())
+        User user = userService.getByEmail(loginRequest.username());
+
+        return new JwtResponse(
+                user.getId(),
+                user.getEmail(),
+                jwtTokenProvider.createAccessToken(user.getId(), user.getEmail(), user.getRole()),
+                jwtTokenProvider.createRefreshToken(user.getId(), user.getEmail())
         );
-        jwtResponse.setRefreshToken(jwtTokenProvider.createRefreshToken(
-                user.getId(), user.getEmail())
-        );
-        return jwtResponse;
     }
 
     @Override
