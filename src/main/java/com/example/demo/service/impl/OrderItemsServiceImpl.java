@@ -13,6 +13,11 @@ import com.example.demo.service.OrderItemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import static com.example.demo.util.ExceptionSourceName.ORDER_ITEM;
+import static com.example.demo.util.ExceptionSourceName.ORDER;
+import static com.example.demo.util.ExceptionSourceName.PRODUCT;
+
 import java.util.List;
 
 @Service
@@ -23,17 +28,6 @@ public class OrderItemsServiceImpl implements OrderItemService {
     private final OrderItemMapper orderItemMapper;
     private final ProductRepository productRepository;
     private final OrderRepository orderRepository;
-
-    @Override
-    @Transactional
-    public OrderItemResponseDto createOrderItem(OrderItemRequestDto orderItemRequestDto) {
-        OrderItem orderItem = orderItemMapper.toEntity(orderItemRequestDto);
-        orderItem.setProduct(findProductById(orderItemRequestDto));
-        orderItemRepository.save(orderItem);
-        return orderItemMapper.toDto(orderItem);
-    }
-
-       //TODO maybe method addOrderItem unnecessary
 
     @Override
     @Transactional
@@ -70,16 +64,16 @@ public class OrderItemsServiceImpl implements OrderItemService {
 
     private OrderItem findOrderItemById(int id){
         return orderItemRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("order item",id));
+                .orElseThrow(() -> new EntityNotFoundException(ORDER_ITEM,id));
     }
 
     private Product findProductById(OrderItemRequestDto orderItemRequestDto){
         return productRepository.findById(orderItemRequestDto.productId())
-                .orElseThrow(() -> new EntityNotFoundException("product",orderItemRequestDto.productId()));
+                .orElseThrow(() -> new EntityNotFoundException(PRODUCT,orderItemRequestDto.productId()));
     }
 
     private Order findOrderById(int id){
         return orderRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("order",id));
+                .orElseThrow(() -> new EntityNotFoundException(ORDER,id));
     }
 }
