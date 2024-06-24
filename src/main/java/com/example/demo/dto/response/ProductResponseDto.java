@@ -9,8 +9,8 @@ public record ProductResponseDto(
 
         BigDecimal price,
 
-        CategoryResponseDto category,
+        Integer categoryId,
 
-        ImageResponseDto image
+        String imagePath
 ) {
 }

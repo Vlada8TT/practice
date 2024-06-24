@@ -3,11 +3,6 @@ ALTER TABLE IF EXISTS products
 
 GO
 
-ALTER TABLE IF EXISTS products
-    DROP CONSTRAINT IF EXISTS image_id
-
-GO
-
 DROP TABLE IF EXISTS products
 
 GO
