@@ -1,12 +1,13 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.exception.ExceptionBody;
 import com.example.demo.dto.exception.MultiExceptionBody;
 import com.example.demo.exception.EntityNotFoundException;
 import com.example.demo.exception.ErrorMessages;
-import com.example.demo.dto.exception.ExceptionBody;
 import com.example.demo.exception.ResourceAlreadyExistsException;
-import com.example.demo.security.exception.AccessDeniedException;
 import jakarta.validation.ConstraintViolationException;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -15,12 +16,11 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @RestControllerAdvice
-public class ControllerAdvice {
+@Order(Ordered.LOWEST_PRECEDENCE)
+public class GlobalExceptionHandler {
 
     @ExceptionHandler(EntityNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
@@ -81,6 +81,8 @@ public class ControllerAdvice {
                 .build();
     }
 
+    // todo изменить этот метод. Он перехватывает все подряд и говорит, что это 404
+
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ExceptionBody handleException(Exception e){
@@ -90,15 +92,4 @@ public class ControllerAdvice {
                 .build();
     }
 
-    @ExceptionHandler({
-            AccessDeniedException.class,
-            org.springframework.security.access.AccessDeniedException.class
-    })
-    @ResponseStatus(HttpStatus.FORBIDDEN)
-    public ExceptionBody handleAccessDenied() {
-        return ExceptionBody.builder()
-                .status(HttpStatus.FORBIDDEN.value())
-                .message("Access denied.")
-                .build();
-    }
 }
