@@ -15,10 +15,10 @@ public record ProductRequestDto(
         BigDecimal price,
 
         @NotNull(message = "{category.notnull}", groups = {OnCreate.class, OnUpdate.class})
+        @Length(max = 20, message = "{category.length}", groups = {OnCreate.class, OnUpdate.class})
         Integer categoryId,
 
-        @NotNull(message = "{category.notnull}", groups = {OnCreate.class, OnUpdate.class})
-        Integer imageId
+        String imagePath
 
 ) {
 }
