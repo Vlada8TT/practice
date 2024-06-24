@@ -1,21 +1,20 @@
 package com.example.demo.config;
 
-
 import com.example.demo.security.JwtTokenFilter;
 import com.example.demo.security.JwtTokenProvider;
-import com.example.demo.security.expression.CustomSecurityExceptionHandler;
+import com.example.demo.security.entrypointhandler.CustomAccessDeniedHandler;
+import com.example.demo.security.entrypointhandler.CustomAuthenticationEntryPoint;
+import com.example.demo.security.expression.CustomSecurityExpressionHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler;
 import org.springframework.security.access.expression.method.MethodSecurityExpressionHandler;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
-import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -34,6 +33,9 @@ public class SecurityConfig {
     private final JwtTokenProvider tokenProvider;
     private final ApplicationContext applicationContext;
 
+    private final CustomAuthenticationEntryPoint authenticationEntryPoint;
+    private final CustomAccessDeniedHandler accessDeniedHandler;
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -48,11 +50,12 @@ public class SecurityConfig {
     }
 
     @Bean
-    public MethodSecurityExpressionHandler expressionHandler(){
-        DefaultMethodSecurityExpressionHandler expressionHandler = new CustomSecurityExceptionHandler();
+    public MethodSecurityExpressionHandler expressionHandler() {
+        DefaultMethodSecurityExpressionHandler expressionHandler = new CustomSecurityExpressionHandler();
         expressionHandler.setApplicationContext(applicationContext);
         return expressionHandler;
     }
+
 
     @Bean
     @SneakyThrows
@@ -69,29 +72,13 @@ public class SecurityConfig {
                                         SessionCreationPolicy.STATELESS
                                 )
                 )
-                .exceptionHandling(configurer ->
-                        configurer.authenticationEntryPoint(
-                                        (request, response, authException) -> {
-                                            response.setStatus(
-                                                    HttpStatus.UNAUTHORIZED
-                                                            .value()
-                                            );
-                                            response.getWriter()
-                                                    .write("Unauthorized");
-                                        })
-                                .accessDeniedHandler(
-                                        (request, response, accessDeniedException) -> {
-                                            response.setStatus(
-                                                    HttpStatus.FORBIDDEN
-                                                            .value()
-                                            );
-                                            response.getWriter()
-                                                    .write("Access denied");
-                                        }))
+                .exceptionHandling(exceptionHandling -> exceptionHandling
+                        .authenticationEntryPoint(authenticationEntryPoint)
+                        .accessDeniedHandler(accessDeniedHandler)
+                )
+
                 .authorizeHttpRequests(configurer ->
                         configurer.requestMatchers("/api/v1/auth/**")
-                                .permitAll()
-                                .requestMatchers("/swagger-ui/**")
                                 .permitAll()
                                 .anyRequest().authenticated())
                 .anonymous(AbstractHttpConfigurer::disable)
