@@ -81,8 +81,6 @@ public class GlobalExceptionHandler {
                 .build();
     }
 
-    // todo изменить этот метод. Он перехватывает все подряд и говорит, что это 404
-
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ExceptionBody handleException(Exception e){
