@@ -15,6 +15,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import static com.example.demo.util.ExceptionSourceName.USER;
+
 import java.util.List;
 
 @Service
@@ -23,9 +26,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
-    private final AddressMapper addressMapper;
     private final PasswordEncoder passwordEncoder;
-    private final AddressServiceImpl addressService;
 
     @Override
     @Transactional
@@ -33,7 +34,6 @@ public class UserServiceImpl implements UserService {
         checkIfEmailUnique(userRequestDto);
         checkIfMobilePhoneUnique(userRequestDto);
         User user = userMapper.toEntity(userRequestDto);
-        user.setAddress(addressMapper.toEntity(addressService.createAddress(userRequestDto.addressRequestDto())));
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
         return userMapper.toDto(user);
@@ -62,13 +62,12 @@ public class UserServiceImpl implements UserService {
             checkIfMobilePhoneUnique(userRequestDto);
         }
         userMapper.updateUserFromDto(userRequestDto,user);
-        addressService.updateAddress(user.getAddress().getId(),userRequestDto.addressRequestDto());
         user.setPassword(passwordEncoder.encode(userRequestDto.password()));
         userRepository.save(user);
         return userMapper.toDto(user);
     }
 
-    //TODO method setUserRole
+    //TODO method setUserRole, make role enum
 
     @Override
     @Transactional
@@ -79,18 +78,18 @@ public class UserServiceImpl implements UserService {
 
     private void checkIfEmailUnique(UserRequestDto userRequestDto){
         if(userRepository.existsByEmail(userRequestDto.email())){
-            throw new ResourceAlreadyExistsException("user",userRequestDto.email());
+            throw new ResourceAlreadyExistsException(USER, userRequestDto.email());
         }
     }
 
     private void checkIfMobilePhoneUnique(UserRequestDto userRequestDto){
         if(userRepository.existsByMobilePhone(userRequestDto.mobilePhone())){
-            throw new ResourceAlreadyExistsException("user",userRequestDto.mobilePhone());
+            throw new ResourceAlreadyExistsException(USER, userRequestDto.mobilePhone());
         }
     }
 
     private User findUserById(int id){
         return userRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("user", id));
+                .orElseThrow(() -> new EntityNotFoundException(USER, id));
     }
 }

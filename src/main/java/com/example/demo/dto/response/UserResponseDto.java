@@ -9,8 +9,6 @@ public record UserResponseDto(
 
         String email,
 
-        AddressResponseDto address,
-
-        RoleResponseDto role
+        AddressResponseDto address
 ) {
 }
