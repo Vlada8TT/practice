@@ -9,7 +9,7 @@ import org.springframework.security.authentication.AuthenticationTrustResolver;
 import org.springframework.security.authentication.AuthenticationTrustResolverImpl;
 import org.springframework.security.core.Authentication;
 
-public class CustomSecurityExceptionHandler
+public class CustomSecurityExpressionHandler
         extends DefaultMethodSecurityExpressionHandler {
 
     private ApplicationContext applicationContext;
