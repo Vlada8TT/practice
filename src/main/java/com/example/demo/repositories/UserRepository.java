@@ -18,16 +18,4 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     List<User> findAllByRoleId(Integer roleId);
 
-    @Query(value = """
-             SELECT exists(
-                           SELECT 1
-                           FROM orders
-                           WHERE user_id = :userId
-                             AND id = :orderId)
-            """, nativeQuery = true)
-    boolean isOrderOwner(
-            @Param("userId") Integer userId,
-            @Param("orderId") Integer orderId
-    );
-
 }

@@ -3,6 +3,7 @@ package com.example.demo.service.impl;
 import com.example.demo.dto.request.UserRequestDto;
 import com.example.demo.dto.response.UserResponseDto;
 import com.example.demo.persistence.entity.User;
+import com.example.demo.repositories.OrderRepository;
 import com.example.demo.repositories.UserRepository;
 import com.example.demo.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,7 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final OrderRepository orderRepository;
 
     @Override
     public UserResponseDto createUser(UserRequestDto user) {
@@ -55,6 +57,9 @@ public class UserServiceImpl implements UserService {
             final Integer userId,
             final Integer orderId
     ) {
-        return userRepository.isOrderOwner(userId, orderId);
+        if(orderRepository.findById(orderId).get().getUser().getId() == userId){
+            return true;
+        }
+        return false;
     }
 }
