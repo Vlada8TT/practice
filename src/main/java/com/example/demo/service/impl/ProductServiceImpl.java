@@ -7,7 +7,6 @@ import com.example.demo.exception.ResourceAlreadyExistsException;
 import com.example.demo.mapper.ProductMapper;
 import com.example.demo.persistence.entity.*;
 import com.example.demo.repositories.CategoryRepository;
-import com.example.demo.repositories.ImageRepository;
 import com.example.demo.repositories.ProductRepository;
 import com.example.demo.service.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +25,6 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
     private final ProductMapper productMapper;
     private final CategoryRepository categoryRepository;
-    private final ImageRepository imageRepository;
 
 
     //TODO image remake
@@ -37,7 +35,6 @@ public class ProductServiceImpl implements ProductService {
         checkIfNameUnique(productRequestDto);
         Product product = productMapper.toEntity(productRequestDto);
         product.setCategory(findCategoryById(productRequestDto));
-        product.setImage(findImageById(productRequestDto));
         productRepository.save(product);
         return productMapper.toDto(product);
     }
@@ -62,7 +59,6 @@ public class ProductServiceImpl implements ProductService {
             checkIfNameUnique(productRequestDto);
         }
         productMapper.updateProductFromDto(productRequestDto,product);
-        product.setImage(findImageById(productRequestDto));
         product.setCategory(findCategoryById(productRequestDto));
         productRepository.save(product);
         return productMapper.toDto(product);
@@ -78,11 +74,6 @@ public class ProductServiceImpl implements ProductService {
     private Product findProductById(int id) {
         return productRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(PRODUCT, id));
-    }
-
-    private Image findImageById(ProductRequestDto productRequestDto) {
-        return imageRepository.findById(productRequestDto.imageId())
-                .orElseThrow(() -> new EntityNotFoundException("image",productRequestDto.imageId()));
     }
 
     private Category findCategoryById(ProductRequestDto productRequestDto) {
