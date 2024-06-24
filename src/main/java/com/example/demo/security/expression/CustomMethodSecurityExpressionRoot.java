@@ -1,6 +1,5 @@
 package com.example.demo.security.expression;
 
-import com.example.demo.persistence.entity.Role;
 import com.example.demo.security.JwtEntity;
 import com.example.demo.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -49,7 +48,7 @@ public class CustomMethodSecurityExpressionRoot
         JwtEntity user = (JwtEntity) authentication.getPrincipal();
         Integer id = user.getId();
 
-        return userService.isOrderOwner(id, orderId);
+        return userService.isOrderOwner(id, orderId) || hasAnyRole("ROLE_ADMIN");
     }
 
     @Override
