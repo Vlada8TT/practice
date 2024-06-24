@@ -20,10 +20,6 @@ public record UserRequestDto(
 
         @NotNull(message = "{password.notnull}", groups = {OnCreate.class, OnUpdate.class})
         @Length(max = 32, message = "{password.length}", groups = {OnCreate.class, OnUpdate.class})
-        String password,
-
-        @NotNull(message = "{address.notnull}", groups = {OnCreate.class, OnUpdate.class})
-        AddressRequestDto addressRequestDto
-
+        String password
 ) {
 }
