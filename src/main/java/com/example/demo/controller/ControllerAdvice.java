@@ -81,15 +81,6 @@ public class ControllerAdvice {
                 .build();
     }
 
-    @ExceptionHandler(Exception.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ExceptionBody handleException(Exception e){
-        return ExceptionBody.builder()
-                .status(HttpStatus.NOT_FOUND.value())
-                .message(ErrorMessages.INTERNAL_ERROR_MESSAGE)
-                .build();
-    }
-
     @ExceptionHandler({
             AccessDeniedException.class,
             org.springframework.security.access.AccessDeniedException.class
