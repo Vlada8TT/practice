@@ -11,6 +11,9 @@ import com.example.demo.service.IngredientService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import static com.example.demo.util.ExceptionSourceName.INGREDIENT;
+
 import java.util.List;
 
 @Service
@@ -48,7 +51,7 @@ public class IngredientServiceImpl implements IngredientService {
         if(!ingredientRequestDto.name().equals(ingredient.getName())) {
             checkIfNameUnique(ingredientRequestDto);
         }
-        ingredientMapper.updateIngredientFromDto(ingredientRequestDto,ingredient);
+        ingredientMapper.updateIngredientFromDto(ingredientRequestDto, ingredient);
         ingredientRepository.save(ingredient);
         return ingredientMapper.toDto(ingredient);
     }
@@ -62,12 +65,12 @@ public class IngredientServiceImpl implements IngredientService {
 
     private Ingredient findIngredientById(int id){
         return  ingredientRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("ingredient", id));
+                .orElseThrow(() -> new EntityNotFoundException(INGREDIENT, id));
     }
 
     private void checkIfNameUnique(IngredientRequestDto ingredientRequestDto){
         if(ingredientRepository.existsByName(ingredientRequestDto.name())){
-            throw new ResourceAlreadyExistsException("ingredient",ingredientRequestDto.name());
+            throw new ResourceAlreadyExistsException(INGREDIENT, ingredientRequestDto.name());
         }
     }
 }
