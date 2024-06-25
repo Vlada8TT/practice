@@ -1,10 +1,8 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.dto.request.AddressRequestDto;
-import com.example.demo.dto.request.UserRequestDto;
 import com.example.demo.exception.EntityNotFoundException;
 import com.example.demo.dto.response.AddressResponseDto;
-import com.example.demo.exception.ResourceAlreadyExistsException;
 import com.example.demo.mapper.AddressMapper;
 import com.example.demo.persistence.entity.Address;
 import com.example.demo.persistence.entity.User;

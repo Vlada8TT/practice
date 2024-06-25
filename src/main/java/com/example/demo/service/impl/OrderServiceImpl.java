@@ -7,7 +7,6 @@ import com.example.demo.mapper.OrderMapper;
 import com.example.demo.persistence.entity.Order;
 import com.example.demo.persistence.entity.User;
 import com.example.demo.persistence.enums.OrderStatus;
-import com.example.demo.repositories.AddressRepository;
 import com.example.demo.repositories.OrderRepository;
 import com.example.demo.repositories.UserRepository;
 import com.example.demo.service.OrderService;
@@ -28,12 +27,11 @@ public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final OrderMapper orderMapper;
     private final UserRepository userRepository;
-    private final AddressRepository addressRepository;
 
     @Override
     @Transactional
     public OrderResponseDto createOrder(OrderRequestDto orderRequestDto) {
-        if (!isAddressSet(orderRequestDto)) {
+        if (!userRepository.isAddressSet(orderRequestDto.userId())) {
             throw new EntityNotFoundException(ADDRESS);
         }
         Order order = orderMapper.toEntity(orderRequestDto);
@@ -81,10 +79,5 @@ public class OrderServiceImpl implements OrderService {
     private User findUserById(OrderRequestDto orderRequestDto) {
         return userRepository.findById(orderRequestDto.userId())
                 .orElseThrow(() -> new EntityNotFoundException(USER,orderRequestDto.userId()));
-    }
-
-    private boolean isAddressSet(OrderRequestDto orderRequestDto){
-        User user = findUserById(orderRequestDto);
-        return addressRepository.findById(user.getAddress().getId()).isPresent();
     }
 }

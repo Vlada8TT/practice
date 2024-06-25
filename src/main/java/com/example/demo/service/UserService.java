@@ -15,5 +15,7 @@ public interface UserService {
 
     UserResponseDto updateUser(int id, UserRequestDto user);
 
+    UserResponseDto setRole(String roleName, int userId);
+
     void deleteUser(int id);
 }
