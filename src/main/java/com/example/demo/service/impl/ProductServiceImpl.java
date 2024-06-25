@@ -7,6 +7,7 @@ import com.example.demo.exception.ResourceAlreadyExistsException;
 import com.example.demo.mapper.ProductMapper;
 import com.example.demo.persistence.entity.*;
 import com.example.demo.repositories.CategoryRepository;
+import com.example.demo.repositories.IngredientRepository;
 import com.example.demo.repositories.ProductRepository;
 import com.example.demo.service.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +16,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import static com.example.demo.util.ExceptionSourceName.PRODUCT;
 import static com.example.demo.util.ExceptionSourceName.CATEGORY;
+import static com.example.demo.util.ExceptionSourceName.INGREDIENT;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -24,10 +27,8 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
     private final ProductMapper productMapper;
+    private final IngredientRepository ingredientRepository;
     private final CategoryRepository categoryRepository;
-
-
-    //TODO image remake
 
     @Override
     @Transactional
@@ -35,6 +36,10 @@ public class ProductServiceImpl implements ProductService {
         checkIfNameUnique(productRequestDto);
         Product product = productMapper.toEntity(productRequestDto);
         product.setCategory(findCategoryById(productRequestDto));
+        List<Ingredient> ingredients = productRequestDto.ingredientsId().stream()
+                .map(this::findIngredientById)
+                .toList();
+        product.setIngredients(ingredients);
         productRepository.save(product);
         return productMapper.toDto(product);
     }
@@ -60,6 +65,11 @@ public class ProductServiceImpl implements ProductService {
         }
         productMapper.updateProductFromDto(productRequestDto,product);
         product.setCategory(findCategoryById(productRequestDto));
+        List<Ingredient> ingredients = productRequestDto.ingredientsId().stream()
+                .map(this::findIngredientById)
+                .toList();
+        List<Ingredient> modifiableIngredientsList = new ArrayList<>(ingredients);
+        product.setIngredients(modifiableIngredientsList);
         productRepository.save(product);
         return productMapper.toDto(product);
     }
@@ -69,6 +79,11 @@ public class ProductServiceImpl implements ProductService {
     public void deleteProduct(int id) {
         Product product = findProductById(id);
         productRepository.delete(product);
+    }
+
+    private Ingredient findIngredientById(int ingredientId){
+        return ingredientRepository.findById(ingredientId)
+                .orElseThrow(() -> new EntityNotFoundException(INGREDIENT, ingredientId));
     }
 
     private Product findProductById(int id) {
