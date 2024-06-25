@@ -1,7 +1,6 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.dto.request.OrderItemRequestDto;
-import com.example.demo.dto.request.ProductRequestDto;
 import com.example.demo.dto.response.OrderItemResponseDto;
 import com.example.demo.exception.EntityNotFoundException;
 import com.example.demo.mapper.OrderItemMapper;
