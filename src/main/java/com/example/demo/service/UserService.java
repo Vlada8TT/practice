@@ -20,8 +20,5 @@ public interface UserService {
 
     User getByEmail(String email);
     User getById(Integer id);
-    boolean isOrderOwner(
-            final Integer userId,
-            final Integer orderId
-    );
+    boolean isOrderOwner(int userId, int orderId);
 }
