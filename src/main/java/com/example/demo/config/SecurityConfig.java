@@ -56,7 +56,6 @@ public class SecurityConfig {
         return expressionHandler;
     }
 
-
     @Bean
     @SneakyThrows
     public SecurityFilterChain filterChain(
