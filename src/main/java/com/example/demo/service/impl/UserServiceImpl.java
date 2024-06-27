@@ -6,6 +6,7 @@ import com.example.demo.exception.EntityNotFoundException;
 import com.example.demo.exception.ResourceAlreadyExistsException;
 import com.example.demo.mapper.UserMapper;
 import com.example.demo.persistence.entity.*;
+import com.example.demo.persistence.enums.RoleName;
 import com.example.demo.repositories.RoleRepository;
 import com.example.demo.repositories.UserRepository;
 import com.example.demo.service.UserService;
@@ -35,7 +36,7 @@ public class UserServiceImpl implements UserService {
         checkIfMobilePhoneUnique(userRequestDto);
         User user = userMapper.toEntity(userRequestDto);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRole(findRoleByName("ROLE_USER"));
+        user.setRole(findRoleByName(String.valueOf(RoleName.ROLE_USER)));
         userRepository.save(user);
         return userMapper.toDto(user);
     }
@@ -85,13 +86,13 @@ public class UserServiceImpl implements UserService {
     }
 
     private void checkIfEmailUnique(UserRequestDto userRequestDto){
-        if(userRepository.existsByEmail(userRequestDto.email())){
+        if (userRepository.existsByEmail(userRequestDto.email())){
             throw new ResourceAlreadyExistsException(USER, userRequestDto.email());
         }
     }
 
     private void checkIfMobilePhoneUnique(UserRequestDto userRequestDto){
-        if(userRepository.existsByMobilePhone(userRequestDto.mobilePhone())){
+        if (userRepository.existsByMobilePhone(userRequestDto.mobilePhone())){
             throw new ResourceAlreadyExistsException(USER, userRequestDto.mobilePhone());
         }
     }

@@ -11,7 +11,7 @@ public interface OrderItemService {
 
     OrderItemResponseDto updateOrderItem(int id, OrderItemRequestDto orderItem);
 
-    void addOrderItem(int orderId,OrderItemRequestDto orderItem);
+    void addOrderItem(int orderId, OrderItemRequestDto orderItem);
 
     void deleteOrderItem(int id);
 }
