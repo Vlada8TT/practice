@@ -48,7 +48,7 @@ public class IngredientServiceImpl implements IngredientService {
     @Transactional
     public IngredientResponseDto updateIngredient(int id, IngredientRequestDto ingredientRequestDto) {
         Ingredient ingredient = findIngredientById(id);
-        if(!ingredientRequestDto.name().equals(ingredient.getName())) {
+        if (!ingredientRequestDto.name().equals(ingredient.getName())) {
             checkIfNameUnique(ingredientRequestDto);
         }
         ingredientMapper.updateIngredientFromDto(ingredientRequestDto, ingredient);
@@ -69,7 +69,7 @@ public class IngredientServiceImpl implements IngredientService {
     }
 
     private void checkIfNameUnique(IngredientRequestDto ingredientRequestDto){
-        if(ingredientRepository.existsByName(ingredientRequestDto.name())){
+        if (ingredientRepository.existsByName(ingredientRequestDto.name())){
             throw new ResourceAlreadyExistsException(INGREDIENT, ingredientRequestDto.name());
         }
     }

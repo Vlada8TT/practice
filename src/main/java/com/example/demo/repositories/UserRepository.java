@@ -15,10 +15,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     List<User> findAllByRoleId(Integer roleId);
 
-    @Query(value = "SELECT CASE WHEN users.address_id IS NULL THEN false ELSE true END FROM users WHERE users.id = ?1",
-    nativeQuery = true)
-    boolean isAddressSet(int userId);
-
     boolean existsByMobilePhone(String mobilePhone);
 
     boolean existsByEmail(String email);
