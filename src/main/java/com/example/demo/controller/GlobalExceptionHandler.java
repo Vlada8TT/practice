@@ -5,6 +5,7 @@ import com.example.demo.dto.exception.MultiExceptionBody;
 import com.example.demo.exception.EntityNotFoundException;
 import com.example.demo.exception.ErrorMessages;
 import com.example.demo.exception.ResourceAlreadyExistsException;
+import com.example.demo.exception.ResourceNotSetException;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -36,6 +37,15 @@ public class GlobalExceptionHandler {
     public ExceptionBody handleResourceAlreadyExists(ResourceAlreadyExistsException e){
         return ExceptionBody.builder()
                 .status(HttpStatus.NOT_FOUND.value())
+                .message(e.getMessage())
+                .build();
+    }
+
+    @ExceptionHandler(ResourceNotSetException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ExceptionBody handleResourceNotSet(ResourceNotSetException e){
+        return ExceptionBody.builder()
+                .status(HttpStatus.BAD_REQUEST.value())
                 .message(e.getMessage())
                 .build();
     }
