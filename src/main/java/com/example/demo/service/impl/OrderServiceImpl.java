@@ -31,7 +31,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public OrderResponseDto createOrder(OrderRequestDto orderRequestDto) {
-        if (!userRepository.isAddressSet(orderRequestDto.userId())) {
+        if (!isAddressSet(orderRequestDto)) {
             throw new EntityNotFoundException(ADDRESS);
         }
         Order order = orderMapper.toEntity(orderRequestDto);
@@ -80,4 +80,10 @@ public class OrderServiceImpl implements OrderService {
         return userRepository.findById(orderRequestDto.userId())
                 .orElseThrow(() -> new EntityNotFoundException(USER,orderRequestDto.userId()));
     }
+
+    private boolean isAddressSet(OrderRequestDto orderRequestDto) {
+       User user = findUserById(orderRequestDto);
+       return user.getAddress() != null;
+    }
+
 }

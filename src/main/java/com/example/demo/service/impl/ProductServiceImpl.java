@@ -60,7 +60,7 @@ public class ProductServiceImpl implements ProductService {
     @Transactional
     public ProductResponseDto updateProduct(int id, ProductRequestDto productRequestDto) {
         Product product = findProductById(id);
-        if(!productRequestDto.name().equals(product.getName())) {
+        if (!productRequestDto.name().equals(product.getName())) {
             checkIfNameUnique(productRequestDto);
         }
         productMapper.updateProductFromDto(productRequestDto,product);
@@ -97,7 +97,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     private void checkIfNameUnique(ProductRequestDto productRequestDto){
-        if(productRepository.existsByName(productRequestDto.name())){
+        if (productRepository.existsByName(productRequestDto.name())){
             throw new ResourceAlreadyExistsException(PRODUCT,productRequestDto.name());
         }
     }

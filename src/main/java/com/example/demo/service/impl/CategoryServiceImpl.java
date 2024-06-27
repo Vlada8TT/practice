@@ -48,7 +48,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Transactional
     public CategoryResponseDto updateCategory(int id, CategoryRequestDto categoryRequestDto) {
         Category category = findCategoryById(id);
-        if(!categoryRequestDto.name().equals(category.getName())) {
+        if (!categoryRequestDto.name().equals(category.getName())) {
             checkIfNameUnique(categoryRequestDto);
         }
         categoryMapper.updateCategoryFromDto(categoryRequestDto,category);
@@ -69,7 +69,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     private void checkIfNameUnique(CategoryRequestDto categoryRequestDto){
-        if(categoryRepository.existsByName(categoryRequestDto.name())){
+        if (categoryRepository.existsByName(categoryRequestDto.name())){
             throw new ResourceAlreadyExistsException(CATEGORY,categoryRequestDto.name());
         }
     }
