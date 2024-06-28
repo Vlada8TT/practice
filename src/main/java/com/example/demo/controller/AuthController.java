@@ -8,6 +8,7 @@ import com.example.demo.dto.validation.OnCreate;
 import com.example.demo.mapper.UserMapper;
 import com.example.demo.service.AuthService;
 import com.example.demo.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
@@ -19,10 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
-@Tag(
-        name = "Auth Controller",
-        description = "Auth API"
-)
+@Tag(name = "Auth Controller", description = "Operations related to authentication: login, register, refresh")
 public class AuthController {
 
     private final AuthService authService;
@@ -30,6 +28,7 @@ public class AuthController {
     private final UserMapper userMapper;
 
     @PostMapping("/login")
+    @Operation(summary = "Login user")
     public JwtResponse login(
             @Validated @RequestBody final JwtRequest loginRequest
     ) {
@@ -37,6 +36,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
+    @Operation(summary = "Register new user")
     public UserResponseDto register(
             @Validated(OnCreate.class)
             @RequestBody final UserRequestDto userDto
@@ -45,6 +45,7 @@ public class AuthController {
     }
 
     @PostMapping("/refresh")
+    @Operation(summary = "Refresh access and refresh tokens")
     public JwtResponse refresh(
             @RequestBody final String refreshToken
     ) {
