@@ -11,16 +11,16 @@ import com.example.demo.repositories.IngredientRepository;
 import com.example.demo.repositories.ProductRepository;
 import com.example.demo.service.ProductService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import static com.example.demo.util.ExceptionSourceName.PRODUCT;
-import static com.example.demo.util.ExceptionSourceName.CATEGORY;
-import static com.example.demo.util.ExceptionSourceName.INGREDIENT;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.demo.util.ExceptionSourceName.*;
+
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
@@ -33,6 +33,8 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional
     public ProductResponseDto createProduct(ProductRequestDto productRequestDto) {
+        log.info("Creating product");
+        log.info("Name uniqueness checking...");
         checkIfNameUnique(productRequestDto);
         Product product = productMapper.toEntity(productRequestDto);
         product.setCategory(findCategoryById(productRequestDto));
@@ -47,20 +49,24 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional(readOnly = true)
     public ProductResponseDto getProductById(int id) {
+        log.info("Retrieving product by id {}", id);
         return productMapper.toDto(findProductById(id));
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<ProductResponseDto> getAllProducts() {
+        log.info("Retrieving all products");
         return productMapper.toDto(productRepository.findAll());
     }
 
     @Override
     @Transactional
     public ProductResponseDto updateProduct(int id, ProductRequestDto productRequestDto) {
+        log.info("Updating product with id {}", id);
         Product product = findProductById(id);
         if (!productRequestDto.name().equals(product.getName())) {
+            log.info("Name uniqueness checking...");
             checkIfNameUnique(productRequestDto);
         }
         productMapper.updateProductFromDto(productRequestDto,product);
@@ -77,27 +83,40 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional
     public void deleteProduct(int id) {
+        log.info("Deleting product with id {}", id);
         Product product = findProductById(id);
         productRepository.delete(product);
     }
 
     private Ingredient findIngredientById(int ingredientId){
         return ingredientRepository.findById(ingredientId)
-                .orElseThrow(() -> new EntityNotFoundException(INGREDIENT, ingredientId));
+                .orElseThrow(() -> {
+                    log.error("Ingredient with id {} was not found", ingredientId);
+                    return new EntityNotFoundException(INGREDIENT, ingredientId);
+                });
     }
 
     private Product findProductById(int id) {
         return productRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(PRODUCT, id));
+                .orElseThrow(() -> {
+                    log.error("Product with id {} was not found", id);
+                    return new EntityNotFoundException(PRODUCT, id);
+                });
     }
 
     private Category findCategoryById(ProductRequestDto productRequestDto) {
         return categoryRepository.findById(productRequestDto.categoryId())
-                .orElseThrow(() -> new EntityNotFoundException(CATEGORY,productRequestDto.categoryId()));
+                .orElseThrow(() -> {
+                    log.error("Category with id {} was not found", productRequestDto.categoryId());
+                    return new EntityNotFoundException(CATEGORY,productRequestDto.categoryId());
+                });
     }
 
     private void checkIfNameUnique(ProductRequestDto productRequestDto){
         if (productRepository.existsByName(productRequestDto.name())){
+            log.error("Product with name {} already exists",
+                    productRequestDto.name(),
+                    new ResourceAlreadyExistsException(PRODUCT,productRequestDto.name()));
             throw new ResourceAlreadyExistsException(PRODUCT,productRequestDto.name());
         }
     }
