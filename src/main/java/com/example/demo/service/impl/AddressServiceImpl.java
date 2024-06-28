@@ -59,7 +59,7 @@ public class AddressServiceImpl implements AddressService {
     public AddressResponseDto updateAddress(int id, AddressRequestDto addressRequestDto) {
         log.info("Updating address with id {}", id);
         Address address = findAddressById(id);
-        addressMapper.updateAddressFromDto(addressRequestDto,address);
+        addressMapper.updateAddressFromDto(addressRequestDto, address);
         addressRepository.save(address);
         return addressMapper.toDto(address);
     }

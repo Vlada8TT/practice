@@ -63,7 +63,7 @@ public class OrderServiceImpl implements OrderService {
     public OrderResponseDto updateOrder(int id, OrderRequestDto orderRequestDto) {
         log.info("Updating order with id {}", id);
         Order order = findOrderById(id);
-        orderMapper.updateOrderFromDto(orderRequestDto,order);
+        orderMapper.updateOrderFromDto(orderRequestDto, order);
         order.setUser(findUserById(orderRequestDto));
         order.setStatus(OrderStatus.valueOf(orderRequestDto.status()));
         orderRepository.save(order);
@@ -99,7 +99,7 @@ public class OrderServiceImpl implements OrderService {
        return user.getAddress() != null;
     }
 
-    private void checkUserAddressIsSet(OrderRequestDto orderRequestDto){
+    private void checkUserAddressIsSet(OrderRequestDto orderRequestDto) {
         if (!isAddressSet(orderRequestDto)) {
             log.error("Address of user with id = {} not set",
                     orderRequestDto.userId(),

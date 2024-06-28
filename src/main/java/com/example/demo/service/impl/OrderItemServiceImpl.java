@@ -52,7 +52,7 @@ public class OrderItemServiceImpl implements OrderItemService {
     public OrderItemResponseDto updateOrderItem(int id, OrderItemRequestDto orderItemRequestDto) {
         log.info("Updating order item with id {}", id);
         OrderItem orderItem = findOrderItemById(id);
-        orderItemMapper.updateOrderItemFromDto(orderItemRequestDto,orderItem);
+        orderItemMapper.updateOrderItemFromDto(orderItemRequestDto, orderItem);
         orderItem.setProduct(findProductById(orderItemRequestDto));
         orderItemRepository.save(orderItem);
         return orderItemMapper.toDto(orderItem);
@@ -67,27 +67,27 @@ public class OrderItemServiceImpl implements OrderItemService {
     }
 
 
-    private OrderItem findOrderItemById(int id){
+    private OrderItem findOrderItemById(int id) {
         return orderItemRepository.findById(id)
                 .orElseThrow(() -> {
                     log.error("Order item with id {} was not found", id);
-                    return new EntityNotFoundException(ORDER_ITEM,id);
+                    return new EntityNotFoundException(ORDER_ITEM, id);
                 });
     }
 
-    private Product findProductById(OrderItemRequestDto orderItemRequestDto){
+    private Product findProductById(OrderItemRequestDto orderItemRequestDto) {
         return productRepository.findById(orderItemRequestDto.productId())
                 .orElseThrow(() -> {
                     log.error("Product with id {} was not found", orderItemRequestDto.productId());
-                    return new EntityNotFoundException(PRODUCT,orderItemRequestDto.productId());
+                    return new EntityNotFoundException(PRODUCT, orderItemRequestDto.productId());
                 });
     }
 
-    private Order findOrderById(int id){
+    private Order findOrderById(int id) {
         return orderRepository.findById(id)
                 .orElseThrow(() -> {
                     log.error("Order with id {} was not found", id);
-                    return new EntityNotFoundException(ORDER,id);
+                    return new EntityNotFoundException(ORDER, id);
                 });
     }
 }

@@ -59,7 +59,7 @@ public class CategoryServiceImpl implements CategoryService {
             log.info("Name uniqueness checking...");
             checkIfNameUnique(categoryRequestDto);
         }
-        categoryMapper.updateCategoryFromDto(categoryRequestDto,category);
+        categoryMapper.updateCategoryFromDto(categoryRequestDto, category);
         categoryRepository.save(category);
         return categoryMapper.toDto(category);
     }
@@ -72,7 +72,7 @@ public class CategoryServiceImpl implements CategoryService {
         categoryRepository.delete(category);
     }
 
-    private Category findCategoryById(int id){
+    private Category findCategoryById(int id) {
         return categoryRepository.findById(id)
                 .orElseThrow(() -> {
                     log.error("Category with id {} was not found", id);
@@ -80,12 +80,12 @@ public class CategoryServiceImpl implements CategoryService {
                 });
     }
 
-    private void checkIfNameUnique(CategoryRequestDto categoryRequestDto){
-        if (categoryRepository.existsByName(categoryRequestDto.name())){
+    private void checkIfNameUnique(CategoryRequestDto categoryRequestDto) {
+        if (categoryRepository.existsByName(categoryRequestDto.name())) {
             log.error("Category with name {} already exists",
                     categoryRequestDto.name(),
-                    new ResourceAlreadyExistsException(CATEGORY,categoryRequestDto.name()));
-            throw new ResourceAlreadyExistsException(CATEGORY,categoryRequestDto.name());
+                    new ResourceAlreadyExistsException(CATEGORY, categoryRequestDto.name()));
+            throw new ResourceAlreadyExistsException(CATEGORY, categoryRequestDto.name());
         }
     }
 }

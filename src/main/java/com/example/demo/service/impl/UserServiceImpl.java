@@ -73,7 +73,7 @@ public class UserServiceImpl implements UserService {
             log.info("Mobile phone uniqueness checking...");
             checkIfMobilePhoneUnique(userRequestDto);
         }
-        userMapper.updateUserFromDto(userRequestDto,user);
+        userMapper.updateUserFromDto(userRequestDto, user);
         user.setPassword(passwordEncoder.encode(userRequestDto.password()));
         userRepository.save(user);
         return userMapper.toDto(user);
