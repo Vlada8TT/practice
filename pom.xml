@@ -23,6 +23,7 @@
 		<lombok.version>1.18.30</lombok.version>
 		<mapstruct.version>1.5.5.Final</mapstruct.version>
 		<jjwt.version>0.12.5</jjwt.version>
+		<springdoc.version>2.5.0</springdoc.version>
 	</properties>
 
 	<dependencies>
@@ -114,12 +115,8 @@
 		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-			<version>2.5.0</version>
+			<version>${springdoc.version}</version>
 		</dependency>
-
-
-
-
 
 	</dependencies>
 	<build>
