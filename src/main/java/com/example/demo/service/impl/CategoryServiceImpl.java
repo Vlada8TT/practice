@@ -3,9 +3,11 @@ package com.example.demo.service.impl;
 import com.example.demo.dto.request.CategoryRequestDto;
 import com.example.demo.dto.response.CategoryResponseDto;
 import com.example.demo.service.CategoryService;
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 
-
+@Service
 public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryResponseDto createCategory(CategoryRequestDto category) {

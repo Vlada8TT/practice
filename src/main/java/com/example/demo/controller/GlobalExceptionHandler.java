@@ -1,11 +1,13 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.exception.ExceptionBody;
 import com.example.demo.dto.exception.MultiExceptionBody;
 import com.example.demo.exception.EntityNotFoundException;
 import com.example.demo.exception.ErrorMessages;
-import com.example.demo.dto.exception.ExceptionBody;
 import com.example.demo.exception.ResourceAlreadyExistsException;
 import jakarta.validation.ConstraintViolationException;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -14,12 +16,11 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @RestControllerAdvice
-public class ControllerAdvice {
+@Order(Ordered.LOWEST_PRECEDENCE)
+public class GlobalExceptionHandler {
 
     @ExceptionHandler(EntityNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
@@ -84,8 +85,9 @@ public class ControllerAdvice {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ExceptionBody handleException(Exception e){
         return ExceptionBody.builder()
-                .status(HttpStatus.NOT_FOUND.value())
+                .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
                 .message(ErrorMessages.INTERNAL_ERROR_MESSAGE)
                 .build();
     }
+
 }

@@ -3,8 +3,10 @@ package com.example.demo.service.impl;
 import com.example.demo.dto.request.IngredientRequestDto;
 import com.example.demo.dto.response.IngredientResponseDto;
 import com.example.demo.service.IngredientService;
-import java.util.List;
+import org.springframework.stereotype.Service;
 
+import java.util.List;
+@Service
 public class IngredientsServiceImpl implements IngredientService {
     @Override
     public IngredientResponseDto createIngredient(IngredientRequestDto Ingredients) {
