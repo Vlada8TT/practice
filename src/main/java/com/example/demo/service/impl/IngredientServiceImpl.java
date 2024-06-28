@@ -72,7 +72,7 @@ public class IngredientServiceImpl implements IngredientService {
         ingredientRepository.delete(ingredient);
     }
 
-    private Ingredient findIngredientById(int id){
+    private Ingredient findIngredientById(int id) {
         return  ingredientRepository.findById(id)
                 .orElseThrow(() -> {
                     log.error("Ingredient with id {} was not found", id);
@@ -80,8 +80,8 @@ public class IngredientServiceImpl implements IngredientService {
                 });
     }
 
-    private void checkIfNameUnique(IngredientRequestDto ingredientRequestDto){
-        if (ingredientRepository.existsByName(ingredientRequestDto.name())){
+    private void checkIfNameUnique(IngredientRequestDto ingredientRequestDto) {
+        if (ingredientRepository.existsByName(ingredientRequestDto.name())) {
             log.error("Ingredient with name {} already exists",
                     ingredientRequestDto.name(),
                     new ResourceAlreadyExistsException(INGREDIENT, ingredientRequestDto.name()));

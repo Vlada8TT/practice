@@ -69,7 +69,7 @@ public class ProductServiceImpl implements ProductService {
             log.info("Name uniqueness checking...");
             checkIfNameUnique(productRequestDto);
         }
-        productMapper.updateProductFromDto(productRequestDto,product);
+        productMapper.updateProductFromDto(productRequestDto, product);
         product.setCategory(findCategoryById(productRequestDto));
         List<Ingredient> ingredients = productRequestDto.ingredientsId().stream()
                 .map(this::findIngredientById)
@@ -88,7 +88,7 @@ public class ProductServiceImpl implements ProductService {
         productRepository.delete(product);
     }
 
-    private Ingredient findIngredientById(int ingredientId){
+    private Ingredient findIngredientById(int ingredientId) {
         return ingredientRepository.findById(ingredientId)
                 .orElseThrow(() -> {
                     log.error("Ingredient with id {} was not found", ingredientId);
@@ -108,16 +108,16 @@ public class ProductServiceImpl implements ProductService {
         return categoryRepository.findById(productRequestDto.categoryId())
                 .orElseThrow(() -> {
                     log.error("Category with id {} was not found", productRequestDto.categoryId());
-                    return new EntityNotFoundException(CATEGORY,productRequestDto.categoryId());
+                    return new EntityNotFoundException(CATEGORY, productRequestDto.categoryId());
                 });
     }
 
-    private void checkIfNameUnique(ProductRequestDto productRequestDto){
-        if (productRepository.existsByName(productRequestDto.name())){
+    private void checkIfNameUnique(ProductRequestDto productRequestDto) {
+        if (productRepository.existsByName(productRequestDto.name())) {
             log.error("Product with name {} already exists",
                     productRequestDto.name(),
-                    new ResourceAlreadyExistsException(PRODUCT,productRequestDto.name()));
-            throw new ResourceAlreadyExistsException(PRODUCT,productRequestDto.name());
+                    new ResourceAlreadyExistsException(PRODUCT, productRequestDto.name()));
+            throw new ResourceAlreadyExistsException(PRODUCT, productRequestDto.name());
         }
     }
 }
