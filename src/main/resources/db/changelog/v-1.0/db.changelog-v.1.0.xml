@@ -15,6 +15,4 @@
     <include file="orders/40-changeset-orders-table.xml" relativeToChangelogFile="true"/>
     <include file="order_items/45-changeset-order_items-table.xml" relativeToChangelogFile="true"/>
 
-
-
 </databaseChangeLog>
