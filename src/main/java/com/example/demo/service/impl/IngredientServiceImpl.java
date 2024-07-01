@@ -29,7 +29,6 @@ public class IngredientServiceImpl implements IngredientService {
     @Transactional
     public IngredientResponseDto createIngredient(IngredientRequestDto ingredientRequestDto) {
         log.info("Creating ingredient");
-        log.info("Name uniqueness checking...");
         checkIfNameUnique(ingredientRequestDto);
         Ingredient ingredient = ingredientMapper.toEntity(ingredientRequestDto);
         ingredientRepository.save(ingredient);
@@ -56,7 +55,6 @@ public class IngredientServiceImpl implements IngredientService {
         log.info("Updating ingredient with id {}", id);
         Ingredient ingredient = findIngredientById(id);
         if (!ingredientRequestDto.name().equals(ingredient.getName())) {
-            log.info("Name uniqueness checking...");
             checkIfNameUnique(ingredientRequestDto);
         }
         ingredientMapper.updateIngredientFromDto(ingredientRequestDto, ingredient);
@@ -81,6 +79,7 @@ public class IngredientServiceImpl implements IngredientService {
     }
 
     private void checkIfNameUnique(IngredientRequestDto ingredientRequestDto) {
+        log.info("Name uniqueness checking...");
         if (ingredientRepository.existsByName(ingredientRequestDto.name())) {
             log.error("Ingredient with name {} already exists",
                     ingredientRequestDto.name(),
