@@ -34,7 +34,6 @@ public class ProductServiceImpl implements ProductService {
     @Transactional
     public ProductResponseDto createProduct(ProductRequestDto productRequestDto) {
         log.info("Creating product");
-        log.info("Name uniqueness checking...");
         checkIfNameUnique(productRequestDto);
         Product product = productMapper.toEntity(productRequestDto);
         product.setCategory(findCategoryById(productRequestDto));
@@ -66,7 +65,6 @@ public class ProductServiceImpl implements ProductService {
         log.info("Updating product with id {}", id);
         Product product = findProductById(id);
         if (!productRequestDto.name().equals(product.getName())) {
-            log.info("Name uniqueness checking...");
             checkIfNameUnique(productRequestDto);
         }
         productMapper.updateProductFromDto(productRequestDto, product);
@@ -113,6 +111,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     private void checkIfNameUnique(ProductRequestDto productRequestDto) {
+        log.info("Name uniqueness checking...");
         if (productRepository.existsByName(productRequestDto.name())) {
             log.error("Product with name {} already exists",
                     productRequestDto.name(),

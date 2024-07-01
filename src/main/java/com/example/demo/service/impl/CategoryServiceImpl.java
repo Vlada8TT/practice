@@ -29,7 +29,6 @@ public class CategoryServiceImpl implements CategoryService {
     @Transactional
     public CategoryResponseDto createCategory(CategoryRequestDto categoryRequestDto) {
         log.info("Creating category");
-        log.info("Name uniqueness checking...");
         checkIfNameUnique(categoryRequestDto);
         Category category = categoryMapper.toEntity(categoryRequestDto);
         categoryRepository.save(category);
@@ -56,7 +55,6 @@ public class CategoryServiceImpl implements CategoryService {
         log.info("Updating category with id {}", id);
         Category category = findCategoryById(id);
         if (!categoryRequestDto.name().equals(category.getName())) {
-            log.info("Name uniqueness checking...");
             checkIfNameUnique(categoryRequestDto);
         }
         categoryMapper.updateCategoryFromDto(categoryRequestDto, category);
@@ -81,6 +79,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     private void checkIfNameUnique(CategoryRequestDto categoryRequestDto) {
+        log.info("Name uniqueness checking...");
         if (categoryRepository.existsByName(categoryRequestDto.name())) {
             log.error("Category with name {} already exists",
                     categoryRequestDto.name(),

@@ -35,9 +35,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public UserResponseDto createUser(UserRequestDto userRequestDto) {
         log.info("Creating user");
-        log.info("Email uniqueness checking...");
         checkIfEmailUnique(userRequestDto);
-        log.info("Mobile phone uniqueness checking...");
         checkIfMobilePhoneUnique(userRequestDto);
         User user = userMapper.toEntity(userRequestDto);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -66,11 +64,9 @@ public class UserServiceImpl implements UserService {
         log.info("Updating user with id {}", id);
         User user = findUserById(id);
         if (!userRequestDto.email().equals(user.getEmail())) {
-            log.info("Email uniqueness checking...");
             checkIfEmailUnique(userRequestDto);
         }
         if (!userRequestDto.mobilePhone().equals(user.getMobilePhone())) {
-            log.info("Mobile phone uniqueness checking...");
             checkIfMobilePhoneUnique(userRequestDto);
         }
         userMapper.updateUserFromDto(userRequestDto, user);
@@ -98,6 +94,7 @@ public class UserServiceImpl implements UserService {
     }
 
     private void checkIfEmailUnique(UserRequestDto userRequestDto) {
+        log.info("Email uniqueness checking...");
         if (userRepository.existsByEmail(userRequestDto.email())) {
             log.error("User with email {} already exists",
                     userRequestDto.email(),
@@ -107,6 +104,7 @@ public class UserServiceImpl implements UserService {
     }
 
     private void checkIfMobilePhoneUnique(UserRequestDto userRequestDto) {
+        log.info("Mobile phone uniqueness checking...");
         if (userRepository.existsByMobilePhone(userRequestDto.mobilePhone())) {
             log.error("User with mobile phone {} already exists",
                     userRequestDto.mobilePhone(),

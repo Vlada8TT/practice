@@ -35,7 +35,6 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     public OrderResponseDto createOrder(OrderRequestDto orderRequestDto) {
         log.info("Creating order");
-        log.info("Checking if address is set...");
         checkUserAddressIsSet(orderRequestDto);
         Order order = orderMapper.toEntity(orderRequestDto);
         order.setUser(findUserById(orderRequestDto));
@@ -100,6 +99,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     private void checkUserAddressIsSet(OrderRequestDto orderRequestDto) {
+        log.info("Checking if address is set...");
         if (!isAddressSet(orderRequestDto)) {
             log.error("Address of user with id = {} not set",
                     orderRequestDto.userId(),
