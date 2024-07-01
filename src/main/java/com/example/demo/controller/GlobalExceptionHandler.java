@@ -1,14 +1,12 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.exception.ExceptionBody;
 import com.example.demo.dto.exception.MultiExceptionBody;
 import com.example.demo.exception.EntityNotFoundException;
 import com.example.demo.exception.ErrorMessages;
+import com.example.demo.dto.exception.ExceptionBody;
 import com.example.demo.exception.ResourceAlreadyExistsException;
 import com.example.demo.exception.ResourceNotSetException;
 import jakarta.validation.ConstraintViolationException;
-import org.springframework.core.Ordered;
-import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -20,7 +18,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestControllerAdvice
-@Order(Ordered.LOWEST_PRECEDENCE)
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(EntityNotFoundException.class)
@@ -95,9 +92,8 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ExceptionBody handleException(Exception e){
         return ExceptionBody.builder()
-                .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                .status(HttpStatus.NOT_FOUND.value())
                 .message(ErrorMessages.INTERNAL_ERROR_MESSAGE)
                 .build();
     }
-
 }
