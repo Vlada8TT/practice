@@ -9,4 +9,5 @@ public final class ErrorMessages {
     public static final String RESOURCE_ALREADY_EXIST_MESSAGE = "The %s with %s already exist";
     public static final String INTERNAL_ERROR_MESSAGE = "Internal error";
     public static final String VALIDATION_FAILED_MESSAGE = "Validation failed";
+    public static final String ENTITY_RESOURCE_MISSING_MESSAGE = "Entity %s is missing";
 }
