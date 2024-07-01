@@ -66,6 +66,28 @@ public class OrderItemServiceImpl implements OrderItemService {
         orderItemRepository.delete(orderItem);
     }
 
+    @Override
+    @Transactional
+    public void incrementOrderItemQuantity(int id) {
+        log.info("Incrementing order item quantity");
+        OrderItem orderItem = findOrderItemById(id);
+        orderItem.setQuantity(orderItem.getQuantity() + 1);
+        orderItemRepository.save(orderItem);
+    }
+
+    @Override
+    @Transactional
+    public void decrementOrderItemQuantity(int id) {
+        log.info("Decrementing order item quantity");
+        OrderItem orderItem = findOrderItemById(id);
+        orderItem.setQuantity(orderItem.getQuantity() - 1);
+        if (orderItem.getQuantity() <= 0) {
+            log.info("Order item quantity <= 0 and will be dematerialized");
+            deleteOrderItem(id);
+            return;
+        }
+        orderItemRepository.save(orderItem);
+    }
 
     private OrderItem findOrderItemById(int id) {
         return orderItemRepository.findById(id)

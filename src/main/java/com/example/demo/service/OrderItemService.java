@@ -14,4 +14,8 @@ public interface OrderItemService {
     void addOrderItem(int orderId, OrderItemRequestDto orderItem);
 
     void deleteOrderItem(int id);
+
+    void incrementOrderItemQuantity(int id);
+
+    void decrementOrderItemQuantity(int id);
 }
