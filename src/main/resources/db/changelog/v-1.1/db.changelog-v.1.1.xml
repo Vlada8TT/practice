@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <include file="data_seeding/roles/01-changeset-seeding-roles-table.xml" relativeToChangelogFile="true"/>
+    <include file="data_seeding/users/05-changeset-seeding-users-table.xml" relativeToChangelogFile="true"/>
+    <include file="data_seeding/categories/10-changeset-seeding-categories-table.xml"
+             relativeToChangelogFile="true"/>
+    <include file="data_seeding/ingredients/15-changeset-seeding-ingredients-table.xml"
+             relativeToChangelogFile="true"/>
+
+</databaseChangeLog>
