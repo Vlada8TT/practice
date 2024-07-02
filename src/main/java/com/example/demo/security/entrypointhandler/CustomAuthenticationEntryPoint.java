@@ -28,7 +28,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
 
         ExceptionBody exceptionBody = ExceptionBody.builder()
                 .status(HttpStatus.UNAUTHORIZED.value())
-                .message("You are not unauthorized")
+                .message("You are unauthorized")
                 .build();
 
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
