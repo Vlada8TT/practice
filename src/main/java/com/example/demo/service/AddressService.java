@@ -6,7 +6,7 @@ import com.example.demo.dto.response.AddressResponseDto;
 import java.util.List;
 
 public interface AddressService {
-    AddressResponseDto createAddress(AddressRequestDto addressDto);
+    AddressResponseDto addAddress(int userId,AddressRequestDto addressDto);
 
     AddressResponseDto getAddressById(int id);
 
