@@ -1,20 +1,18 @@
 package com.example.demo.security;
 
+import com.example.demo.dto.auth.JwtResponse;
 import com.example.demo.exception.EntityNotFoundException;
 import com.example.demo.persistence.entity.Role;
 import com.example.demo.persistence.entity.User;
-import com.example.demo.dto.auth.JwtResponse;
 import com.example.demo.repositories.UserRepository;
 import com.example.demo.security.exception.AccessDeniedException;
 import com.example.demo.security.props.JwtProperties;
-import com.example.demo.service.UserService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
