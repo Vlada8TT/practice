@@ -17,5 +17,7 @@ public interface UserService {
 
     UserResponseDto setRole(String roleName, int userId);
 
+    boolean isOrderOwner(int userId, int orderId);
+
     void deleteUser(int id);
 }

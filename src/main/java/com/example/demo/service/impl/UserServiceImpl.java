@@ -8,6 +8,7 @@ import com.example.demo.exception.ResourceNotSetException;
 import com.example.demo.mapper.UserMapper;
 import com.example.demo.persistence.entity.*;
 import com.example.demo.persistence.enums.RoleName;
+import com.example.demo.repositories.OrderRepository;
 import com.example.demo.repositories.RoleRepository;
 import com.example.demo.repositories.UserRepository;
 import com.example.demo.service.UserService;
@@ -29,6 +30,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final RoleRepository roleRepository;
+    private final OrderRepository orderRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Override
@@ -93,6 +95,13 @@ public class UserServiceImpl implements UserService {
         userRepository.delete(user);
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public boolean isOrderOwner(int userId, int orderId) {
+        log.info("Find out if user with id {} is owner of order with id {}", userId, orderId);
+        return findOrderById(orderId).getUser().getId().equals(userId);
+    }
+
     private void checkIfEmailUnique(UserRequestDto userRequestDto) {
         log.info("Email uniqueness checking...");
         if (userRepository.existsByEmail(userRequestDto.email())) {
@@ -126,6 +135,14 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> {
                     log.error("Role with name {} was not found", roleName);
                     return new EntityNotFoundException(ROLE);
+                });
+    }
+
+    private Order findOrderById(int id) {
+        return orderRepository.findById(id)
+                .orElseThrow(() -> {
+                    log.error("Order with id {} was not found", id);
+                    return new EntityNotFoundException(ORDER, id);
                 });
     }
 }
