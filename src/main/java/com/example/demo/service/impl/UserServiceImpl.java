@@ -141,7 +141,7 @@ public class UserServiceImpl implements UserService {
     private Order findOrderById(int id) {
         return orderRepository.findById(id)
                 .orElseThrow(() -> {
-                    log.error("Order with id {} was not found", id);
+                    log.error("Order with id {} was not found ", id);
                     return new EntityNotFoundException(ORDER, id);
                 });
     }
