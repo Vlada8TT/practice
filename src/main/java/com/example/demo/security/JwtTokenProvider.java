@@ -1,8 +1,10 @@
 package com.example.demo.security;
 
+import com.example.demo.exception.EntityNotFoundException;
 import com.example.demo.persistence.entity.Role;
 import com.example.demo.persistence.entity.User;
 import com.example.demo.dto.auth.JwtResponse;
+import com.example.demo.repositories.UserRepository;
 import com.example.demo.security.exception.AccessDeniedException;
 import com.example.demo.security.props.JwtProperties;
 import com.example.demo.service.UserService;
@@ -24,6 +26,8 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 
+import static com.example.demo.util.ExceptionSourceName.USER;
+
 @Service
 @RequiredArgsConstructor
 public class JwtTokenProvider {
@@ -31,7 +35,7 @@ public class JwtTokenProvider {
     private final JwtProperties jwtProperties;
 
     private final UserDetailsService userDetailsService;
-    private final UserService userService;
+    private final UserRepository userRepository;
     private SecretKey key;
 
     @PostConstruct
@@ -85,7 +89,8 @@ public class JwtTokenProvider {
         }
 
         Integer userId = getId(refreshToken);
-        User user = userService.getById(userId);
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException(USER, userId));
 
         return new JwtResponse(
                 user.getId(),

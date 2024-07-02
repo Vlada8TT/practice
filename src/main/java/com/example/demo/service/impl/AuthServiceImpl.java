@@ -3,12 +3,14 @@ package com.example.demo.service.impl;
 import com.example.demo.dto.auth.JwtRequest;
 import com.example.demo.dto.auth.JwtResponse;
 import com.example.demo.persistence.entity.User;
+import com.example.demo.repositories.UserRepository;
 import com.example.demo.security.JwtTokenProvider;
 import com.example.demo.service.AuthService;
 import com.example.demo.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -16,7 +18,7 @@ import org.springframework.stereotype.Service;
 public class AuthServiceImpl implements AuthService {
 
     private final AuthenticationManager authenticationManager;
-    private final UserService userService;
+    private final UserRepository userRepository;
     private final JwtTokenProvider jwtTokenProvider;
 
     @Override
@@ -29,7 +31,7 @@ public class AuthServiceImpl implements AuthService {
                         loginRequest.username(), loginRequest.password())
         );
 
-        User user = userService.getByEmail(loginRequest.username());
+        User user = userRepository.findByEmail(loginRequest.username()).get();
 
         return new JwtResponse(
                 user.getId(),
