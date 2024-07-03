@@ -36,18 +36,19 @@ public class OrderItemController implements OrderItemAPI {
         orderItemService.addOrderItem(orderId, orderItemRequestDto);
     }
 
-    @PutMapping("/{id}")
-    @PreAuthorize("canAccessOrder(#id)")
+    @PutMapping("/{orderId}/{orderItemId}")
+    @PreAuthorize("canAccessOrder(#orderId)")
     public OrderItemResponseDto update(
-            @PathVariable int id,
+            @PathVariable int orderId,
+            @PathVariable int orderItemId,
             @Validated(OnUpdate.class) @RequestBody OrderItemRequestDto orderItemRequestDto) {
-        return orderItemService.updateOrderItem(id, orderItemRequestDto);
+        return orderItemService.updateOrderItem(orderItemId, orderItemRequestDto);
     }
 
-    @DeleteMapping("/{id}")
-    @PreAuthorize("canAccessOrder(#id)")
-    public void deleteById(@PathVariable int id) {
-        orderItemService.deleteOrderItem(id);
+    @DeleteMapping("/{orderId}/{orderItemId}")
+    @PreAuthorize("canAccessOrder(#orderId)")
+    public void deleteById(@PathVariable int orderId, @PathVariable int orderItemId) {
+        orderItemService.deleteOrderItem(orderItemId);
     }
 
     @PostMapping("/{orderId}/{orderItemId}/increment")

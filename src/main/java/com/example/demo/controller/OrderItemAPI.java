@@ -49,7 +49,7 @@ public interface OrderItemAPI {
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ExceptionBody.class))),
     })
-    public OrderItemResponseDto update(int id, OrderItemRequestDto orderItemRequestDto);
+    public OrderItemResponseDto update(@PathVariable int orderId, @PathVariable int orderItemId, OrderItemRequestDto orderItemRequestDto);
 
     @Operation(summary = "Delete item by id")
     @ApiResponses(value = {
@@ -67,7 +67,7 @@ public interface OrderItemAPI {
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ExceptionBody.class))),
     })
-    void deleteById(int id);
+    void deleteById(@PathVariable int orderId, @PathVariable int orderItemId);
 
     @Operation(summary = "Increment item quantity item by id")
     @ApiResponses(value = {
