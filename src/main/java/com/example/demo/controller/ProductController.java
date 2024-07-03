@@ -19,7 +19,7 @@ public class ProductController {
 
     private final ProductService productService;
 
-    @PostMapping
+    @PostMapping("/create")
     public ProductResponseDto createProduct(
             @Validated(OnCreate.class) @RequestBody ProductRequestDto productDto) {
         return productService.createProduct(productDto);
@@ -28,7 +28,7 @@ public class ProductController {
     @GetMapping
     public List<ProductResponseDto> getAllProducts() {
         return productService.getAllProducts();
-    }   
+    }
 
     @GetMapping("/{id}")
     public ProductResponseDto getProductById(@PathVariable int id) {
@@ -38,8 +38,8 @@ public class ProductController {
     @PutMapping("/{id}")
     public ProductResponseDto update(@PathVariable int id,
                                      @Validated(OnUpdate.class)
-                                     @RequestBody ProductRequestDto productRequestDto){
-        return productService.updateProduct(id,productRequestDto);
+                                     @RequestBody ProductRequestDto productRequestDto) {
+        return productService.updateProduct(id, productRequestDto);
     }
 
     @DeleteMapping("/{id}")

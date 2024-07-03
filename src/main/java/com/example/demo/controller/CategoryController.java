@@ -20,8 +20,8 @@ public class CategoryController {
 
     private final CategoryService categoryService;
 
-    @PostMapping("/order")
-    public CategoryResponseDto createOrder(
+    @PostMapping("/create")
+    public CategoryResponseDto createCategory(
             @Validated(OnCreate.class) @RequestBody CategoryRequestDto categoryRequestDto) {
         return categoryService.createCategory(categoryRequestDto);
     }

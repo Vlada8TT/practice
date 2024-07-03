@@ -20,7 +20,7 @@ public class OrderController {
 
     private final OrderService orderService;
 
-    @PostMapping("/order")
+    @PostMapping("/create")
     public OrderResponseDto createOrder(
             @Validated(OnCreate.class) @RequestBody OrderRequestDto orderDto) {
         return orderService.createOrder(orderDto);

@@ -21,10 +21,11 @@ public class OrderItemController {
     public final OrderItemService orderItemService;
 
     @PostMapping("/{orderId}/add")
+    @PreAuthorize("canAccessOrder(#orderId)")
     public void addOrderItem(
             @PathVariable int orderId,
             @Validated(OnCreate.class) @RequestBody OrderItemRequestDto orderItemRequestDto) {
-            orderItemService.addOrderItem(orderId, orderItemRequestDto);
+        orderItemService.addOrderItem(orderId, orderItemRequestDto);
     }
 
     @PutMapping("/{id}")
@@ -41,13 +42,15 @@ public class OrderItemController {
         orderItemService.deleteOrderItem(id);
     }
 
-    @PostMapping("/{id}/increment")
-    public void incrementOrderItemQuantity(@PathVariable int id) {
-        orderItemService.incrementOrderItemQuantity(id);
+    @PostMapping("/{orderId}/{orderItemId}/increment")
+    @PreAuthorize("canAccessOrder(#orderId)")
+    public void incrementOrderItemQuantity(@PathVariable int orderId, @PathVariable int orderItemId) {
+        orderItemService.incrementOrderItemQuantity(orderItemId);
     }
 
-    @PostMapping("/{id}/decrement")
-    public void decrementOrderItemQuantity(@PathVariable int id) {
-        orderItemService.decrementOrderItemQuantity(id);
+    @PostMapping("/{orderId}/{orderItemId}/decrement")
+    @PreAuthorize("canAccessOrder(#orderId)")
+    public void decrementOrderItemQuantity(@PathVariable int orderId, @PathVariable int orderItemId) {
+        orderItemService.decrementOrderItemQuantity(orderItemId);
     }
 }

@@ -21,7 +21,7 @@ public class IngredientController {
 
     private final IngredientService ingredientService;
 
-    @PostMapping("/ingredient")
+    @PostMapping("/create")
     public IngredientResponseDto createIngredient(
             @Validated(OnCreate.class) @RequestBody IngredientRequestDto ingredientRequestDto) {
         return ingredientService.createIngredient(ingredientRequestDto);
