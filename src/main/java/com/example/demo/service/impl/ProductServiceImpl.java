@@ -81,6 +81,15 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public List<ProductResponseDto> getAllProductsByCategoryId(int categoryId) {
+        List<Product> productsByCategory = productRepository.findAll().stream()
+                .filter(p -> p.getCategory().getId().equals(categoryId))
+                .toList();
+        return productMapper.toDto(productsByCategory);
+    }
+
+    @Override
     @Transactional
     public void deleteProduct(int id) {
         log.info("Deleting product with id {}", id);

@@ -12,10 +12,6 @@ public record OrderRequestDto(
         @NotNull(message = "{user_id.notnull}", groups = {OnCreate.class, OnUpdate.class})
         Integer userId,
 
-        @NotNull(message = "{time.notnull}", groups = {OnCreate.class, OnUpdate.class})
-        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-        Timestamp orderDate,
-
         @NotNull(message = "{status.notnull}", groups = {OnCreate.class, OnUpdate.class})
         @Length(max = 20, message = "{status.length}", groups = {OnCreate.class, OnUpdate.class})
         String status
