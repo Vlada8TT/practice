@@ -1,8 +1,8 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.dto.request.AddressRequestDto;
-import com.example.demo.exception.EntityNotFoundException;
 import com.example.demo.dto.response.AddressResponseDto;
+import com.example.demo.exception.EntityNotFoundException;
 import com.example.demo.mapper.AddressMapper;
 import com.example.demo.persistence.entity.Address;
 import com.example.demo.persistence.entity.User;
@@ -14,10 +14,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 import static com.example.demo.util.ExceptionSourceName.ADDRESS;
 import static com.example.demo.util.ExceptionSourceName.USER;
-
-import java.util.List;
 
 @Slf4j
 @Service

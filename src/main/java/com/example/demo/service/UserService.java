@@ -2,7 +2,6 @@ package com.example.demo.service;
 
 import com.example.demo.dto.request.UserRequestDto;
 import com.example.demo.dto.response.UserResponseDto;
-import com.example.demo.persistence.entity.User;
 
 import java.util.List;
 
