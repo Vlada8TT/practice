@@ -53,6 +53,6 @@ public class UserController {
     @GetMapping("/{id}/orders")
     @PreAuthorize("canAccessUser(#id)")
     public List<OrderResponseDto> getOrdersByUserId(@PathVariable int id) {
-        return orderService.getAllOrders(); //todo
+        return orderService.getAllOrders();
     }
 }
