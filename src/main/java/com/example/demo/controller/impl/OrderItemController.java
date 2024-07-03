@@ -1,12 +1,20 @@
-package com.example.demo.controller;
+package com.example.demo.controller.impl;
 
+import com.example.demo.controller.OrderItemAPI;
+import com.example.demo.dto.exception.ExceptionBody;
 import com.example.demo.dto.request.OrderItemRequestDto;
 import com.example.demo.dto.request.OrderRequestDto;
+import com.example.demo.dto.response.IngredientResponseDto;
 import com.example.demo.dto.response.OrderItemResponseDto;
 import com.example.demo.dto.response.OrderResponseDto;
 import com.example.demo.dto.validation.OnCreate;
 import com.example.demo.dto.validation.OnUpdate;
 import com.example.demo.service.OrderItemService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -16,7 +24,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/orderItems")
 @RequiredArgsConstructor
 @Validated
-public class OrderItemController {
+public class OrderItemController implements OrderItemAPI {
 
     public final OrderItemService orderItemService;
 

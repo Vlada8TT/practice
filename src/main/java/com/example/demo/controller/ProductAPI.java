@@ -2,54 +2,42 @@ package com.example.demo.controller;
 
 import com.example.demo.dto.exception.ExceptionBody;
 import com.example.demo.dto.request.ProductRequestDto;
-import com.example.demo.dto.response.OrderResponseDto;
 import com.example.demo.dto.response.ProductResponseDto;
-import com.example.demo.dto.validation.OnCreate;
 import com.example.demo.dto.validation.OnUpdate;
-import com.example.demo.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.RequiredArgsConstructor;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
-@RestController
-@RequiredArgsConstructor
-@RequestMapping("/api/v1/products")
-@Tag(name = "Product Controller", description = "Operations related to product management: create, get all, get by id, delete by id")
-public class ProductController {
-    private final ProductService productService;
-
-    @PostMapping("/create")
-    @Operation(summary = "Create new product")
+@Tag(name = "Product Controller", description = "Operations related to product management: create, get all, get by id, update, delete by id")
+public interface ProductAPI {
+    @Operation(summary = "Create new product(only admin)")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Product created successfully",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ProductResponseDto.class))),
             @ApiResponse(responseCode = "401", description = "Unauthorized",
                     content = @Content(mediaType = "application/json",
-                            examples = @ExampleObject(value = "{\"status\": 401, \"message\": \"Unauthorized\"}"))),
+                            schema = @Schema(implementation = ExceptionBody.class))),
             @ApiResponse(responseCode = "403", description = "Access denied",
                     content = @Content(mediaType = "application/json",
-                            examples = @ExampleObject(value = "{\"status\": 403, \"message\": \"Access denied\"}"))),
+                            schema = @Schema(implementation = ExceptionBody.class))),
+            @ApiResponse(responseCode = "404", description = "Product already exists",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ExceptionBody.class))),
             @ApiResponse(responseCode = "500", description = "Internal server error",
                     content = @Content(mediaType = "application/json",
-                            examples = @ExampleObject(value = "{\"status\": 500, \"message\": \"Internal server error\"}"))),
+                            schema = @Schema(implementation = ExceptionBody.class))),
     })
-    public ProductResponseDto createProduct(
-            @Validated(OnCreate.class) @RequestBody ProductRequestDto productDto) {
-        return productService.createProduct(productDto);
-    }
+    ProductResponseDto createProduct(ProductRequestDto productDto);
 
-    @GetMapping
     @Operation(summary = "Get all products")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Products received successfully",
@@ -57,16 +45,13 @@ public class ProductController {
                             schema = @Schema(implementation = ProductResponseDto.class))),
             @ApiResponse(responseCode = "404", description = "Not found",
                     content = @Content(mediaType = "application/json",
-                            examples = @ExampleObject(value = "{\"status\": 404, \"message\": \"Not found\"}"))),
+                            schema = @Schema(implementation = ExceptionBody.class))),
             @ApiResponse(responseCode = "500", description = "Internal server error",
                     content = @Content(mediaType = "application/json",
-                            examples = @ExampleObject(value = "{\"status\": 500, \"message\": \"Internal server error\"}"))),
+                            schema = @Schema(implementation = ExceptionBody.class))),
     })
-    public List<ProductResponseDto> getAllProducts() {
-        return productService.getAllProducts();
-    }   
+    List<ProductResponseDto> getAllProducts();
 
-    @GetMapping("/{id}")
     @Operation(summary = "Get product by id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Product received successfully",
@@ -74,40 +59,45 @@ public class ProductController {
                             schema = @Schema(implementation = ProductResponseDto.class))),
             @ApiResponse(responseCode = "404", description = "Not found",
                     content = @Content(mediaType = "application/json",
-                            examples = @ExampleObject(value = "{\"status\": 404, \"message\": \"Not found\"}"))),
+                            schema = @Schema(implementation = ExceptionBody.class))),
             @ApiResponse(responseCode = "500", description = "Internal server error",
                     content = @Content(mediaType = "application/json",
-                            examples = @ExampleObject(value = "{\"status\": 500, \"message\": \"Internal server error\"}"))),
+                            schema = @Schema(implementation = ExceptionBody.class))),
     })
-    public ProductResponseDto getProductById(@PathVariable int id) {
-        return productService.getProductById(id);
-    }
+    ProductResponseDto getProductById(int id);
 
-    @PutMapping("/{id}")
-    public ProductResponseDto update(@PathVariable int id,
-                                     @Validated(OnUpdate.class)
-                                     @RequestBody ProductRequestDto productRequestDto) {
-        return productService.updateProduct(id, productRequestDto);
-    }
+    @Operation(summary = "Update product(only admin)")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Product created successfully",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ProductResponseDto.class))),
+            @ApiResponse(responseCode = "401", description = "Unauthorized",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ExceptionBody.class))),
+            @ApiResponse(responseCode = "403", description = "Access denied",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ExceptionBody.class))),
+            @ApiResponse(responseCode = "500", description = "Internal server error",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ExceptionBody.class))),
+    })
+    ProductResponseDto update(int id, ProductRequestDto productRequestDto);
 
-    @DeleteMapping("/{id}")
-    @Operation(summary = "Delete product by id")
+    @Operation(summary = "Delete product by id(only admin)")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Product deleted successfully"),
             @ApiResponse(responseCode = "401", description = "Unauthorized",
                     content = @Content(mediaType = "application/json",
-                            examples = @ExampleObject(value = "{\"status\": 401, \"message\": \"Unauthorized\"}"))),
+                            schema = @Schema(implementation = ExceptionBody.class))),
             @ApiResponse(responseCode = "403", description = "Access denied",
                     content = @Content(mediaType = "application/json",
-                            examples = @ExampleObject(value = "{\"status\": 403, \"message\": \"Access denied\"}"))),
+                            schema = @Schema(implementation = ExceptionBody.class))),
             @ApiResponse(responseCode = "404", description = "Not found",
                     content = @Content(mediaType = "application/json",
-                            examples = @ExampleObject(value = "{\"status\": 404, \"message\": \"Not found\"}"))),
+                            schema = @Schema(implementation = ExceptionBody.class))),
             @ApiResponse(responseCode = "500", description = "Internal server error",
                     content = @Content(mediaType = "application/json",
-                            examples = @ExampleObject(value = "{\"status\": 500, \"message\": \"Internal server error\"}"))),
+                            schema = @Schema(implementation = ExceptionBody.class))),
     })
-    public void deleteById(@PathVariable int id) {
-        productService.deleteProduct(id);
-    }
+    void deleteById(int id);
 }

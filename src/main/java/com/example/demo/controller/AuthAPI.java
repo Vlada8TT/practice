@@ -5,59 +5,43 @@ import com.example.demo.dto.auth.JwtResponse;
 import com.example.demo.dto.exception.ExceptionBody;
 import com.example.demo.dto.request.UserRequestDto;
 import com.example.demo.dto.response.UserResponseDto;
-import com.example.demo.dto.validation.OnCreate;
-import com.example.demo.service.AuthService;
-import com.example.demo.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.RequiredArgsConstructor;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
-@RestController
-@RequestMapping("/api/v1/auth")
-@RequiredArgsConstructor
 @Tag(name = "Auth Controller", description = "Operations related to authentication: login, register, refresh")
-public class AuthController {
-
-    private final AuthService authService;
-    private final UserService userService;
-
-    @PostMapping("/login")
+public interface AuthAPI {
     @Operation(summary = "Login user")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Login successful",
-                         content = @Content(mediaType = "application/json",
-                                            schema = @Schema(implementation = JwtResponse.class))),
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = JwtResponse.class))),
             @ApiResponse(responseCode = "401", description = "Unauthorized",
                     content = @Content(mediaType = "application/json",
-                            examples = @ExampleObject(value = "{\"status\": 401, \"message\": \"Unauthorized\"}"))),
+                            schema = @Schema(implementation = ExceptionBody.class))),
             @ApiResponse(responseCode = "500", description = "Internal server error",
                     content = @Content(mediaType = "application/json",
-                            examples = @ExampleObject(value = "{\"status\": 500, \"message\": \"Internal server error\"}"))),
+                            schema = @Schema(implementation = ExceptionBody.class))),
     })
-    public JwtResponse login(
-            @Validated @RequestBody final JwtRequest loginRequest
-    ) {
-        return authService.login(loginRequest);
-    }
+    JwtResponse login(final JwtRequest loginRequest);
 
-    @PostMapping("/register")
     @Operation(summary = "Register new user")
-    public UserResponseDto register(
-            @Validated(OnCreate.class)
-            @RequestBody final UserRequestDto userDto
-    ) {
-        return userService.createUser(userDto);
-    }
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "New user created successfully",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = UserResponseDto.class))),
+            @ApiResponse(responseCode = "404", description = "Email already exists",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ExceptionBody.class))),
+            @ApiResponse(responseCode = "500", description = "Internal server error",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ExceptionBody.class))),
+    })
+    UserResponseDto register(final UserRequestDto userDto);
 
     @PostMapping("/refresh")
     @Operation(summary = "Refresh access and refresh tokens")
@@ -67,15 +51,10 @@ public class AuthController {
                             schema = @Schema(implementation = JwtResponse.class))),
             @ApiResponse(responseCode = "401", description = "Unauthorized",
                     content = @Content(mediaType = "application/json",
-                            examples = @ExampleObject(value = "{\"status\": 401, \"message\": \"Unauthorized\"}"))),
+                            schema = @Schema(implementation = ExceptionBody.class))),
             @ApiResponse(responseCode = "500", description = "Internal server error",
                     content = @Content(mediaType = "application/json",
-                            examples = @ExampleObject(value = "{\"status\": 500, \"message\": \"Internal server error\"}"))),
+                            schema = @Schema(implementation = ExceptionBody.class))),
     })
-    public JwtResponse refresh(
-            @RequestBody final String refreshToken
-    ) {
-        return authService.refresh(refreshToken);
-    }
-
+    JwtResponse refresh(final String refreshToken);
 }
