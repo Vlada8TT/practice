@@ -22,7 +22,6 @@ public record ProductRequestDto(
 
         @Schema(description = "Product category")
         @NotNull(message = "{category.notnull}", groups = {OnCreate.class, OnUpdate.class})
-        @Length(max = 20, message = "{category.length}", groups = {OnCreate.class, OnUpdate.class})
         Integer categoryId,
 
         @Schema(description = "Product image path")
