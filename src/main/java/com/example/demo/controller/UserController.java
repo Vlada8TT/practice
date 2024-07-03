@@ -23,14 +23,14 @@ public class UserController {
     private final UserService userService;
     private final OrderService orderService;
 
-    @PostMapping("/api/v1/users")
+    @PostMapping("/create")
     public UserResponseDto createUser(
             @Validated(OnCreate.class)
             @RequestBody UserRequestDto userDto) {
         return userService.createUser(userDto);
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     @PreAuthorize("canAccessUser(#id)")
     public UserResponseDto update(
             @PathVariable int id,

@@ -4,7 +4,9 @@ import com.example.demo.dto.request.OrderItemRequestDto;
 import com.example.demo.dto.response.OrderItemResponseDto;
 import com.example.demo.exception.EntityNotFoundException;
 import com.example.demo.mapper.OrderItemMapper;
-import com.example.demo.persistence.entity.*;
+import com.example.demo.persistence.entity.Order;
+import com.example.demo.persistence.entity.OrderItem;
+import com.example.demo.persistence.entity.Product;
 import com.example.demo.repositories.OrderItemRepository;
 import com.example.demo.repositories.OrderRepository;
 import com.example.demo.repositories.ProductRepository;
@@ -14,11 +16,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import static com.example.demo.util.ExceptionSourceName.ORDER_ITEM;
-import static com.example.demo.util.ExceptionSourceName.ORDER;
-import static com.example.demo.util.ExceptionSourceName.PRODUCT;
-
 import java.util.List;
+
+import static com.example.demo.util.ExceptionSourceName.*;
 
 @Slf4j
 @Service

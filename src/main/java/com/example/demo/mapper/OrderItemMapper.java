@@ -1,10 +1,8 @@
 package com.example.demo.mapper;
 
-import com.example.demo.dto.request.CategoryRequestDto;
-import com.example.demo.dto.response.OrderItemResponseDto;
-import com.example.demo.persistence.entity.Category;
-import com.example.demo.persistence.entity.OrderItem;
 import com.example.demo.dto.request.OrderItemRequestDto;
+import com.example.demo.dto.response.OrderItemResponseDto;
+import com.example.demo.persistence.entity.OrderItem;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.MappingTarget;

@@ -5,7 +5,6 @@ import com.example.demo.dto.auth.JwtResponse;
 import com.example.demo.dto.request.UserRequestDto;
 import com.example.demo.dto.response.UserResponseDto;
 import com.example.demo.dto.validation.OnCreate;
-import com.example.demo.mapper.UserMapper;
 import com.example.demo.service.AuthService;
 import com.example.demo.service.UserService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -27,7 +26,6 @@ public class AuthController {
 
     private final AuthService authService;
     private final UserService userService;
-    private final UserMapper userMapper;
 
     @PostMapping("/login")
     public JwtResponse login(

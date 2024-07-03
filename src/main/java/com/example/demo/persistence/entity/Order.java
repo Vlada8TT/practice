@@ -7,7 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name = "orders")
@@ -23,7 +23,7 @@ public class Order implements Serializable {
     @ManyToOne
     private User user;
 
-    private LocalDateTime orderDate;
+    private Timestamp orderDate;
 
     @Enumerated(EnumType.STRING)
     private OrderStatus status;

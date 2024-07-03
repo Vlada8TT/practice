@@ -19,16 +19,14 @@ import org.springframework.web.bind.annotation.*;
 public class OrderController {
 
     private final OrderService orderService;
-    private final OrderMapper orderMapper;
 
-    @PostMapping("/{id}/order")
+    @PostMapping("/create")
     public OrderResponseDto createOrder(
-            @PathVariable int id,
             @Validated(OnCreate.class) @RequestBody OrderRequestDto orderDto) {
         return orderService.createOrder(orderDto);
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     @PreAuthorize("canAccessOrder(#id)")
     public OrderResponseDto update(
             @PathVariable int id,

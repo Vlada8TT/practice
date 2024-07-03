@@ -16,11 +16,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import static com.example.demo.util.ExceptionSourceName.USER;
-import static com.example.demo.util.ExceptionSourceName.ORDER;
-import static com.example.demo.util.ExceptionSourceName.ADDRESS;
-
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
+
+import static com.example.demo.util.ExceptionSourceName.*;
 
 @Slf4j
 @Service
@@ -38,7 +38,8 @@ public class OrderServiceImpl implements OrderService {
         checkUserAddressIsSet(orderRequestDto);
         Order order = orderMapper.toEntity(orderRequestDto);
         order.setUser(findUserById(orderRequestDto));
-        order.setStatus(OrderStatus.valueOf(orderRequestDto.status()));
+        order.setStatus(OrderStatus.NEW);
+        order.setOrderDate(Timestamp.valueOf(LocalDateTime.now()));
         orderRepository.save(order);
         return orderMapper.toDto(order);
     }

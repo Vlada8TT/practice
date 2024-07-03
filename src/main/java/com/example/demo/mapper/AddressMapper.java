@@ -1,8 +1,8 @@
 package com.example.demo.mapper;
 
+import com.example.demo.dto.request.AddressRequestDto;
 import com.example.demo.dto.response.AddressResponseDto;
 import com.example.demo.persistence.entity.Address;
-import com.example.demo.dto.request.AddressRequestDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.MappingTarget;

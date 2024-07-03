@@ -1,5 +1,7 @@
 package com.example.demo.dto.response;
 
+import com.example.demo.persistence.entity.Category;
+
 import java.math.BigDecimal;
 
 public record ProductResponseDto(
@@ -9,7 +11,7 @@ public record ProductResponseDto(
 
         BigDecimal price,
 
-        Integer categoryId,
+        Category category,
 
         String imagePath
 ) {

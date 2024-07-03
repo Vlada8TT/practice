@@ -5,7 +5,9 @@ import com.example.demo.dto.response.ProductResponseDto;
 import com.example.demo.exception.EntityNotFoundException;
 import com.example.demo.exception.ResourceAlreadyExistsException;
 import com.example.demo.mapper.ProductMapper;
-import com.example.demo.persistence.entity.*;
+import com.example.demo.persistence.entity.Category;
+import com.example.demo.persistence.entity.Ingredient;
+import com.example.demo.persistence.entity.Product;
 import com.example.demo.repositories.CategoryRepository;
 import com.example.demo.repositories.IngredientRepository;
 import com.example.demo.repositories.ProductRepository;
@@ -76,6 +78,15 @@ public class ProductServiceImpl implements ProductService {
         product.setIngredients(modifiableIngredientsList);
         productRepository.save(product);
         return productMapper.toDto(product);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<ProductResponseDto> getAllProductsByCategoryId(int categoryId) {
+        List<Product> productsByCategory = productRepository.findAll().stream()
+                .filter(p -> p.getCategory().getId().equals(categoryId))
+                .toList();
+        return productMapper.toDto(productsByCategory);
     }
 
     @Override

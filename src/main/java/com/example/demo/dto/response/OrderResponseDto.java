@@ -1,13 +1,13 @@
 package com.example.demo.dto.response;
 
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
 public record OrderResponseDto(
         Integer id,
 
         Integer userId,
 
-        LocalDateTime orderDate,
+        Timestamp orderDate,
 
         String status
 ) {
