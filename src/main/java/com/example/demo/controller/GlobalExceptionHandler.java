@@ -95,7 +95,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ExceptionBody handleException(Exception e){
         return ExceptionBody.builder()
-                .status(HttpStatus.NOT_FOUND.value())
+                .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
                 .message(ErrorMessages.INTERNAL_ERROR_MESSAGE + e.getMessage())
                 .build();
     }

@@ -28,35 +28,35 @@ import java.util.List;
 public class ProductController implements ProductAPI {
     private final ProductService productService;
 
-    @PostMapping("/create")
+    @PostMapping("/admin/create")
     public ProductResponseDto createProduct(
             @Validated(OnCreate.class) @RequestBody ProductRequestDto productDto) {
         return productService.createProduct(productDto);
     }
 
-    @GetMapping
+    @GetMapping("/permitall")
     public List<ProductResponseDto> getAllProducts() {
         return productService.getAllProducts();
     }   
 
-    @GetMapping("/{id}")
+    @GetMapping("/permitall/{id}")
     public ProductResponseDto getProductById(@PathVariable int id) {
         return productService.getProductById(id);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/admin/{id}")
     public ProductResponseDto update(@PathVariable int id,
                                      @Validated(OnUpdate.class)
                                      @RequestBody ProductRequestDto productRequestDto) {
         return productService.updateProduct(id, productRequestDto);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/admin/{id}")
     public void deleteById(@PathVariable int id) {
         productService.deleteProduct(id);
     }
 
-    @GetMapping("/category/{categoryId}")
+    @GetMapping("/permitall/category/{categoryId}")
     public List<ProductResponseDto> getProductByCategoryId(@PathVariable int categoryId) {
         return productService.getAllProductsByCategoryId(categoryId);
     }

@@ -10,6 +10,7 @@ import lombok.SneakyThrows;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler;
 import org.springframework.security.access.expression.method.MethodSecurityExpressionHandler;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -83,6 +84,22 @@ public class SecurityConfig {
                                 .permitAll()
                                 .requestMatchers("/v3/api-docs/**")
                                 .permitAll()
+
+                                .requestMatchers("/api/v1/categories/permitall/**")
+                                .permitAll()
+                                .requestMatchers("/api/v1/categories/admin/**")
+                                .hasRole("ADMIN")
+
+                                .requestMatchers("/api/v1/ingredients/admin/**")
+                                .hasRole("ADMIN")
+                                .requestMatchers("/api/v1/ingredients/permitall/**")
+                                .permitAll()
+
+                                .requestMatchers("/api/v1/products/admin/**")
+                                .hasRole("ADMIN")
+                                .requestMatchers("/api/v1/products/permitall/**")
+                                .permitAll()
+
                                 .anyRequest().authenticated())
                 .anonymous(AbstractHttpConfigurer::disable)
                 .addFilterBefore(new JwtTokenFilter(tokenProvider),
