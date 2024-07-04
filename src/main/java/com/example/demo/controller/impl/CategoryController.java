@@ -1,14 +1,12 @@
-package com.example.demo.controller;
+package com.example.demo.controller.impl;
 
+import com.example.demo.controller.CategoryAPI;
 import com.example.demo.dto.request.CategoryRequestDto;
-import com.example.demo.dto.request.OrderRequestDto;
 import com.example.demo.dto.response.CategoryResponseDto;
-import com.example.demo.dto.response.OrderResponseDto;
 import com.example.demo.dto.validation.OnCreate;
 import com.example.demo.dto.validation.OnUpdate;
 import com.example.demo.service.CategoryService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/categories")
 @RequiredArgsConstructor
 @Validated
-public class CategoryController {
+public class CategoryController implements CategoryAPI {
 
     private final CategoryService categoryService;
 

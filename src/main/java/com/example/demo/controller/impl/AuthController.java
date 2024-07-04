@@ -1,5 +1,6 @@
-package com.example.demo.controller;
+package com.example.demo.controller.impl;
 
+import com.example.demo.controller.AuthAPI;
 import com.example.demo.dto.auth.JwtRequest;
 import com.example.demo.dto.auth.JwtResponse;
 import com.example.demo.dto.request.UserRequestDto;
@@ -7,7 +8,6 @@ import com.example.demo.dto.response.UserResponseDto;
 import com.example.demo.dto.validation.OnCreate;
 import com.example.demo.service.AuthService;
 import com.example.demo.service.UserService;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,11 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
-@Tag(
-        name = "Auth Controller",
-        description = "Auth API"
-)
-public class AuthController {
+public class AuthController implements AuthAPI {
 
     private final AuthService authService;
     private final UserService userService;

@@ -1,15 +1,12 @@
-package com.example.demo.controller;
+package com.example.demo.controller.impl;
 
+import com.example.demo.controller.IngredientAPI;
 import com.example.demo.dto.request.IngredientRequestDto;
-import com.example.demo.dto.request.OrderRequestDto;
 import com.example.demo.dto.response.IngredientResponseDto;
-import com.example.demo.dto.response.OrderResponseDto;
 import com.example.demo.dto.validation.OnCreate;
 import com.example.demo.dto.validation.OnUpdate;
 import com.example.demo.service.IngredientService;
-import com.example.demo.service.impl.IngredientServiceImpl;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/ingredients")
 @RequiredArgsConstructor
 @Validated
-public class IngredientController {
+public class IngredientController implements IngredientAPI {
 
     private final IngredientService ingredientService;
 
