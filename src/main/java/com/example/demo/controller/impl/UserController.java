@@ -59,9 +59,4 @@ public class UserController implements UserAPI {
         userService.deleteUser(id);
     }
 
-    @GetMapping("/{id}/orders")
-    @PreAuthorize("canAccessUser(#id)")
-    public List<OrderResponseDto> getOrdersByUserId(@PathVariable int id) {
-        return orderService.getOrdersByUserId(id);
-    }
 }

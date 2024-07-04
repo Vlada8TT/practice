@@ -11,6 +11,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.List;
+
 @Tag(name = "Ingredient controller", description = "Operations related to ingredient: create, update, get by id, delete by id")
 public interface IngredientAPI {
     @Operation(summary = "Create new ingredient(only admin)")
@@ -90,4 +92,18 @@ public interface IngredientAPI {
                             schema = @Schema(implementation = ExceptionBody.class))),
     })
     void deleteById(@PathVariable int id);
+
+    @Operation(summary = "Get ingredient by product id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Ingredients received successfully",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = IngredientResponseDto.class))),
+            @ApiResponse(responseCode = "404", description = "Not found",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ExceptionBody.class))),
+            @ApiResponse(responseCode = "500", description = "Internal server error",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ExceptionBody.class))),
+    })
+    List<IngredientResponseDto> getAllIngredientsByProductId(@PathVariable int productId);
 }

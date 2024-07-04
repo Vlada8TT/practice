@@ -21,6 +21,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @RestController
 @RequestMapping("/api/v1/orders")
@@ -31,6 +33,7 @@ public class OrderController implements OrderAPI {
     private final OrderService orderService;
 
     @PostMapping("/create")
+    @PreAuthorize("canAccessUser(#orderDto.userId())")
     public OrderResponseDto createOrder(
             @Validated(OnCreate.class) @RequestBody OrderRequestDto orderDto) {
         return orderService.createOrder(orderDto);
@@ -55,5 +58,9 @@ public class OrderController implements OrderAPI {
     public void deleteById(@PathVariable int id) {
         orderService.deleteOrder(id);
     }
-
+    @GetMapping("/{id}/orders")
+    @PreAuthorize("canAccessUser(#id)")
+    public List<OrderResponseDto> getOrdersByUserId(@PathVariable int id) {
+        return orderService.getOrdersByUserId(id);
+    }
 }

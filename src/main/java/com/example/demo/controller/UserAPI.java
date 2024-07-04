@@ -93,24 +93,4 @@ public interface UserAPI {
                             schema = @Schema(implementation = ExceptionBody.class))),
     })
     void deleteById(@PathVariable int id);
-
-    @Operation(summary = "Get user orders list by user id")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Orders received successfully",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = OrderResponseDto.class))),
-            @ApiResponse(responseCode = "401", description = "Unauthorized",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = ExceptionBody.class))),
-            @ApiResponse(responseCode = "403", description = "Access denied",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = ExceptionBody.class))),
-            @ApiResponse(responseCode = "404", description = "Not found",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = ExceptionBody.class))),
-            @ApiResponse(responseCode = "500", description = "Internal server error",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = ExceptionBody.class))),
-    })
-    List<OrderResponseDto> getOrdersByUserId(int id);
 }

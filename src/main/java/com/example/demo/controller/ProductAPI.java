@@ -100,4 +100,18 @@ public interface ProductAPI {
                             schema = @Schema(implementation = ExceptionBody.class))),
     })
     void deleteById(int id);
+
+    @Operation(summary = "Get all products by category id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Product received successfully",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ProductResponseDto.class))),
+            @ApiResponse(responseCode = "404", description = "Not found",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ExceptionBody.class))),
+            @ApiResponse(responseCode = "500", description = "Internal server error",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ExceptionBody.class))),
+    })
+    List<ProductResponseDto> getProductByCategoryId(int categoryId);
 }
