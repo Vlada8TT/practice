@@ -62,6 +62,6 @@ public class UserController implements UserAPI {
     @GetMapping("/{id}/orders")
     @PreAuthorize("canAccessUser(#id)")
     public List<OrderResponseDto> getOrdersByUserId(@PathVariable int id) {
-        return orderService.getAllOrders();
+        return orderService.getOrdersByUserId(id);
     }
 }
