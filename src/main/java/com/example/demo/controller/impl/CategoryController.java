@@ -18,25 +18,25 @@ public class CategoryController implements CategoryAPI {
 
     private final CategoryService categoryService;
 
-    @PostMapping("/create")
+    @PostMapping("/admin/create")
     public CategoryResponseDto createCategory(
             @Validated(OnCreate.class) @RequestBody CategoryRequestDto categoryRequestDto) {
         return categoryService.createCategory(categoryRequestDto);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/admin/{id}")
     public CategoryResponseDto update(
             @PathVariable int id,
             @Validated(OnUpdate.class) @RequestBody CategoryRequestDto categoryRequestDto) {
         return categoryService.updateCategory(id, categoryRequestDto);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/permitall/{id}")
     public CategoryResponseDto getById(@PathVariable int id) {
         return categoryService.getCategoryById(id);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/admin/{id}")
     public void deleteById(@PathVariable int id) {
         categoryService.deleteCategory(id);
     }

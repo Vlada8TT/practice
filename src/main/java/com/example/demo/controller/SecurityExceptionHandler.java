@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.dto.exception.ExceptionBody;
 import com.example.demo.security.exception.AccessDeniedException;
+import io.jsonwebtoken.JwtException;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
@@ -29,6 +30,15 @@ public class SecurityExceptionHandler {
         return ExceptionBody.builder()
                 .status(HttpStatus.UNAUTHORIZED.value())
                 .message("Unauthorized")
+                .build();
+    }
+
+    @ExceptionHandler(JwtException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ExceptionBody handleJwtException() {
+        return ExceptionBody.builder()
+                .status(HttpStatus.BAD_REQUEST.value())
+                .message("Invalid JWT token format")
                 .build();
     }
 

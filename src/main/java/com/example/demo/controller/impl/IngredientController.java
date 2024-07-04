@@ -20,13 +20,13 @@ public class IngredientController implements IngredientAPI {
 
     private final IngredientService ingredientService;
 
-    @PostMapping("/create")
+    @PostMapping("/admin/create")
     public IngredientResponseDto createIngredient(
             @Validated(OnCreate.class) @RequestBody IngredientRequestDto ingredientRequestDto) {
         return ingredientService.createIngredient(ingredientRequestDto);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/admin/{id}")
     public IngredientResponseDto update(
             @PathVariable int id,
             @Validated(OnUpdate.class) @RequestBody IngredientRequestDto ingredientRequestDto) {
@@ -38,12 +38,12 @@ public class IngredientController implements IngredientAPI {
         return ingredientService.getIngredientById(id);
     }
 
-    @GetMapping("product/{productId}")
+    @GetMapping("/permitall/product/{productId}")
     public List<IngredientResponseDto> getAllIngredientsByProductId(@PathVariable int productId) {
         return ingredientService.getAllIngredientsByProductId(productId);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/admin/{id}")
     public void deleteById(@PathVariable int id) {
         ingredientService.deleteIngredient(id);
     }
