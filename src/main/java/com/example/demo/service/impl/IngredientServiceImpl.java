@@ -5,8 +5,11 @@ import com.example.demo.dto.response.IngredientResponseDto;
 import com.example.demo.exception.EntityNotFoundException;
 import com.example.demo.exception.ResourceAlreadyExistsException;
 import com.example.demo.mapper.IngredientMapper;
+import com.example.demo.mapper.ProductMapper;
 import com.example.demo.persistence.entity.Ingredient;
+import com.example.demo.persistence.entity.Product;
 import com.example.demo.repositories.IngredientRepository;
+import com.example.demo.repositories.ProductRepository;
 import com.example.demo.service.IngredientService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 import static com.example.demo.util.ExceptionSourceName.INGREDIENT;
+import static com.example.demo.util.ExceptionSourceName.PRODUCT;
 
 @Slf4j
 @Service
@@ -23,6 +27,8 @@ import static com.example.demo.util.ExceptionSourceName.INGREDIENT;
 public class IngredientServiceImpl implements IngredientService {
 
     private final IngredientRepository ingredientRepository;
+    private final ProductRepository productRepository;
+
     private final IngredientMapper ingredientMapper;
 
     @Override
@@ -47,6 +53,21 @@ public class IngredientServiceImpl implements IngredientService {
     public List<IngredientResponseDto> getAllIngredients() {
         log.info("Retrieving all ingredients");
         return ingredientMapper.toDto(ingredientRepository.findAll());
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<IngredientResponseDto> getAllIngredientsByProductId(int productId) {
+        log.info("Retrieving all ingredients by product id");
+        return ingredientMapper.toDto(findProductById(productId).getIngredients());
+    }
+
+    private Product findProductById(int id) {
+        return  productRepository.findById(id)
+                .orElseThrow(() -> {
+                    log.error("Product with id {} was not found", id);
+                    return new EntityNotFoundException(PRODUCT, id);
+                });
     }
 
     @Override

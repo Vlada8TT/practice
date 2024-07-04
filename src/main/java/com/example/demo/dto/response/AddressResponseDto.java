@@ -8,10 +8,10 @@ public record AddressResponseDto(
         Integer id,
 
         @Schema(description = "Apartment number", example = "12")
-        String apartment_number,
+        String apartmentNumber,
 
         @Schema(description = "House number", example = "88")
-        String house_number,
+        String houseNumber,
 
         @Schema(description = "City name", example = "Minsk")
         String city,

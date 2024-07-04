@@ -55,4 +55,9 @@ public class ProductController implements ProductAPI {
     public void deleteById(@PathVariable int id) {
         productService.deleteProduct(id);
     }
+
+    @GetMapping("/category/{categoryId}")
+    public List<ProductResponseDto> getProductByCategoryId(@PathVariable int categoryId) {
+        return productService.getAllProductsByCategoryId(categoryId);
+    }
 }

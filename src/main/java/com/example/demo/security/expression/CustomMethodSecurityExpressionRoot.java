@@ -1,6 +1,7 @@
 package com.example.demo.security.expression;
 
 import com.example.demo.security.JwtEntity;
+import com.example.demo.security.exception.AccessDeniedException;
 import com.example.demo.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.Getter;
@@ -37,7 +38,11 @@ public class CustomMethodSecurityExpressionRoot
         JwtEntity user = (JwtEntity) authentication.getPrincipal();
         Integer userId = user.getId();
 
-        return userId.equals(id) || hasAnyRole("ROLE_ADMIN");
+        if(!(userId.equals(id) || hasAnyRole("ROLE_ADMIN"))){
+            throw new AccessDeniedException();
+        }
+
+        return true;
     }
 
     public boolean canAccessOrder(

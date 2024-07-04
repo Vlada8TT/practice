@@ -78,6 +78,15 @@ public class OrderServiceImpl implements OrderService {
         orderRepository.delete(order);
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public List<OrderResponseDto> getOrdersByUserId(int userId) {
+        List<Order> ordersByUserId = orderRepository.findAll().stream()
+                .filter(o -> o.getUser().getId().equals(userId))
+                .toList();
+        return orderMapper.toDto(ordersByUserId);
+    }
+
     private Order findOrderById(int id) {
         return orderRepository.findById(id)
                 .orElseThrow(() -> {

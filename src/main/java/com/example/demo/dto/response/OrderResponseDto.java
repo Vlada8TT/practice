@@ -9,9 +9,6 @@ public record OrderResponseDto(
         @Schema(description = "Order id", example = "1")
         Integer id,
 
-        @Schema(description = "Owner(user) id", example = "1")
-        Integer user_id,
-
         @Schema(description = "Order creation date", example = "11/11/2023")
         Timestamp orderDate,
 

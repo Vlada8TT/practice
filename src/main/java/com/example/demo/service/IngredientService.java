@@ -12,6 +12,8 @@ public interface IngredientService {
 
     List<IngredientResponseDto> getAllIngredients();
 
+    List<IngredientResponseDto> getAllIngredientsByProductId(int productId);
+
     IngredientResponseDto updateIngredient(int id, IngredientRequestDto Ingredient);
 
     void deleteIngredient(int id);

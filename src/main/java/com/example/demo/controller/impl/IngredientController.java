@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/ingredients")
 @RequiredArgsConstructor
@@ -34,6 +36,11 @@ public class IngredientController implements IngredientAPI {
     @GetMapping("/{id}")
     public IngredientResponseDto getById(@PathVariable int id) {
         return ingredientService.getIngredientById(id);
+    }
+
+    @GetMapping("product/{productId}")
+    public List<IngredientResponseDto> getAllIngredientsByProductId(@PathVariable int productId) {
+        return ingredientService.getAllIngredientsByProductId(productId);
     }
 
     @DeleteMapping("/{id}")
